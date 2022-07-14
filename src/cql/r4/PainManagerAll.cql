@@ -981,7 +981,7 @@ define ReportOpioidMedicationRequests:
     Type:  'Request',
     Name:  ConceptText(O.medication as FHIR.CodeableConcept),
     Start: DateTimeText(O.authoredOn),
-    End: null as String, // MedicationRequest end date not supported in R4,
+    End: null as String, // MedicationRequest end date not supported in R4,O.
     MME: MMEText(MMECalculator.TotalMME(List{O})),
     Sig: (singleton from (O.dosageInstruction)).text,
     Status: O.status.value
@@ -1490,7 +1490,7 @@ define ReportResourcesProvidedInMyPAIN:
       Resource: qrOb.value.value,
       ResourceUrl: GetResourceURL(qrOb),
 //      ResourceUrl: GetResourceURL(qrOb.extension[0].extension[0].value as FHIR.string),
-      ViewedOn: ObservationValue(qrOb)
+      ViewedOn: ObservationDate(qrOb)
   }
 
 // Data from the most recent self reported MyPAIN observations
