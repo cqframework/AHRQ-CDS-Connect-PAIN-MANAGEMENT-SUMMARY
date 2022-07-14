@@ -552,18 +552,7 @@ export default class Summary extends Component<any, any> {
                                         <div className="shared-decision-making-section">
                                             {this.renderSection("SharedDecisionMaking")}
                                         </div>
-                                        <div className="resources-section">
-                                            <h3>RESOURCES PROVIDED IN MyPAIN:</h3>
-                                            {sharedDecisionSection.ResourcesProvidedInMyPAIN ? (
-                                                <ul>
-                                                    {sharedDecisionSection.ResourcesProvidedInMyPAIN.map((resource) => {
-                                                        return <li key={resource.ResourceUrl}>{resource.ResourceUrl} viewed on <strong>{this.formatitHelper.dateFormat('datishFormat ', resource.ViewedOn)}</strong></li>
-                                                    })
-                                                }
-                                                </ul>
-                                            ) : 'No resources recoreded.'}
-                                        </div>
-                                    </div>
+                                     </div>
                                     )}
                             </Collapsible>
                         </div>
