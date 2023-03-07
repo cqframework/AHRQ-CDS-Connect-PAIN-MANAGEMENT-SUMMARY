@@ -134,7 +134,7 @@ function doSearch(client, release, type, collector) {
     }
     return new Promise((resolve) => {
         if(type === 'Questionnaire') {
-            const qResults = client.request("Questionnaire/mypain-questionnaire")
+            const qResults = client.request("Questionnaire/mypain-questionnaire-ufl")
             .then((questionnaire) => {
                 if (questionnaire) {
                     resources.push(questionnaire);

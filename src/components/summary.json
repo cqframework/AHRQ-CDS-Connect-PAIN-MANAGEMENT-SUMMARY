@@ -20,7 +20,7 @@
       "tables": [
         {
           "headers": {
-            "Name": "Name"
+            "Chronic Pain Conditions": "Name"
           }
         }
       ]
@@ -82,10 +82,11 @@
           ]
         }
       ],
+      
       "tables": [
         {
           "headers": {
-            "Name": "Name"
+            "Co-morbid Conditions (increasing risk when using opioids)": "Name"
           },
           "filter": "!Visit",
           "flags": [
@@ -137,14 +138,15 @@
         {
           "headers": {
             "Medication": "Name",
+            "MME/Day": {
+              "key": "MME",
+              "formatter": "booleanFormat"
+            },
             "Date Prescribed": {
               "key": "Start",
               "formatter": "datishFormat"
             },
-            "Date Ended": {
-              "key": "End",
-              "formatter": "datishFormat"
-            },
+            
             "Sig": {
               "key": "Sig",
               "formatter": "booleanFormat"
@@ -192,10 +194,7 @@
               "key": "Start",
               "formatter": "datishFormat"
             },
-            "Date Ended": {
-              "key": "End",
-              "formatter": "datishFormat"
-            },
+
             "Sig": {
               "key": "Sig",
               "formatter": "booleanFormat"
@@ -211,39 +210,6 @@
               "flagText": "Opioids"
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "SELF-REPORTED TREATMENTS FROM MyPAIN (past 6 months)",
-      "dataKey": "SelfReportedTreatmentsFromMyPAIN",
-      "dataKeySource": "CurrentPertinentTreatments",
-      "info": [
-        {
-          "type": "elements",
-          "description": "Self-Reported Treatments From MyPAIN queries the following elements:",
-          "elements": [
-            {
-              "name": "Self-Reported Treatments From MyPAIN questionnaire",
-              "status": "any",
-              "lookback": "6 Months"
-            }
-          ]
-        }
-      ],
-      "tables": [
-        {
-          "headers": {
-            "Treatment": "Treatment",
-            "Effectiveness": "Effectiveness"
-          },
-          "flags": [
-            {
-              "flag": "ifNone",
-              "flagText": "Absence of self-reported treatments from MyPAIN"
-            }
-          ],
-          "sortable": false
         }
       ]
     }
@@ -274,10 +240,7 @@
               "key": "Date",
               "formatter": "datishFormat"
             },
-            "Result": {
-              "key": "Result",
-              "formatter": "datishFormat"
-            }
+            "Result": "Result"
           },
           "flags": [
             {
@@ -320,11 +283,7 @@
       "tables": [
         {
           "headers": {
-            "Name": "Location",
-            "Pain Y/N": {
-              "key": "PainYesNo",
-              "formatter": "quantityFormat"
-            },
+            "Pain Location": "Location",
             "Description": "Description"
           },
           "flags": [
@@ -375,6 +334,41 @@
               "flagText": "Decision One"
             }
           ]
+        }
+      ]
+    }
+  ],
+  "CurrentPertinentTreatmentsNew": [
+    {
+      "name": "SELF-REPORTED TREATMENTS FROM MyPAIN (past 6 months)",
+      "dataKey": "SelfReportedTreatmentsFromMyPAIN",
+      "dataKeySource": "CurrentPertinentTreatments",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Self-Reported Treatments From MyPAIN queries the following elements:",
+          "elements": [
+            {
+              "name": "Self-Reported Treatments From MyPAIN questionnaire",
+              "status": "any",
+              "lookback": "6 Months"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Treatment": "Treatment",
+            "Effectiveness": "Effectiveness"
+          },
+          "flags": [
+            {
+              "flag": "ifNone",
+              "flagText": "Absence of self-reported treatments from MyPAIN"
+            }
+          ],
+          "sortable": false
         }
       ]
     }

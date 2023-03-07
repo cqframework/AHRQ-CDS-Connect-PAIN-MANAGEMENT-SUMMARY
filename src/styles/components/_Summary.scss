@@ -1,335 +1,60 @@
-main {
-    display: block;
-}
-
 .summary {
-    display: flex;
-    min-height: calc(100vh - 100px);
-    &__nav {
-        color: $color-white;
-        padding: 20px 0;
-        width: 300px;
-        z-index: 1;
-        .toc-list.is-collapsible {
-            .toc-list-item {
-                .toc-link {
-                    font-size: 0.9em;
-                    padding: 5px 5px 5px 70px;
-                    line-height: 1.1em;
-                    .info-icon {
-                        display: none;
-                    }
-                    .flag-nav {
-                        font-size: 0.8em;
-                        margin-right: 10px;
-                        &.flagged {
-                            color: $color-red;
-                        }
-                    }
-                }
-            }
-        }
-        .toc-list {
-            padding: 0;
-            list-style-type: none;
-            &-item {
-                .toc-link {
-                    display: flex;
-                    align-items: center;
-                    text-decoration: none;
-                    padding: 10px;
-                    font-weight: 600;
-                    font-size: 1.1em;
-                    transition: all 300ms ease;
-                    &.is-active-link,
-                    &:hover {
-                        background-color: $color-gray-light;
-                    }
-                    .section__header-title {
-                        display: flex;
-                        align-items: center;
-                    }
-                    svg {
-                        min-width: 25px;
-                        width: 25px;
-                        fill: $color-white;
-                        margin-right: 20px;
-                    }
-                    .flag-header:not(.flagged) {
-                        display: none;
-                    }
-                    .flag-header {
-                        font-size: 0.9em;
-                        margin-left: 5px;
-                        color: $color-red;
-                        vertical-align: middle;
-                    }
-                    .caret {
-                        display: none;
-                    }
-                }
-            }
-        }
-    }
-    &__nav-wrapper {
-        min-height: calc(100vh - 100px);
-        width: 300px;
-        min-width: 300px;
-        background-color: $color-gray-dark;
-    }
-    &__display {
-        flex: 1;
-        z-index: 10;
-        &-title {
-            background-color: $color-blue;
-            color: $color-white;
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: 600;
-            padding: 15px;
-            margin-bottom: 4px;
-            svg {
-                margin-right: 20px;
-            }
-        }
-        .sections {
-            .Collapsible {
-                &__trigger {
-                    cursor: pointer;
-                    &.is-open {
-                        .caret {
-                            transform: rotateZ(90deg);
-                        }
-                    }
-                }
-                .section__header {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    background-color: $color-black;
-                    color: $color-white;
-                    padding: 15px 25px;
-                    font-weight: 400;
-                    margin: 2px 0;
-                    &-title {
-                        display: flex;
-                        align-items: center;
-                    }
-                    svg {
-                        min-width: 25px;
-                        width: 25px;
-                        margin-right: 15px;
-                        fill: $color-white;
-                    }
-                    .flag-header:not(.flagged) {
-                        display: none;
-                    }
-                    .flag-header {
-                        font-size: 0.7em;
-                        margin-left: 5px;
-                        color: $color-red;
-                        vertical-align: middle;
-                    }
-                    .caret {
-                        transition: transform 500ms;
-                    }
-                }
-                &:last-child {
-                    margin-bottom: 100px;
-                }
-            }
-            .sub-section {
-                background-color: $color-white;
-                margin: 20px;
-                .info-icon {
-                    margin-left: 5px;
-                    font-size: 0.9em;
-                    color: $color-blue;
-                    cursor: pointer;
-                }
-                .warning-icon {
-                    margin-left: 5px;
-                    font-size: 0.9em;
-                    color: $color-red;
-                    cursor: pointer;
-                }
-                .no-entries {
-                    padding: 10px 18px;
-                    font-style: italic;
-                    color: $color-gray-light;
-                    display: flex;
-                    align-items: center;
-                    .flag-no-entry {
-                        margin-right: 12px;
-                        font-size: 1em;
-                        color: transparent;
-                        &.flagged {
-                            color: $color-red;
-                        }
-                    }
-                    &>svg {
-                        width: 100px;
-                        path {
-                            fill: #fea135;
-                        }
-                    }
-                }
-                &__header {
-                    display: flex;
-                    align-items: center;
-                    // padding: 10px 40px 0;
-                    font-weight: 600;
-                    .flag-nav {
-                        display: none;
-                    }
-                }
-                .table {
-                    padding-bottom: 20px;
-                    .sub-section__table {
-                        border: 0;
-                        .flag-entry {
-                            font-size: 1em;
-                            margin-left: 16px;
-                            padding-top: 10px;
-                            color: transparent;
-                            cursor: default;
-                            &.flagged {
-                                color: $color-red;
-                            }
-                        }
-                    }
-                    .pagination-bottom {
-                        margin-top: 20px;
-                        .-pagination {
-                            box-shadow: none;
-                            border-top: 1px solid $color-gray-lighter;
-                            button {
-                                width: 96%;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        .cdc-disclaimer {
-            margin: 10px 0 0 40px;
-            a {
-                margin: 0 5px;
-            }
-        }
-        .dev-tools {
-            margin: 40px;
-            &__disclaimer {
-                margin-top: -20px;
-            }
-            button {
-                background-color: transparent;
-                color: darken($color-blue, 10%);
-                font-size: 0.9em;
-                font-weight: 600;
-                border: 0;
-                cursor: pointer;
-                &:focus {
-                    outline: none;
-                }
-            }
-            .cql-errors,
-            .fhir-queries,
-            .cql-results,
-            .qrobs-results {
-                margin-left: 40px;
-            }
-            .fhir-query,
-            .qrobs-results div,
-            .cql-results div,
-            .cql-errors table {
-                margin-left: 40px;
-                background-color: $color-white;
-                padding: 10px 20px;
-                width: 50vw;
-                overflow: scroll;
-            }
-        }
-    }
-    .ReactTable .rt-thead .rt-th .col-header {
-        border-bottom: none;
-        font-weight: 800;
-    }
-}
-
-.summary-tooltip {
-    font-size: 1em;
-}
-
-#UrineDrugScreens~div,
-#SelfReportedTreatmentsFromMyPAIN~div,
-#PainLocations~div,
-#PainIntensityAndInterference~div {
-    color: black;
-    .rt-thead .rt-tr .rt-th {
-        border-top: solid 2px black;
-        border-bottom: solid 2px black;
-        .col-header {
-            border-bottom: none;
-        }
-    }
-}
-
-#opioid-title {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    .opioid-name {
-        display: flex;
-    }
-    .total-mme-link {
-        margin-left: 5%;
-        width: 100%;
-        display: flex;
-        span {
-            margin-left: 2%;
-        }
-    }
-}
-
-// shared decision making section
-.shared-top-section {
-    margin: 20px
-}
-.activity-section {
-    display: flex;
-    justify-content: center;
-    &>div {
-        width: 50%;
-        padding: 0 10px;
-    }
-    .activity-goals {
-        border-right: 1px black solid;
-    }
-}
-
-.shared-decision-making-section {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    .sub-section {
-        width: 47%;
-        // .table {
-            // width: 50%;
-        // }
-    }
-}
-.resources-section {
-    margin: 20px;
-}
-
-.no-mypain-shared {
     // display: flex;
-    text-align: center;
-    margin: 2rem 0;
-}
-
-.redcap-link {
-    text-align: center;
-    height: 150px;
-}
+    min-height: calc(100vh - 60px);
+  
+  }
+  
+  .sections {
+    .nav-link {
+      color: white;
+      isolation: isolate;
+      font-weight: bold;
+    }
+  
+    .nav-link:focus {
+      border-color: transparent;
+      background-color: white;
+    }
+  
+    .patient {
+  
+      .card-header{
+      background-color: #1e4e79;
+      }
+  
+      p {
+        color: #1e4e79;
+      }
+      .nav-link.active {
+        color: #1e4e79;
+        background-color: white;
+      }
+  
+      .nav-link:hover {
+        border-color: transparent;
+        background-color: #4b7194;
+        color: white;
+      }
+    }
+  
+    .treatment {
+      .card-header{
+        background-color: #2f73b5;
+        }
+    
+        p {
+          color: #2f73b5;
+        }
+     
+      .nav-link.active {
+        color: #2f73b5;
+        background-color: white;
+      }
+  
+      .nav-link:hover {
+        border-color: transparent;
+        background-color: #598fc4;
+        color: white;
+      }
+    }
+  }

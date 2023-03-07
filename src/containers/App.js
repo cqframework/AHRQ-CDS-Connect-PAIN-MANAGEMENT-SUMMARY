@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.js";
 
 export default class App extends Component {
   render() {
