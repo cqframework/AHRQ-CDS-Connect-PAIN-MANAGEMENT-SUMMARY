@@ -1,0 +1,22 @@
+version: '3.2'
+services:
+
+  ########################
+  # PainManager
+  ########################
+  pain-manager:
+    image: baustin:latest
+    ports:
+      - "80"
+    # Tells the reverse proxy to expose the container of pain-manager.EnvDomaind
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pain-manager.rule=PathPrefix(`/rti/pain-manager`)"
+      - "traefik.http.routers.pain-manager.entrypoints=web"
+      # might require app configs in env variables
+      - "traefik.http.routers.pain-manager.middlewares=pain-manager-prefix"
+      # processing rules for router
+      - "traefik.http.middlewares.pain-manager-prefix.stripprefix.prefixes=/rti/pain-manager"
+    environment:
+      - PUBLIC_URL=/rti/pain-manager
+      - CDS_URL=${PROTOCOL}://${HOST}${DOMAIN}/rti/r4/cqf-ruler/cds-services
