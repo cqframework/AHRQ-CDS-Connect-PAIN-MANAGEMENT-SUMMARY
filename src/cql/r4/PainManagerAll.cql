@@ -44,7 +44,9 @@ codesystem "LOCAL": 'http://cds.ahrq.gov/cdsconnect/pms'
 
 // [Conditions associated with chronic pain](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1021.95/expansion)
 // replaces F2C valueset Conditions associated with chronic pain: 2.16.840.1.113762.1.4.1032.37
-valueset "Conditions associated with chronic pain": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1021.95'
+    // In cds4cpm valueset input/vocabulary/valueset/valueset-2.16.840.1.113762.1.4.1021.95.json has had its url change
+// valueset "Conditions associated with chronic pain": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1021.95'
+   valueset "Conditions associated with chronic pain": 'http://fhir.org/guides/cqf/cds4cpm/ValueSet/2.16.840.1.113762.1.4.1021.95'
 
 // [Opioids](http://build.fhir.org/ig/cqframework/opioid-cds/ValueSet-opioids.html)
 // Replaces the "Opioid Pain Medications" value set from F2C (2.16.840.1.113762.1.4.1032.34)
@@ -1618,11 +1620,14 @@ define ReportSelfReportedTreatmentsFromMyPAIN:
         or qrOb.code ~ essentialOils
         or qrOb.code ~ cbdOil
         or qrOb.code ~ musicTherapy
-        or qrOb.code ~ otherNewTreatments)
+        or qrOb.code ~ otherNewTreatments
+        or qrOb.code ~ dryNeedling)
     return
     {
         Treatment: QuestionTextByLinkId(qrOb)[0].value[0],
-        Effectiveness: ObservationValue(qrOb)
+        Effectiveness: ObservationValue(qrOb),
+        QRCode: qrOb.code,
+        mpqrValue: qrOb.value.coding[0].code
     }
 
     // Data from the most recent self reported MyPAIN observations that are self reported treatments
@@ -1639,14 +1644,32 @@ define TreatmentObservationsFromMyPain:
     // Data from the most recent self reported MyPAIN observations - treatments not tried
 define ReportNotTriedTx:
     (QuestionnaireObservations) qrOb where
-      (qrOb.code ~ noMedicationsTried
-      or qrOb.code ~ noSpecialistsSeen
-      or qrOb.code ~ noTreatmentsTried
-      or qrOb.code ~ noTopicalTxTried
-      or qrOb.code ~ noLifestyleChanges
-      or qrOb.code ~ noALternativeTxTried)
+      (qrOb.code is CodeableConcept and (qrOb.code as CodeableConcept) ~ noMedicationsTried)
+//(qrOb.code is CodeableConcept and ((qrOb.code as CodeableConcept) ~ "noMedicationsTried"  )
+
+
+
+
+
+//      (qrOb.value as boolean) = true
+/*    
+      ((qrOb.code ~ noMedicationsTried and qrOb.value = true)
+      or (qrOb.code ~ noSpecialistsSeen and qrOb.value = true)
+      or (qrOb.code ~ noTreatmentsTried and qrOb.value = true)
+      or (qrOb.code ~ noTopicalTxTried and qrOb.value = true)
+      or (qrOb.code ~ noLifestyleChanges and qrOb.value = true)
+      or (qrOb.code~ noALternativeTxTried and qrOb.value = true))
+*/      
+/*
+      (exists (
+        qrOb.code qrCode
+          where FHIRHelpers.ToConcept(qrCode) ~ noMedicationsTried
+      ))  
+*/          
       return{
-        Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
+        Treatment: QuestionTextByLinkId(qrOb)[0].value[0],
+        QRCode: qrOb.code,
+        mpqrValue: ObservationValue(qrOb)
       }
 
 define ReportGreatlyEffectiveTx:

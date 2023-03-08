@@ -79,7 +79,7 @@
       "valueSets" : {
          "def" : [ {
             "name" : "Conditions associated with chronic pain",
-            "id" : "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1021.95",
+            "id" : "http://fhir.org/guides/cqf/cds4cpm/ValueSet/2.16.840.1.113762.1.4.1021.95",
             "accessLevel" : "Public"
          }, {
             "name" : "Opioid Pain Medications",
@@ -12403,22 +12403,43 @@
                                                                                                                "operand" : [ {
                                                                                                                   "type" : "Or",
                                                                                                                   "operand" : [ {
-                                                                                                                     "type" : "Equivalent",
+                                                                                                                     "type" : "Or",
                                                                                                                      "operand" : [ {
-                                                                                                                        "name" : "ToConcept",
-                                                                                                                        "libraryName" : "FHIRHelpers",
-                                                                                                                        "type" : "FunctionRef",
+                                                                                                                        "type" : "Equivalent",
                                                                                                                         "operand" : [ {
-                                                                                                                           "path" : "code",
-                                                                                                                           "scope" : "qrOb",
-                                                                                                                           "type" : "Property"
+                                                                                                                           "name" : "ToConcept",
+                                                                                                                           "libraryName" : "FHIRHelpers",
+                                                                                                                           "type" : "FunctionRef",
+                                                                                                                           "operand" : [ {
+                                                                                                                              "path" : "code",
+                                                                                                                              "scope" : "qrOb",
+                                                                                                                              "type" : "Property"
+                                                                                                                           } ]
+                                                                                                                        }, {
+                                                                                                                           "type" : "ToConcept",
+                                                                                                                           "operand" : {
+                                                                                                                              "name" : "physicalTreatmentsOther",
+                                                                                                                              "type" : "CodeRef"
+                                                                                                                           }
                                                                                                                         } ]
                                                                                                                      }, {
-                                                                                                                        "type" : "ToConcept",
-                                                                                                                        "operand" : {
-                                                                                                                           "name" : "physicalTreatmentsOther",
-                                                                                                                           "type" : "CodeRef"
-                                                                                                                        }
+                                                                                                                        "type" : "Equivalent",
+                                                                                                                        "operand" : [ {
+                                                                                                                           "name" : "ToConcept",
+                                                                                                                           "libraryName" : "FHIRHelpers",
+                                                                                                                           "type" : "FunctionRef",
+                                                                                                                           "operand" : [ {
+                                                                                                                              "path" : "code",
+                                                                                                                              "scope" : "qrOb",
+                                                                                                                              "type" : "Property"
+                                                                                                                           } ]
+                                                                                                                        }, {
+                                                                                                                           "type" : "ToConcept",
+                                                                                                                           "operand" : {
+                                                                                                                              "name" : "prescriptionOther",
+                                                                                                                              "type" : "CodeRef"
+                                                                                                                           }
+                                                                                                                        } ]
                                                                                                                      } ]
                                                                                                                   }, {
                                                                                                                      "type" : "Equivalent",
@@ -12434,7 +12455,7 @@
                                                                                                                      }, {
                                                                                                                         "type" : "ToConcept",
                                                                                                                         "operand" : {
-                                                                                                                           "name" : "prescriptionOther",
+                                                                                                                           "name" : "newTreatmentOther",
                                                                                                                            "type" : "CodeRef"
                                                                                                                         }
                                                                                                                      } ]
@@ -12453,7 +12474,7 @@
                                                                                                                   }, {
                                                                                                                      "type" : "ToConcept",
                                                                                                                      "operand" : {
-                                                                                                                        "name" : "newTreatmentOther",
+                                                                                                                        "name" : "exercises",
                                                                                                                         "type" : "CodeRef"
                                                                                                                      }
                                                                                                                   } ]
@@ -12472,7 +12493,7 @@
                                                                                                                }, {
                                                                                                                   "type" : "ToConcept",
                                                                                                                   "operand" : {
-                                                                                                                     "name" : "exercises",
+                                                                                                                     "name" : "sleepPositioners",
                                                                                                                      "type" : "CodeRef"
                                                                                                                   }
                                                                                                                } ]
@@ -12491,7 +12512,7 @@
                                                                                                             }, {
                                                                                                                "type" : "ToConcept",
                                                                                                                "operand" : {
-                                                                                                                  "name" : "sleepPositioners",
+                                                                                                                  "name" : "stretching",
                                                                                                                   "type" : "CodeRef"
                                                                                                                }
                                                                                                             } ]
@@ -12510,7 +12531,7 @@
                                                                                                          }, {
                                                                                                             "type" : "ToConcept",
                                                                                                             "operand" : {
-                                                                                                               "name" : "stretching",
+                                                                                                               "name" : "weightLoss",
                                                                                                                "type" : "CodeRef"
                                                                                                             }
                                                                                                          } ]
@@ -12529,7 +12550,7 @@
                                                                                                       }, {
                                                                                                          "type" : "ToConcept",
                                                                                                          "operand" : {
-                                                                                                            "name" : "weightLoss",
+                                                                                                            "name" : "reachingGoals",
                                                                                                             "type" : "CodeRef"
                                                                                                          }
                                                                                                       } ]
@@ -12548,7 +12569,7 @@
                                                                                                    }, {
                                                                                                       "type" : "ToConcept",
                                                                                                       "operand" : {
-                                                                                                         "name" : "reachingGoals",
+                                                                                                         "name" : "iceOrHeat",
                                                                                                          "type" : "CodeRef"
                                                                                                       }
                                                                                                    } ]
@@ -12567,7 +12588,7 @@
                                                                                                 }, {
                                                                                                    "type" : "ToConcept",
                                                                                                    "operand" : {
-                                                                                                      "name" : "iceOrHeat",
+                                                                                                      "name" : "physicalTherapy",
                                                                                                       "type" : "CodeRef"
                                                                                                    }
                                                                                                 } ]
@@ -12586,7 +12607,7 @@
                                                                                              }, {
                                                                                                 "type" : "ToConcept",
                                                                                                 "operand" : {
-                                                                                                   "name" : "physicalTherapy",
+                                                                                                   "name" : "acupuncture",
                                                                                                    "type" : "CodeRef"
                                                                                                 }
                                                                                              } ]
@@ -12605,7 +12626,7 @@
                                                                                           }, {
                                                                                              "type" : "ToConcept",
                                                                                              "operand" : {
-                                                                                                "name" : "acupuncture",
+                                                                                                "name" : "chiropracticTx",
                                                                                                 "type" : "CodeRef"
                                                                                              }
                                                                                           } ]
@@ -12624,7 +12645,7 @@
                                                                                        }, {
                                                                                           "type" : "ToConcept",
                                                                                           "operand" : {
-                                                                                             "name" : "chiropracticTx",
+                                                                                             "name" : "painRelievers",
                                                                                              "type" : "CodeRef"
                                                                                           }
                                                                                        } ]
@@ -12643,7 +12664,7 @@
                                                                                     }, {
                                                                                        "type" : "ToConcept",
                                                                                        "operand" : {
-                                                                                          "name" : "painRelievers",
+                                                                                          "name" : "herbTx",
                                                                                           "type" : "CodeRef"
                                                                                        }
                                                                                     } ]
@@ -12662,7 +12683,7 @@
                                                                                  }, {
                                                                                     "type" : "ToConcept",
                                                                                     "operand" : {
-                                                                                       "name" : "herbTx",
+                                                                                       "name" : "cremes",
                                                                                        "type" : "CodeRef"
                                                                                     }
                                                                                  } ]
@@ -12681,7 +12702,7 @@
                                                                               }, {
                                                                                  "type" : "ToConcept",
                                                                                  "operand" : {
-                                                                                    "name" : "cremes",
+                                                                                    "name" : "otherOTC",
                                                                                     "type" : "CodeRef"
                                                                                  }
                                                                               } ]
@@ -12700,7 +12721,7 @@
                                                                            }, {
                                                                               "type" : "ToConcept",
                                                                               "operand" : {
-                                                                                 "name" : "otherOTC",
+                                                                                 "name" : "opioidMeds",
                                                                                  "type" : "CodeRef"
                                                                               }
                                                                            } ]
@@ -12719,7 +12740,7 @@
                                                                         }, {
                                                                            "type" : "ToConcept",
                                                                            "operand" : {
-                                                                              "name" : "opioidMeds",
+                                                                              "name" : "cortisone",
                                                                               "type" : "CodeRef"
                                                                            }
                                                                         } ]
@@ -12738,7 +12759,7 @@
                                                                      }, {
                                                                         "type" : "ToConcept",
                                                                         "operand" : {
-                                                                           "name" : "cortisone",
+                                                                           "name" : "nonOpioidMeds",
                                                                            "type" : "CodeRef"
                                                                         }
                                                                      } ]
@@ -12757,7 +12778,7 @@
                                                                   }, {
                                                                      "type" : "ToConcept",
                                                                      "operand" : {
-                                                                        "name" : "nonOpioidMeds",
+                                                                        "name" : "medMarijuana",
                                                                         "type" : "CodeRef"
                                                                      }
                                                                   } ]
@@ -12776,7 +12797,7 @@
                                                                }, {
                                                                   "type" : "ToConcept",
                                                                   "operand" : {
-                                                                     "name" : "medMarijuana",
+                                                                     "name" : "yogo",
                                                                      "type" : "CodeRef"
                                                                   }
                                                                } ]
@@ -12795,7 +12816,7 @@
                                                             }, {
                                                                "type" : "ToConcept",
                                                                "operand" : {
-                                                                  "name" : "yogo",
+                                                                  "name" : "massage",
                                                                   "type" : "CodeRef"
                                                                }
                                                             } ]
@@ -12814,7 +12835,7 @@
                                                          }, {
                                                             "type" : "ToConcept",
                                                             "operand" : {
-                                                               "name" : "massage",
+                                                               "name" : "meditation",
                                                                "type" : "CodeRef"
                                                             }
                                                          } ]
@@ -12833,7 +12854,7 @@
                                                       }, {
                                                          "type" : "ToConcept",
                                                          "operand" : {
-                                                            "name" : "meditation",
+                                                            "name" : "relaxation",
                                                             "type" : "CodeRef"
                                                          }
                                                       } ]
@@ -12852,7 +12873,7 @@
                                                    }, {
                                                       "type" : "ToConcept",
                                                       "operand" : {
-                                                         "name" : "relaxation",
+                                                         "name" : "groupIndividualTherapy",
                                                          "type" : "CodeRef"
                                                       }
                                                    } ]
@@ -12871,7 +12892,7 @@
                                                 }, {
                                                    "type" : "ToConcept",
                                                    "operand" : {
-                                                      "name" : "groupIndividualTherapy",
+                                                      "name" : "cognitiveTherapy",
                                                       "type" : "CodeRef"
                                                    }
                                                 } ]
@@ -12890,7 +12911,7 @@
                                              }, {
                                                 "type" : "ToConcept",
                                                 "operand" : {
-                                                   "name" : "cognitiveTherapy",
+                                                   "name" : "acceptanceTherapy",
                                                    "type" : "CodeRef"
                                                 }
                                              } ]
@@ -12909,7 +12930,7 @@
                                           }, {
                                              "type" : "ToConcept",
                                              "operand" : {
-                                                "name" : "acceptanceTherapy",
+                                                "name" : "sleepManagement",
                                                 "type" : "CodeRef"
                                              }
                                           } ]
@@ -12928,7 +12949,7 @@
                                        }, {
                                           "type" : "ToConcept",
                                           "operand" : {
-                                             "name" : "sleepManagement",
+                                             "name" : "aromatherapy",
                                              "type" : "CodeRef"
                                           }
                                        } ]
@@ -12947,7 +12968,7 @@
                                     }, {
                                        "type" : "ToConcept",
                                        "operand" : {
-                                          "name" : "aromatherapy",
+                                          "name" : "crystals",
                                           "type" : "CodeRef"
                                        }
                                     } ]
@@ -12966,7 +12987,7 @@
                                  }, {
                                     "type" : "ToConcept",
                                     "operand" : {
-                                       "name" : "crystals",
+                                       "name" : "essentialOils",
                                        "type" : "CodeRef"
                                     }
                                  } ]
@@ -12985,7 +13006,7 @@
                               }, {
                                  "type" : "ToConcept",
                                  "operand" : {
-                                    "name" : "essentialOils",
+                                    "name" : "cbdOil",
                                     "type" : "CodeRef"
                                  }
                               } ]
@@ -13004,7 +13025,7 @@
                            }, {
                               "type" : "ToConcept",
                               "operand" : {
-                                 "name" : "cbdOil",
+                                 "name" : "musicTherapy",
                                  "type" : "CodeRef"
                               }
                            } ]
@@ -13023,7 +13044,7 @@
                         }, {
                            "type" : "ToConcept",
                            "operand" : {
-                              "name" : "musicTherapy",
+                              "name" : "otherNewTreatments",
                               "type" : "CodeRef"
                            }
                         } ]
@@ -13042,7 +13063,7 @@
                      }, {
                         "type" : "ToConcept",
                         "operand" : {
-                           "name" : "otherNewTreatments",
+                           "name" : "dryNeedling",
                            "type" : "CodeRef"
                         }
                      } ]
@@ -13115,6 +13136,35 @@
                               "name" : "qrOb",
                               "type" : "AliasRef"
                            } ]
+                        }
+                     }, {
+                        "name" : "QRCode",
+                        "value" : {
+                           "path" : "code",
+                           "scope" : "qrOb",
+                           "type" : "Property"
+                        }
+                     }, {
+                        "name" : "mpqrValue",
+                        "value" : {
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "type" : "Indexer",
+                              "operand" : [ {
+                                 "path" : "coding",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "value",
+                                    "scope" : "qrOb",
+                                    "type" : "Property"
+                                 }
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                 "value" : "0",
+                                 "type" : "Literal"
+                              } ]
+                           }
                         }
                      } ]
                   }
@@ -13240,109 +13290,18 @@
                } ],
                "relationship" : [ ],
                "where" : {
-                  "type" : "Or",
+                  "type" : "And",
                   "operand" : [ {
-                     "type" : "Or",
-                     "operand" : [ {
-                        "type" : "Or",
-                        "operand" : [ {
-                           "type" : "Or",
-                           "operand" : [ {
-                              "type" : "Or",
-                              "operand" : [ {
-                                 "type" : "Equivalent",
-                                 "operand" : [ {
-                                    "name" : "ToConcept",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "path" : "code",
-                                       "scope" : "qrOb",
-                                       "type" : "Property"
-                                    } ]
-                                 }, {
-                                    "type" : "ToConcept",
-                                    "operand" : {
-                                       "name" : "noMedicationsTried",
-                                       "type" : "CodeRef"
-                                    }
-                                 } ]
-                              }, {
-                                 "type" : "Equivalent",
-                                 "operand" : [ {
-                                    "name" : "ToConcept",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "path" : "code",
-                                       "scope" : "qrOb",
-                                       "type" : "Property"
-                                    } ]
-                                 }, {
-                                    "type" : "ToConcept",
-                                    "operand" : {
-                                       "name" : "noSpecialistsSeen",
-                                       "type" : "CodeRef"
-                                    }
-                                 } ]
-                              } ]
-                           }, {
-                              "type" : "Equivalent",
-                              "operand" : [ {
-                                 "name" : "ToConcept",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "path" : "code",
-                                    "scope" : "qrOb",
-                                    "type" : "Property"
-                                 } ]
-                              }, {
-                                 "type" : "ToConcept",
-                                 "operand" : {
-                                    "name" : "noTreatmentsTried",
-                                    "type" : "CodeRef"
-                                 }
-                              } ]
-                           } ]
-                        }, {
-                           "type" : "Equivalent",
-                           "operand" : [ {
-                              "name" : "ToConcept",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "path" : "code",
-                                 "scope" : "qrOb",
-                                 "type" : "Property"
-                              } ]
-                           }, {
-                              "type" : "ToConcept",
-                              "operand" : {
-                                 "name" : "noTopicalTxTried",
-                                 "type" : "CodeRef"
-                              }
-                           } ]
-                        } ]
-                     }, {
-                        "type" : "Equivalent",
-                        "operand" : [ {
-                           "name" : "ToConcept",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "path" : "code",
-                              "scope" : "qrOb",
-                              "type" : "Property"
-                           } ]
-                        }, {
-                           "type" : "ToConcept",
-                           "operand" : {
-                              "name" : "noLifestyleChanges",
-                              "type" : "CodeRef"
-                           }
-                        } ]
-                     } ]
+                     "type" : "Is",
+                     "operand" : {
+                        "path" : "code",
+                        "scope" : "qrOb",
+                        "type" : "Property"
+                     },
+                     "isTypeSpecifier" : {
+                        "name" : "{http://hl7.org/fhir}CodeableConcept",
+                        "type" : "NamedTypeSpecifier"
+                     }
                   }, {
                      "type" : "Equivalent",
                      "operand" : [ {
@@ -13350,14 +13309,22 @@
                         "libraryName" : "FHIRHelpers",
                         "type" : "FunctionRef",
                         "operand" : [ {
-                           "path" : "code",
-                           "scope" : "qrOb",
-                           "type" : "Property"
+                           "strict" : false,
+                           "type" : "As",
+                           "operand" : {
+                              "path" : "code",
+                              "scope" : "qrOb",
+                              "type" : "Property"
+                           },
+                           "asTypeSpecifier" : {
+                              "name" : "{http://hl7.org/fhir}CodeableConcept",
+                              "type" : "NamedTypeSpecifier"
+                           }
                         } ]
                      }, {
                         "type" : "ToConcept",
                         "operand" : {
-                           "name" : "noALternativeTxTried",
+                           "name" : "noMedicationsTried",
                            "type" : "CodeRef"
                         }
                      } ]
@@ -13419,6 +13386,23 @@
                               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
                               "value" : "0",
                               "type" : "Literal"
+                           } ]
+                        }
+                     }, {
+                        "name" : "QRCode",
+                        "value" : {
+                           "path" : "code",
+                           "scope" : "qrOb",
+                           "type" : "Property"
+                        }
+                     }, {
+                        "name" : "mpqrValue",
+                        "value" : {
+                           "name" : "ObservationValue",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "qrOb",
+                              "type" : "AliasRef"
                            } ]
                         }
                      } ]
