@@ -1461,7 +1461,7 @@ define QuestionnaireObservations:
 
 //TODO - eventually this needs to walk thru nested items beyond 2
 define function QuestionTextByLinkId(Obs FHIR.Observation):
-  ([Questionnaire] Q where Q.id = 'mypain-questionnaire') singleQ
+  ([Questionnaire] Q where Q.id = 'mypain-questionnaire-ufl') singleQ
 return (Coalesce(singleQ.item.item, singleQ.item)) QItem
     where QItem.linkId = Obs.extension[0].extension[0].value as FHIR.string
       return QItem.prefix
