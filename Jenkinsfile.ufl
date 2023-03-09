@@ -37,7 +37,7 @@ pipeline {
 
     stage('Docker Push') {
           steps {
-              sh 'docker login -u 'bryantaustin' -p='dckr_pat_fa_uB27mxG3VEBL_XyGLI2SXRHE'
+              sh 'docker login -u=bryantaustin -p=dckr_pat_fa_uB27mxG3VEBL_XyGLI2SXRHE
               sh "docker push alphora/painmanager:${env.DOCKER_LABEL}"
             }
           }
