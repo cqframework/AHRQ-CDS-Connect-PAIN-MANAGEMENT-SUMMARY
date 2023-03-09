@@ -20,7 +20,7 @@ pipeline {
           else if (env.ENVIRONMENT_NAME == 'develop') {
           env.DOCKER_LABEL = 'develop'
           }
-          else if (env.ENVIRONMENT_NAME == 'pain-manager-plusCQL') {
+          else if (env.ENVIRONMENT_NAME == 'pain-manager-staging-plusCQL') {
             env.DOCKER_LABEL = '0.10.0'
           }
 
