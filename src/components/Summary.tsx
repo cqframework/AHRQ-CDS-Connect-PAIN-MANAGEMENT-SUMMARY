@@ -36,7 +36,7 @@ export default class Summary extends Component<any, any> {
     this.subsectionTableProps = { id: "react_sub-section__table" };
     ReactModal.setAppElement("body");
     console.log(
-      `You are running version ${this.appVersion} of the PainManager Application at cloud.alphora.com/ufl/pain-manager`
+      `You are running version ${this.appVersion} of the PainManager Application`
     );
   }
 
