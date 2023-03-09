@@ -37,10 +37,12 @@ pipeline {
 
     stage('Docker Push') {
           steps {
-              sh "docker login -u=bryantaustin -p=dckr_pat_fa_uB27mxG3VEBL_XyGLI2SXRHE"
+            withCredentials([usernamePassword(credentialsId: 'dockerhub-jpercival', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+              sh 'docker login -u $dockerHubUser -p $dockerHubPassword'
               sh "docker push alphora/painmanager:${env.DOCKER_LABEL}"
             }
           }
         }
 
   }
+}
