@@ -6,7 +6,7 @@ pipeline {
       steps {
         script {
           def environment = 'staging'
-          if (env.GIT_BRANCH != 'origin/pain-manager-plusCQL') {
+          if (env.GIT_BRANCH != 'origin/master') {
             environment = env.GIT_BRANCH.split("/")[1]
             println("Environment: ${environment}");
           }
