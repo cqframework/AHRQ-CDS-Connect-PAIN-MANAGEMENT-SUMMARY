@@ -1495,6 +1495,42 @@ define ReportActivityBarriers:
 (QuestionnaireObservations) qrOb where qrOb.code.coding[0].code.value = 'mpq-1036'
   return qrOb.value
 
+define function GetSimpleText(qrOb FHIR.Observation):
+  case
+    when qrOb.code ~ painLocationHead then 'Head'
+    when qrOb.code ~ painLocationNeck then 'Neck'
+    when qrOb.code ~ painLocationShoulders then 'Shoulders'
+    when qrOb.code ~ painLocationArms then 'Arms'
+    when qrOb.code ~ painLocationUpperBack then 'Upper Back'
+    when qrOb.code ~ painLocationLowerBack  then 'Lower Back'
+    when qrOb.code ~ painLocationHands then 'Hands'
+    when qrOb.code ~ painLocationAbdomen then 'Abdomen'
+    when qrOb.code ~ painLocationPelvis then 'Pelvis'
+    when qrOb.code ~ painLocationHips then 'Hips'
+    when qrOb.code ~ painLocationUpperLegs then 'Upper Legs'
+    when qrOb.code ~ painLocationKnees then 'Knees'
+    when qrOb.code ~ painLocationLowerLegs then 'Lower Legs'
+    when qrOb.code ~ painLocationFeet then 'Feet'
+    when qrOb.code ~ painLocationEverywhere then 'Everywhere'
+    when qrOb.code ~ painLocationBack then 'Back'
+    when qrOb.code ~ painLocationHandsWrist then 'Hands/Wrist'
+    when qrOb.code ~ painLocationAbdomenPelvis then 'Abdoment/Pelvis'
+    when qrOb.code ~ painLocationFeetAnkles then 'Feet/Ankles'
+    when qrOb.code ~ worstPain then 'At its worst (past 7 days)'
+    when qrOb.code ~ averagePain then 'Average Pain (past 7 days'
+    when qrOb.code ~ painRightNow then 'Current Pain'
+    when qrOb.code ~ dayToDay then 'Day to day activities'
+    when qrOb.code ~ homeWork then 'Work around the home'
+    when qrOb.code ~ socialActivities then 'Ability to participate in social activities'
+    when qrOb.code ~ householdChores then 'Household chores'
+    when qrOb.code ~ funActivities then 'THings you usually do for fun'
+    when qrOb.code ~ enjoySocial then 'Enjoyment of social activities'
+    when qrOb.code ~ enjoyLife then 'Enjoyment of life'
+    when qrOb.code ~ enjoyFamily then 'Family life'
+
+    else ''
+  end
+
 // Data from the most recent PainLocation Observations
 define ReportPainLocations:
     (QuestionnaireObservations) qrOb where
@@ -1521,6 +1557,7 @@ define ReportPainLocations:
     return
       {
         Location: qrOb.code.coding[0].display.value,
+        SimpleLocation: GetSimpleText(qrOb),
         PainYesNo: true,
         Description: Combine(qrOb.value.coding.display, ', ')
       }
@@ -1553,7 +1590,8 @@ define ReportPainIntensity:
     return
     {
         Question: qrOb.code.coding[0].display.value,
-        Response: ObservationValue(qrOb)
+        Response: ObservationValue(qrOb),
+        SimpleText: GetSimpleText(qrOb)
     }
 
     define ReportPainInterference:
@@ -1569,7 +1607,8 @@ define ReportPainIntensity:
   return
   {
     Question: qrOb.code.coding[0].display.value,
-    Response: ObservationValue(qrOb)
+    Response: ObservationValue(qrOb),
+    SimpleText: GetSimpleText(qrOb)
   }
 
   define function GetResourceURL(qrOb Observation):
