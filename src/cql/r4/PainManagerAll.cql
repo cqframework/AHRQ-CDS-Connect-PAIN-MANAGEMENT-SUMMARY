@@ -1522,7 +1522,6 @@ define ReportPainLocations:
       {
         Location: qrOb.code.coding[0].display.value,
         PainYesNo: true,
-        //Description: qrOb.value.coding[0].display + ', ' + qrOb.value.coding[1].display
         Description: Combine(qrOb.value.coding.display, ', ')
       }
 
