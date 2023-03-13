@@ -11823,7 +11823,7 @@
                   },
                   "then" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                     "value" : "THings you usually do for fun",
+                     "value" : "Things you usually do for fun",
                      "type" : "Literal"
                   }
                }, {

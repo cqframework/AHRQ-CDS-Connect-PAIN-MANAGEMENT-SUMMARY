@@ -1523,7 +1523,7 @@ define function GetSimpleText(qrOb FHIR.Observation):
     when qrOb.code ~ homeWork then 'Work around the home'
     when qrOb.code ~ socialActivities then 'Ability to participate in social activities'
     when qrOb.code ~ householdChores then 'Household chores'
-    when qrOb.code ~ funActivities then 'THings you usually do for fun'
+    when qrOb.code ~ funActivities then 'Things you usually do for fun'
     when qrOb.code ~ enjoySocial then 'Enjoyment of social activities'
     when qrOb.code ~ enjoyLife then 'Enjoyment of life'
     when qrOb.code ~ enjoyFamily then 'Family life'
