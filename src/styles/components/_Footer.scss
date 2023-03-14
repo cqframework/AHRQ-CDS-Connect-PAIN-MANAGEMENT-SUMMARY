@@ -16,9 +16,9 @@ Footer {
     //     word-wrap: none;
     //     width: max-content;
     // }
-    // .dev-tools-icon {
-    //     margin-right: 1rem;
-    // }
+    .dev-tools-icon{
+        cursor: pointer;
+    }
     // .info-box {
     //     padding: 0 10px;
     //     p {
@@ -29,3 +29,21 @@ Footer {
     //     }
     // }
 }
+.dev-tools{
+    pre{
+        max-height: 500px;
+    }
+    
+}
+
+
+// .form-check-input {
+//     // background-color: red;
+//     border: 1px solid rgba(0,0,0,.25);
+
+// }
+
+// .form-check-input:checked {
+//     background-color: rgb(140, 227, 140);
+//     border-color: #fff;
+// }

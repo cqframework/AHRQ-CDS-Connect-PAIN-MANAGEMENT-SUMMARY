@@ -17,6 +17,9 @@ import InfoModal from "./InfoModal";
 import DevTools from "./DevTools";
 import Footer from "./Footer";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+
 export default class Summary extends Component<any, any> {
   appVersion = pkg.version;
   static propTypes: any;
@@ -215,6 +218,13 @@ export default class Summary extends Component<any, any> {
     ) {
       filteredEntries = this.createSharedDecisionEntries(entries);
     }
+
+    // Sort conditions a-z
+    if(section === "PertinentConditions")
+    {
+      filteredEntries =  entries.sort((a, b) => (a.Name > b.Name) ? 1 : -1)
+      
+    }
     if (table.filter && table.filter.length > 0) {
       // A filter starting with '!' is negated (looking for absence of that field)
       const negated = table.filter[0] === "!";
@@ -252,9 +262,19 @@ export default class Summary extends Component<any, any> {
           }
           return value;
         },
+        Cell: ({ value }) => {
+          // check section and apply cell formatting accordingly
+          if(value === "Very Severe" || value === "Very much"){
+            return <strong className="text-danger">{value} <FontAwesomeIcon icon={faExclamationTriangle} size="lg" title="toggle" className="warning-data" /></strong>
+          }
+          if(value === "Severe" || value === "Quite a bit"){
+            return <span className="text-danger">{value}</span>
+          }
+          return <span className="">{value}</span>
+      },
         minWidth: 150,
-        sortable:false 
-        // sortable: sortable,
+        sortable:false ,
+        // sortable: sortable, 
         
       };
       // what is this being used for
@@ -293,6 +313,7 @@ export default class Summary extends Component<any, any> {
     let tableID = subSection.name.replace(/ /g, "_") + "-table";
     let customProps = { id: tableID };
     
+    
     //getTheadThProps solution courtesy of:
     //https://spectrum.chat/react-table/general/is-there-a-way-to-activate-sort-via-onkeypress~66656e87-7f5c-4767-8b23-ddf35d73f8af
     return (
@@ -304,7 +325,7 @@ export default class Summary extends Component<any, any> {
       >
         
           <ReactTable
-          className="mb-3 sub-section__table card shadow-sm"
+          className="mb-3 sub-section__table card shadow-sm -highlight"
           columns={columns}
           data={filteredEntries}
           minRows={1}
@@ -312,16 +333,7 @@ export default class Summary extends Component<any, any> {
           defaultPageSize={filteredEntries.length}
           resizable={false}
           getProps={() => customProps}
-          // defaultSorted={
-          //   section === "UrineDrugScreening"
-          //     ? [
-          //         {
-          //           id: "Result",
-          //           desc: true,
-          //         },
-          //       ]
-          //     : []
-          // }
+       
           getTheadThProps={(state, rowInfo, column, instance) => {
             return {
               tabIndex: 0,
@@ -345,13 +357,12 @@ export default class Summary extends Component<any, any> {
     const sectionMap = this.summaryMapData[section];
     return sectionMap.map((subSection: any) => {
       // in here I need to combine the data for naloxone, benzodiazepines, and non-opioids
-      const data =
-        this.props.summary[subSection.dataKeySource][subSection.dataKey];
-        
+      const rawData = JSON.stringify(this.props.summary[subSection.dataKeySource][subSection.dataKey]);
+      const parsedData = rawData.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>|<!--[\s\S]*?-->/gi, '');
+      const data = JSON.parse(parsedData);        
       const entries = (Array.isArray(data) ? data : [data]).filter(
         (r) => r != null
       );
-      
       
       const hasEntries = entries.length !== 0;
 
@@ -366,6 +377,19 @@ export default class Summary extends Component<any, any> {
         subSection.recommendationText =
           this.props.summary.PertinentConditions.Recommendation8Text;
       }
+
+      // Other Observations - conditions/ medications/ urine and drug sample header text 
+      if(section === "PertinentConditions"){
+        datatable = (
+        <p>Where is this data from? Problem list entries & visit diagnoses over past 12 months (may cause duplicates)</p>
+        );
+      } else if (subSection.dataKey === ""){
+
+      } else if(subSection.dataKey === "")
+      {
+
+      } else {
+
       // if (subSection.dataKey === "OpioidMedications") {
       //   subSection.recommendationText = this.props.summary.CurrentPertinentTreatments.Recommendation3Text || null;
         
@@ -399,7 +423,8 @@ export default class Summary extends Component<any, any> {
       //       </div>
       //     </div>
       //   );
-      // } else if (subSection.dataKey === "NonOpioidMedications") {
+      // } 
+      //else if (subSection.dataKey === "NonOpioidMedications") {
       //   subSection.recommendationText =
       //     this.props.summary.CurrentPertinentTreatments.Recommendation11Text ||
       //     null;
@@ -431,13 +456,13 @@ export default class Summary extends Component<any, any> {
 
         datatable = (
           <div id={subSection.dataKey} className="sub-section__header">
-             { section === 'PertinentConditions' && subSection.dataKey === "ConditionsAssociatedWithChronicPain"? 
+             {/* { section === 'PertinentConditions' && subSection.dataKey === "ConditionsAssociatedWithChronicPain"? 
               <p>Where is this data from? Problem list entries & visit diagnoses over past 12 months (may cause duplicates)</p>
-             : ""}
+             : ""} */}
             {/* <h3>{subSection.name}</h3> */}
           </div>
         );
-      // }
+      }
 
       return (
         <div className="row">
@@ -450,7 +475,16 @@ export default class Summary extends Component<any, any> {
             subSection.tables.map((table: any, index: any) =>
               this.renderTable(table, entries, section, subSection, index)
             )}
+           
         </div>
+        {/* { section === "PertinentConditions" && 
+        
+        <div className="">
+            <hr />
+            Pain Manager is not for patients undergoing end-of-life care or cancer treatment. 
+          </div>
+        } */}
+        
         </div>
       );
     });
@@ -464,9 +498,9 @@ export default class Summary extends Component<any, any> {
       title = "Medications";
     } else if (section === "UrineDrugScreening") {
       title = "Urine Drug Screen";
-    } else if (section === "PainAndGoal") {
+    } else if (section === "SharedDecisionMaking") {
       title = `Pain & Goals`;
-    } else if (section === "CurrentPertinentTreatmentsNew") {
+    } else if (section === "TreatmentEffectiveness") {
       title = "Treatments Effectiveness";
     }
 
@@ -530,8 +564,8 @@ export default class Summary extends Component<any, any> {
                       </div>
                       <div className="col-12">
                         <div className="d-flex card-header px-1 pt-2 pb-0 border-bottom-0">
-                          <button className="nav-link active" style={{"isolation":"isolate"}} id="nav-pain-goals-tab" data-bs-toggle="tab" data-bs-target="#nav-pain-goals" type="button" role="tab" aria-controls="nav-pain-goals" aria-selected="true">{this.renderSectionHeader("PainAndGoal")}</button>
-                          <button className="nav-link" style={{"isolation":"isolate"}} id="nav-treatment-effectiveness-tab" data-bs-toggle="tab" data-bs-target="#nav-treatment-effectiveness" type="button" role="tab" aria-controls="nav-treatment-effectiveness" aria-selected="false">{this.renderSectionHeader("CurrentPertinentTreatmentsNew")}</button>                
+                          <button className="nav-link active" style={{"isolation":"isolate"}} id="nav-pain-goals-tab" data-bs-toggle="tab" data-bs-target="#nav-pain-goals" type="button" role="tab" aria-controls="nav-pain-goals" aria-selected="true">{this.renderSectionHeader("SharedDecisionMaking")}</button>
+                          <button className="nav-link" style={{"isolation":"isolate"}} id="nav-treatment-effectiveness-tab" data-bs-toggle="tab" data-bs-target="#nav-treatment-effectiveness" type="button" role="tab" aria-controls="nav-treatment-effectiveness" aria-selected="false">{this.renderSectionHeader("TreatmentEffectiveness")}</button>                
                         </div>
                       </div>
                     </div>
@@ -684,7 +718,6 @@ export default class Summary extends Component<any, any> {
                               </div>
                             </div>
                           </div>
-                          
                         </div>
                       </div>
                     </div>
@@ -693,8 +726,12 @@ export default class Summary extends Component<any, any> {
                 )}
 
                 </div>
-                <div className="tab-pane fade" id="nav-treatment-effectiveness" role="tabpanel" aria-labelledby="nav-treatment-effectiveness-tab">{this.renderSection("CurrentPertinentTreatmentsNew")}</div>
-                <div className="tab-pane fade" id="nav-pertinent-conditions" role="tabpanel" aria-labelledby="nav-pertinent-conditions-tab">{this.renderSection("PertinentConditions")}</div>
+                <div className="tab-pane fade" id="nav-treatment-effectiveness" role="tabpanel" aria-labelledby="nav-treatment-effectiveness-tab">{this.renderSection("TreatmentEffectiveness")}</div>
+                <div className="tab-pane fade" id="nav-pertinent-conditions" role="tabpanel" aria-labelledby="nav-pertinent-conditions-tab">
+                  {/* <p>Where is this data from? Problem list entries & visit diagnoses over past 12 months (may cause duplicates)</p> */}
+                  {this.renderSection("PertinentConditions")} 
+                  
+                </div>
                 <div className="tab-pane fade" id="nav-medications" role="tabpanel" aria-labelledby="nav-medications-tab">{this.renderSection("CurrentPertinentTreatments")}</div>
                 <div className="tab-pane fade" id="nav-urine-drug-screening" role="tabpanel" aria-labelledby="nav-urine-drug-screening-tab">{this.renderSection("UrineDrugScreening")}</div>
               </div>
