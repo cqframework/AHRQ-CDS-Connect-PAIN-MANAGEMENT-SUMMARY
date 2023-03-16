@@ -1,30 +1,49 @@
 Footer {
-    width: 100%;
+    // width: 100%;
     background: $color-blue;
     color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    .app-version {
-        font-size: large;
-        padding-left: 20px;
-        // width: 30%;
-        word-wrap: none;
-        width: max-content;
+    // display: flex;
+    // align-items: center;
+    // justify-content: space-between;
+   
+    // position: absolute;
+    // bottom: 0;
+    // left: 0;
+    // .app-version {
+    //     font-size: large;
+    //     padding-left: 20px;
+    //     // width: 30%;
+    //     word-wrap: none;
+    //     width: max-content;
+    // }
+    .dev-tools-icon{
+        cursor: pointer;
     }
-    .dev-tools-icon {
-        margin-right: 1rem;
-    }
-    .info-box {
-        padding: 0 10px;
-        p {
-            font-size: medium;
-            span {
-                color: lightgrey;
-            }
-        }
-    }
+    // .info-box {
+    //     padding: 0 10px;
+    //     p {
+    //         font-size: medium;
+    //         span {
+    //             color: lightgrey;
+    //         }
+    //     }
+    // }
 }
+.dev-tools{
+    pre{
+        max-height: 500px;
+    }
+    
+}
+
+
+// .form-check-input {
+//     // background-color: red;
+//     border: 1px solid rgba(0,0,0,.25);
+
+// }
+
+// .form-check-input:checked {
+//     background-color: rgb(140, 227, 140);
+//     border-color: #fff;
+// }

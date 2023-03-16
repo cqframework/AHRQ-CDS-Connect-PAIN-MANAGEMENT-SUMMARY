@@ -20,7 +20,7 @@
       "tables": [
         {
           "headers": {
-            "Name": "Name"
+            "Chronic Pain Conditions": "Name"
           }
         }
       ]
@@ -82,10 +82,11 @@
           ]
         }
       ],
+      
       "tables": [
         {
           "headers": {
-            "Name": "Name"
+            "Co-morbid Conditions (increasing risk when using opioids)": "Name"
           },
           "filter": "!Visit",
           "flags": [
@@ -117,53 +118,6 @@
   ],
   "CurrentPertinentTreatments": [
     {
-      "name": "Non-Opioids",
-      "dataKey": "NonOpioidMedications",
-      "dataKeySource": "CurrentPertinentTreatments",
-      "info": [
-        {
-          "type": "elements",
-          "description": "Non-Opioid Medications queries the following elements:",
-          "elements": [
-            {
-              "name": "Non-opioid medication statements and orders",
-              "status": "any",
-              "lookback": "2 years"
-            }
-          ]
-        }
-      ],
-      "tables": [
-        {
-          "headers": {
-            "Medication": "Name",
-            "Date Prescribed": {
-              "key": "Start",
-              "formatter": "datishFormat"
-            },
-            "Date Ended": {
-              "key": "End",
-              "formatter": "datishFormat"
-            },
-            "Sig": {
-              "key": "Sig",
-              "formatter": "booleanFormat"
-            },
-            "Status": {
-              "key": "Status",
-              "formatter": "booleanFormat"
-            }
-          },
-          "flags": [
-            {
-              "flag": "ifNone",
-              "flagText": "Absence of non-opioid medications"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "name": "Opioids",
       "dataKey": "OpioidMedications",
       "dataKeySource": "CurrentPertinentTreatments",
@@ -183,26 +137,30 @@
       "tables": [
         {
           "headers": {
-            "Medication": "Name",
+            "Opioids": {
+              "key": "Name",
+              "formatter": "datishFormat",
+              "minWidth": 250
+            },
             "MME/Day": {
               "key": "MME",
-              "formatter": "booleanFormat"
+              "formatter": "booleanFormat",
+              "minWidth": 100
+            },     
+            "Sig": {
+              "key": "Sig",
+              "formatter": "booleanFormat",
+              "minWidth": 100
             },
             "Date Prescribed": {
               "key": "Start",
-              "formatter": "datishFormat"
-            },
-            "Date Ended": {
-              "key": "End",
-              "formatter": "datishFormat"
-            },
-            "Sig": {
-              "key": "Sig",
-              "formatter": "booleanFormat"
+              "formatter": "datishFormat",
+              "minWidth": 100
             },
             "Status": {
               "key": "Status",
-              "formatter": "booleanFormat"
+              "formatter": "booleanFormat",
+              "minWidth": 100
             }
           },
           "flags": [
@@ -215,18 +173,18 @@
       ]
     },
     {
-      "name": "SELF-REPORTED TREATMENTS FROM MyPAIN (past 6 months)",
-      "dataKey": "SelfReportedTreatmentsFromMyPAIN",
+      "name": "Non-Opioids",
+      "dataKey": "NonOpioidMedications",
       "dataKeySource": "CurrentPertinentTreatments",
       "info": [
         {
           "type": "elements",
-          "description": "Self-Reported Treatments From MyPAIN queries the following elements:",
+          "description": "Non-Opioid Medications queries the following elements:",
           "elements": [
             {
-              "name": "Self-Reported Treatments From MyPAIN questionnaire",
+              "name": "Non-opioid medication statements and orders",
               "status": "any",
-              "lookback": "6 Months"
+              "lookback": "2 years"
             }
           ]
         }
@@ -234,16 +192,148 @@
       "tables": [
         {
           "headers": {
-            "Treatment": "Treatment",
-            "Effectiveness": "Effectiveness"
+            "Non-Opioids": {
+              "key": "Name",
+              "formatter": "datishFormat",
+              "minWidth": 250
+            },
+            "MME/Day": {
+              "key": "MME",
+              "formatter": "booleanFormat",
+              "minWidth": 100
+            },     
+            "Sig": {
+              "key": "Sig",
+              "formatter": "booleanFormat",
+              "minWidth": 100
+            },
+            "Date Prescribed": {
+              "key": "Start",
+              "formatter": "datishFormat",
+              "minWidth": 100
+            },
+            "Status": {
+              "key": "Status",
+              "formatter": "booleanFormat",
+              "minWidth": 100
+            }
           },
           "flags": [
             {
               "flag": "ifNone",
-              "flagText": "Absence of self-reported treatments from MyPAIN"
+              "flagText": "Absence of non-opioid medications"
             }
-          ],
-          "sortable": false
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Benzodiazepines",
+      "dataKey": "BenzodiazepineMedications",
+      "dataKeySource": "CurrentPertinentTreatments",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Benzodiazepine Medications queries the following elements:",
+          "elements": [
+            {
+              "name": "Benzodiazepine medication statements and orders",
+              "status": "any",
+              "lookback": "2 years"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Benzodiazepines": {
+              "key": "Name",
+              "formatter": "datishFormat",
+              "minWidth": 250
+            },
+            "MME/Day": {
+              "key": "MME",
+              "formatter": "booleanFormat",
+              "minWidth": 100
+            },     
+            "Sig": {
+              "key": "Sig",
+              "formatter": "booleanFormat",
+              "minWidth": 100
+            },
+            "Date Prescribed": {
+              "key": "Start",
+              "formatter": "datishFormat",
+              "minWidth": 100
+            },
+            "Status": {
+              "key": "Status",
+              "formatter": "booleanFormat",
+              "minWidth": 100
+            }
+          },
+          "flags": [
+            {
+              "flag": "always",
+              "flagText": "Benzodiazepines"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Naloxones",
+      "dataKey": "NaloxoneMedications",
+      "dataKeySource": "CurrentPertinentTreatments",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Naloxone Medications queries the following elements:",
+          "elements": [
+            {
+              "name": "Naloxone medication statements and orders",
+              "status": "any",
+              "lookback": "2 years"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Naloxone": {
+              "key": "Name",
+              "formatter": "datishFormat",
+              "minWidth": 250
+            },
+            "MME/Day": {
+              "key": "MME",
+              "formatter": "booleanFormat",
+              "minWidth": 100
+            },     
+            "Sig": {
+              "key": "Sig",
+              "formatter": "booleanFormat",
+              "minWidth": 100
+            },
+            "Date Prescribed": {
+              "key": "Start",
+              "formatter": "datishFormat",
+              "minWidth": 100
+            },
+            "Status": {
+              "key": "Status",
+              "formatter": "booleanFormat",
+              "minWidth": 100
+            }
+          },
+          "flags": [
+            {
+              "flag": "always",
+              "flagText": "Naloxone"
+            }
+          ]
         }
       ]
     }
@@ -274,10 +364,7 @@
               "key": "Date",
               "formatter": "datishFormat"
             },
-            "Result": {
-              "key": "Result",
-              "formatter": "datishFormat"
-            }
+            "Result": "Result"
           },
           "flags": [
             {
@@ -320,10 +407,10 @@
       "tables": [
         {
           "headers": {
-            "Name": "Location",
-            "Pain Y/N": {
-              "key": "PainYesNo",
-              "formatter": "quantityFormat"
+            "Pain Location": {
+              "key":"SimpleLocation",
+              "formatter": "datishFormat",
+              "minWidth": 60
             },
             "Description": "Description"
           },
@@ -342,8 +429,8 @@
       ]
     },
     {
-      "name": "Pain Intensity And Interference",
-      "dataKey": "PainIntensityAndInterference",
+      "name": "Pain Intensity",
+      "dataKey": "PainIntensity",
       "dataKeySource": "SharedDecisionMaking",
       "info": [
         {
@@ -361,7 +448,44 @@
       "tables": [
         {
           "headers": {
-            "Question": "Question",
+            "Pain Intensity": "SimpleText",
+            "Response": "Response"
+          },
+          "flags": [
+            {
+              "flag": {
+                "ifGreaterThanOrEqualTo": {
+                  "header": "Result",
+                  "value": 50
+                }
+              },
+              "flagText": "Decision One"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Pain Interference",
+      "dataKey": "PainInterference",
+      "dataKeySource": "SharedDecisionMaking",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Decision 1:",
+          "elements": [
+            {
+              "name": "Decision1",
+              "status": "final or amended",
+              "lookback": "most recent in past 6 months"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Pain Interference (past 7 days)": "SimpleText",
             "Response": "Response"
           },
           "flags": [
@@ -378,5 +502,218 @@
         }
       ]
     }
+  ],
+  "TreatmentEffectiveness": [
+    {
+      "name": "SELF-REPORTED TREATMENTS FROM MyPAIN (past 6 months)",
+      "dataKey": "NotTriedTx",
+      "dataKeySource": "TreatmentEffectiveness",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Self-Reported Treatments From MyPAIN queries the following elements:",
+          "elements": [
+            {
+              "name": "Self-Reported Treatments From MyPAIN questionnaire",
+              "status": "any",
+              "lookback": "6 Months"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Not Tried": {
+              "key": "Treatment",
+              "formatter": "datishFormat"
+            }
+          },
+          "flags": [
+            {
+              "flag": "ifNone",
+              "flagText": "Absence of self-reported treatments from MyPAIN"
+            }
+          ],
+          "sortable": false
+        }
+      ]
+    },
+    {
+      "name": "SELF-REPORTED TREATMENTS FROM MyPAIN (past 6 months)",
+      "dataKey": "GreatlyEffectiveTx",
+      "dataKeySource": "TreatmentEffectiveness",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Self-Reported Treatments From MyPAIN queries the following elements:",
+          "elements": [
+            {
+              "name": "Self-Reported Treatments From MyPAIN questionnaire",
+              "status": "any",
+              "lookback": "6 Months"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Greatly Effective": {
+              "key": "Treatment",
+              "formatter": "datishFormat"
+            }
+          },
+          "flags": [
+            {
+              "flag": "ifNone",
+              "flagText": "Absence of self-reported treatments from MyPAIN"
+            }
+          ],
+          "sortable": false
+        }
+      ]
+    },
+    {
+      "name": "SELF-REPORTED TREATMENTS FROM MyPAIN (past 6 months)",
+      "dataKey": "ModeratelyEffectiveTx",
+      "dataKeySource": "TreatmentEffectiveness",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Self-Reported Treatments From MyPAIN queries the following elements:",
+          "elements": [
+            {
+              "name": "Self-Reported Treatments From MyPAIN questionnaire",
+              "status": "any",
+              "lookback": "6 Months"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Moderately Effective": {
+              "key": "Treatment",
+              "formatter": "datishFormat"
+            }
+          },
+          "flags": [
+            {
+              "flag": "ifNone",
+              "flagText": "Absence of self-reported treatments from MyPAIN"
+            }
+          ],
+          "sortable": false
+        }
+      ]
+    },
+    {
+      "name": "SELF-REPORTED TREATMENTS FROM MyPAIN (past 6 months)",
+      "dataKey": "SlightlyEffectiveTx",
+      "dataKeySource": "TreatmentEffectiveness",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Self-Reported Treatments From MyPAIN queries the following elements:",
+          "elements": [
+            {
+              "name": "Self-Reported Treatments From MyPAIN questionnaire",
+              "status": "any",
+              "lookback": "6 Months"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Slightly Effective": {
+              "key": "Treatment",
+              "formatter": "datishFormat"
+            }
+          },
+          "flags": [
+            {
+              "flag": "ifNone",
+              "flagText": "Absence of self-reported treatments from MyPAIN"
+            }
+          ],
+          "sortable": false
+        }
+      ]
+    },
+    {
+      "name": "SELF-REPORTED TREATMENTS FROM MyPAIN (past 6 months)",
+      "dataKey": "NotEffectiveTx",
+      "dataKeySource": "TreatmentEffectiveness",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Self-Reported Treatments From MyPAIN queries the following elements:",
+          "elements": [
+            {
+              "name": "Self-Reported Treatments From MyPAIN questionnaire",
+              "status": "any",
+              "lookback": "6 Months"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Not Effective": {
+              "key": "Treatment",
+              "formatter": "datishFormat"
+            }
+          },
+          "flags": [
+            {
+              "flag": "ifNone",
+              "flagText": "Absence of self-reported treatments from MyPAIN"
+            }
+          ],
+          "sortable": false
+        }
+      ]
+    },
+    {
+      "name": "SELF-REPORTED TREATMENTS FROM MyPAIN (past 6 months)",
+      "dataKey": "OtherTx",
+      "dataKeySource": "TreatmentEffectiveness",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Self-Reported Treatments From MyPAIN queries the following elements:",
+          "elements": [
+            {
+              "name": "Self-Reported Treatments From MyPAIN questionnaire",
+              "status": "any",
+              "lookback": "6 Months"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Other": {
+              "key": "Response",
+              "formatter": "datishFormat"
+            }
+          },
+          "flags": [
+            {
+              "flag": "ifNone",
+              "flagText": "Absence of self-reported treatments from MyPAIN"
+            }
+          ],
+          "sortable": false
+        }
+      ]
+    }
+    
   ]
 }

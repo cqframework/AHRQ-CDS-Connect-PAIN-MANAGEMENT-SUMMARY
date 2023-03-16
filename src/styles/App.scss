@@ -10,15 +10,15 @@
 
 // site-wide elements
 @import 'elements/accessibility';
-@import 'elements/banners';
-@import 'elements/base';
-@import 'elements/modal';
+// @import 'elements/banners';
+// @import 'elements/base';
+// @import 'elements/modal';
 @import 'elements/spinner';
 @import 'elements/tables';
 // component-specific
 @import 'components/Header';
 @import 'components/Summary';
-@import 'components/Landing';
+// @import 'components/Landing';
 @import 'components/Footer';
 main {
     display: block;

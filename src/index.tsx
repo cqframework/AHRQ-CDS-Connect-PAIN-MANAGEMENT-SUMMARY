@@ -7,7 +7,6 @@ import * as serviceWorker from './serviceWorker';
 import './utils/fontawesomeLibrary';
 
 import Root from './containers/Root';
-
 import './styles/App.scss';
 
 render(
