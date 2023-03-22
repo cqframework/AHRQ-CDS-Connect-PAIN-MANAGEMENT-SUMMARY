@@ -242,7 +242,7 @@ code "worstPain": '75262-6' from "LOINC" display 'How intense was your pain at i
 code "averagePain": '75261-8' from "LOINC" display 'How intense was your average pain in the past 7 days'
 code "painRightNow": '75260-0' from "LOINC" display 'What is your level of pain right now'
 
-    code "dayToDay": '61758-9' from "LOINC" display 'How much did pain interfere with your day to day activities in past 7 days'
+code "dayToDay": '61758-9' from "LOINC" display 'How much did pain interfere with your day to day activities in past 7 days'
 code "homeWork": '61769-6' from "LOINC" display 'How much did pain interfere with work around the home in past 7 days'
 code "socialActivities": '61773-8' from "LOINC" display 'How much did pain interfere with your ability to participate in social activities'
 code "householdChores": '61775-3' from "LOINC" display 'How much did pain interfere with your household chores in past 7 days'
@@ -1026,12 +1026,50 @@ define ReportSTarTBackAssessments:
 // HISTORICAL TREATMENTS
 
 // Opioid medication orders and statements with dates (lookback 2 years)
-
-define OpioidMedicationRequests:
-  C3F.ActiveCompletedOrStoppedMedicationRequest(C3F.MedicationRequestLookBack(
+        //ActiveMedicationRequest
+/*
+define ActiveOpioidMedicationRequests:
+  C3F.ActiveMedicationRequest(C3F.MedicationRequestLookBack(
     [MedicationRequest: "Opioid Pain Medications"],
     2 years
   ))
+
+    ActiveOpioidMedications: ReportActiveOpioidMedications,
+    ActiveNonOpioidMedications: ReportActiveNonOpioidMedications,
+    ActiveBenzodiazepineMedications: ReportActiveBenzodiazepineMedications,
+    ActiveNaloxoneMedications: ReportActiveNaloxoneMedications,
+
+define ActiveOpioidMedicationStatements:
+  C3F.ActiveMedicationStatement(C3F.MedicationRequestLookBack(
+    [MedicationRequest: "Opioid Pain Medications"],
+    2 years
+  ))
+
+define ReportUrineDrugScreens:
+  (UrineDrugScreens) S
+  return {
+    Name:           ConceptText(S.code),
+    Result:         UrineDrugScreenResult(S),
+    Interpretation: if (S.interpretation is null) then UrineDrugScreenResult(S)
+        else ConceptText(First(S.interpretation)),
+    Date:           ObservationDate(S)
+  }
+  sort by Date desc
+
+
+
+*/
+
+define OpioidMedicationRequests:
+if "Only Active Medications" then C3F.ActiveMedicationRequest(C3F.MedicationRequestLookBack(
+    [MedicationRequest: "Opioid Pain Medications"],
+     2 years
+   ))
+    else
+      C3F.ActiveCompletedOrStoppedMedicationRequest(C3F.MedicationRequestLookBack(
+      [MedicationRequest: "Opioid Pain Medications"],
+      2 years
+    ))
 
 define OpioidMedicationStatements:
   (C3F.ActiveOrCompletedMedicationStatement(C3F.MedicationStatementLookBack(
@@ -1076,7 +1114,11 @@ define ReportOpioidMedications:
 // Non-opioid medication orders and statements with dates (lookback 2 years)
 
 define NonOpioidMedicationRequests:
-  C3F.ActiveCompletedOrStoppedMedicationRequest(C3F.MedicationRequestLookBack(
+  if "Only Active Medications" then C3F.ActiveMedicationRequest(C3F.MedicationRequestLookBack(
+      [MedicationRequest: "Non opioid pain medications"],
+    2 years
+  )) else
+      C3F.ActiveCompletedOrStoppedMedicationRequest(C3F.MedicationRequestLookBack(
     [MedicationRequest: "Non opioid pain medications"],
     2 years
   ))
@@ -1243,18 +1285,29 @@ define ReportUrineDrugScreens:
 // Benzodiazepine Medications (lookback of 2 years)-  orders and statements with dates
 
 define BenzodiazepineMedicationRequests:
+ if "Only Active Medications" then C3F.ActiveMedicationRequest(C3F.MedicationRequestLookBack(
+    [MedicationRequest: "Benzodiazepine medications"],
+    2 years
+  )) else
   C3F.ActiveCompletedOrStoppedMedicationRequest(C3F.MedicationRequestLookBack(
     [MedicationRequest: "Benzodiazepine medications"],
     2 years
   ))
 
 define BenzodiazepineMedicationStatements:
-  (C3F.ActiveOrCompletedMedicationStatement(C3F.MedicationStatementLookBack(
-    [MedicationStatement: "Benzodiazepine medications"],
-    2 years
-  ))) MS
-    without [MedicationRequest] MR such that
-      exists (MS.basedOn b where b.reference.endsWith('MedicationRequest/' + MR.id))
+ if "Only Active Medications" then (C3F.ActiveMedicationStatement(C3F.MedicationStatementLookBack(
+        [MedicationStatement: "Benzodiazepine medications"],
+        2 years
+      ))) MS
+        without [MedicationRequest] MR such that
+          exists (MS.basedOn b where b.reference.endsWith('MedicationRequest/' + MR.id))
+    else
+      (C3F.ActiveOrCompletedMedicationStatement(C3F.MedicationStatementLookBack(
+        [MedicationStatement: "Benzodiazepine medications"],
+        2 years
+      ))) MS
+        without [MedicationRequest] MR such that
+          exists (MS.basedOn b where b.reference.endsWith('MedicationRequest/' + MR.id))
 
 define ReportBenzodiazepineMedicationRequests:
   (BenzodiazepineMedicationRequests) O
@@ -1289,9 +1342,15 @@ define ReportBenzodiazepineMedications:
 // Naloxone Medications (unrestricted lookback) - orders and statements with dates
 
 define NaloxoneMedicationRequests:
-  C3F.ActiveCompletedOrStoppedMedicationRequest([MedicationRequest: "Naloxone medications"])
+ if "Only Active Medications" then C3F.ActiveMedicationRequest([MedicationRequest: "Naloxone medications"])
+    else
+    C3F.ActiveCompletedOrStoppedMedicationRequest([MedicationRequest: "Naloxone medications"])
 
 define NaloxoneMedicationStatements:
+ if "Only Active Medications" then (C3F.ActiveMedicationStatement([MedicationStatement: "Naloxone medications"])) MS
+    without [MedicationRequest] MR such that
+      exists (MS.basedOn b where b.reference.endsWith('MedicationRequest/' + MR.id))
+    else
   (C3F.ActiveOrCompletedMedicationStatement([MedicationStatement: "Naloxone medications"])) MS
     without [MedicationRequest] MR such that
       exists (MS.basedOn b where b.reference.endsWith('MedicationRequest/' + MR.id))
@@ -1552,7 +1611,7 @@ define ReportPainLocations:
         or qrOb.code ~ painLocationBack
         or qrOb.code ~ painLocationHandsWrist
         or qrOb.code ~ painLocationAbdomenPelvis
-        or qrOb.code ~ painLocationFeetAnkles    
+        or qrOb.code ~ painLocationFeetAnkles
         )
     return
       {
@@ -1682,7 +1741,7 @@ define TreatmentObservationsFromMyPain:
   return{
         Treatment: QuestionTextByLinkId(qrOb)[0].value[0],
         Effectiveness: ObservationValue(qrOb)
-  }
+    }
 
 
     // Data from the most recent self reported MyPAIN observations - treatments not tried
@@ -1705,27 +1764,27 @@ define ReportGreatlyEffectiveTx:
     ((qrOb.value as CodeableConcept) ~ greatlyEffective)
       return{
         Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
-      }      
+      }
 
 define ReportModeratelyEffectiveTx:
     (QuestionnaireObservations) qrOb where
     ((qrOb.value as CodeableConcept) ~ moderatelyEffective)
       return{
         Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
-      }   
+      }
 
 define ReportSlightlyEffectiveTx:
     (QuestionnaireObservations) qrOb where
     ((qrOb.value as CodeableConcept) ~ slightlyEffective)
       return{
         Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
-      }   
+      }
 define ReportNotEffectiveTx:
     (QuestionnaireObservations) qrOb where
       ((qrOb.value as CodeableConcept) ~ notAtAllEffective)
       return{
         Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
-      }   
+      }
 
 define ReportOtherTx:
     (QuestionnaireObservations) qrOb where
@@ -1737,10 +1796,10 @@ define ReportOtherTx:
       or qrOb.code ~ otherAlternativeTx
       or qrOb.code ~ otherOTC
       or qrOb.code ~ otherNewTreatments
-      or qrOb.code ~ newTreatmentOther) 
+      or qrOb.code ~ newTreatmentOther)
       return{
         Response: ObservationValue(qrOb)
-      }   
+      }
 
 
 // ******************************* Decision Logic ******************************
@@ -1878,7 +1937,14 @@ Activity Barriers
 | Resource | Viewed On |
 
 */
+// Control flags -- These actually belong in a Config.cql file (similar to the config file in opioid-cds-r4 IG), but this app is not processing it correctly.
+define "Only Active Medications":
+    true
 
+define "Use MMECalculator":
+    true
+
+// Return results for use in application
 define Summary: {
    Patient: {
     Name: Combine(Patient.name.given G return G.value, ' ') + ' ' + Combine(Patient.name.family F return F.value, ' '),

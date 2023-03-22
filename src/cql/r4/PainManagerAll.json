@@ -7540,48 +7540,104 @@
                }
             }
          }, {
+            "name" : "Only Active Medications",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+               "value" : "true",
+               "type" : "Literal"
+            }
+         }, {
             "name" : "OpioidMedicationRequests",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "name" : "ActiveCompletedOrStoppedMedicationRequest",
-               "libraryName" : "C3F",
-               "type" : "FunctionRef",
-               "operand" : [ {
-                  "name" : "MedicationRequestLookBack",
+               "type" : "If",
+               "condition" : {
+                  "name" : "Only Active Medications",
+                  "type" : "ExpressionRef"
+               },
+               "then" : {
+                  "name" : "ActiveMedicationRequest",
                   "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "type" : "Union",
+                     "name" : "MedicationRequestLookBack",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
                      "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                        "codeProperty" : "medication",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Opioid Pain Medications",
-                           "preserve" : true,
-                           "type" : "ValueSetRef"
-                        }
+                        "type" : "Union",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                           "codeProperty" : "medication",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Opioid Pain Medications",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
+                        }, {
+                           "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                           "codeProperty" : "medication",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Opioid Pain Medications",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
                      }, {
-                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                        "codeProperty" : "medication",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Opioid Pain Medications",
-                           "preserve" : true,
-                           "type" : "ValueSetRef"
-                        }
+                        "value" : 2,
+                        "unit" : "years",
+                        "type" : "Quantity"
                      } ]
-                  }, {
-                     "value" : 2,
-                     "unit" : "years",
-                     "type" : "Quantity"
                   } ]
-               } ]
+               },
+               "else" : {
+                  "name" : "ActiveCompletedOrStoppedMedicationRequest",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "MedicationRequestLookBack",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                           "codeProperty" : "medication",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Opioid Pain Medications",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
+                        }, {
+                           "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                           "codeProperty" : "medication",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Opioid Pain Medications",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
+                     }, {
+                        "value" : 2,
+                        "unit" : "years",
+                        "type" : "Quantity"
+                     } ]
+                  } ]
+               }
             }
          }, {
             "name" : "OpioidMedicationStatements",
@@ -7939,35 +7995,73 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "name" : "ActiveCompletedOrStoppedMedicationRequest",
-               "libraryName" : "C3F",
-               "type" : "FunctionRef",
-               "operand" : [ {
-                  "type" : "Union",
+               "type" : "If",
+               "condition" : {
+                  "name" : "Only Active Medications",
+                  "type" : "ExpressionRef"
+               },
+               "then" : {
+                  "name" : "ActiveMedicationRequest",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
                   "operand" : [ {
-                     "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                     "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                     "codeProperty" : "medication",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Naloxone medications",
-                        "preserve" : true,
-                        "type" : "ValueSetRef"
-                     }
-                  }, {
-                     "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                     "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                     "codeProperty" : "medication",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Naloxone medications",
-                        "preserve" : true,
-                        "type" : "ValueSetRef"
-                     }
+                     "type" : "Union",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "codeProperty" : "medication",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Naloxone medications",
+                           "preserve" : true,
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "codeProperty" : "medication",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Naloxone medications",
+                           "preserve" : true,
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
                   } ]
-               } ]
+               },
+               "else" : {
+                  "name" : "ActiveCompletedOrStoppedMedicationRequest",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "codeProperty" : "medication",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Naloxone medications",
+                           "preserve" : true,
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "codeProperty" : "medication",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Naloxone medications",
+                           "preserve" : true,
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  } ]
+               }
             }
          }, {
             "name" : "ReportNaloxoneMedicationRequests",
@@ -8099,94 +8193,191 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "MS",
-                  "expression" : {
-                     "name" : "ActiveOrCompletedMedicationStatement",
-                     "libraryName" : "C3F",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "type" : "Union",
+               "type" : "If",
+               "condition" : {
+                  "name" : "Only Active Medications",
+                  "type" : "ExpressionRef"
+               },
+               "then" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "MS",
+                     "expression" : {
+                        "name" : "ActiveMedicationStatement",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
                         "operand" : [ {
-                           "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
-                           "codeProperty" : "medication",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Naloxone medications",
-                              "preserve" : true,
-                              "type" : "ValueSetRef"
-                           }
-                        }, {
-                           "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
-                           "codeProperty" : "medication",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Naloxone medications",
-                              "preserve" : true,
-                              "type" : "ValueSetRef"
-                           }
-                        } ]
-                     } ]
-                  }
-               } ],
-               "relationship" : [ {
-                  "alias" : "MR",
-                  "type" : "Without",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                     "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                     "type" : "Retrieve"
-                  },
-                  "suchThat" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "type" : "Query",
-                        "source" : [ {
-                           "alias" : "b",
-                           "expression" : {
-                              "path" : "basedOn",
-                              "scope" : "MS",
-                              "type" : "Property"
-                           }
-                        } ],
-                        "relationship" : [ ],
-                        "where" : {
-                           "type" : "EndsWith",
+                           "type" : "Union",
                            "operand" : [ {
-                              "name" : "ToString",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "path" : "reference",
-                                 "scope" : "b",
-                                 "type" : "Property"
-                              } ]
+                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                              "codeProperty" : "medication",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Naloxone medications",
+                                 "preserve" : true,
+                                 "type" : "ValueSetRef"
+                              }
                            }, {
-                              "type" : "Concatenate",
+                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                              "codeProperty" : "medication",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Naloxone medications",
+                                 "preserve" : true,
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        } ]
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "MR",
+                     "type" : "Without",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "type" : "Retrieve"
+                     },
+                     "suchThat" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "b",
+                              "expression" : {
+                                 "path" : "basedOn",
+                                 "scope" : "MS",
+                                 "type" : "Property"
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "EndsWith",
                               "operand" : [ {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                 "value" : "MedicationRequest/",
-                                 "type" : "Literal"
-                              }, {
                                  "name" : "ToString",
                                  "libraryName" : "FHIRHelpers",
                                  "type" : "FunctionRef",
                                  "operand" : [ {
-                                    "path" : "id",
-                                    "scope" : "MR",
+                                    "path" : "reference",
+                                    "scope" : "b",
                                     "type" : "Property"
                                  } ]
+                              }, {
+                                 "type" : "Concatenate",
+                                 "operand" : [ {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "MedicationRequest/",
+                                    "type" : "Literal"
+                                 }, {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "MR",
+                                       "type" : "Property"
+                                    } ]
+                                 } ]
                               } ]
-                           } ]
+                           }
                         }
                      }
-                  }
-               } ]
+                  } ]
+               },
+               "else" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "MS",
+                     "expression" : {
+                        "name" : "ActiveOrCompletedMedicationStatement",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                              "codeProperty" : "medication",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Naloxone medications",
+                                 "preserve" : true,
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                              "codeProperty" : "medication",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Naloxone medications",
+                                 "preserve" : true,
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        } ]
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "MR",
+                     "type" : "Without",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "type" : "Retrieve"
+                     },
+                     "suchThat" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "b",
+                              "expression" : {
+                                 "path" : "basedOn",
+                                 "scope" : "MS",
+                                 "type" : "Property"
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "EndsWith",
+                              "operand" : [ {
+                                 "name" : "ToString",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "path" : "reference",
+                                    "scope" : "b",
+                                    "type" : "Property"
+                                 } ]
+                              }, {
+                                 "type" : "Concatenate",
+                                 "operand" : [ {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "MedicationRequest/",
+                                    "type" : "Literal"
+                                 }, {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "MR",
+                                       "type" : "Property"
+                                    } ]
+                                 } ]
+                              } ]
+                           }
+                        }
+                     }
+                  } ]
+               }
             }
          }, {
             "name" : "ReportNaloxoneMedicationStatements",
@@ -8386,44 +8577,91 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "name" : "ActiveCompletedOrStoppedMedicationRequest",
-               "libraryName" : "C3F",
-               "type" : "FunctionRef",
-               "operand" : [ {
-                  "name" : "MedicationRequestLookBack",
+               "type" : "If",
+               "condition" : {
+                  "name" : "Only Active Medications",
+                  "type" : "ExpressionRef"
+               },
+               "then" : {
+                  "name" : "ActiveMedicationRequest",
                   "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "type" : "Union",
+                     "name" : "MedicationRequestLookBack",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
                      "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                        "codeProperty" : "medication",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Non opioid pain medications",
-                           "preserve" : true,
-                           "type" : "ValueSetRef"
-                        }
+                        "type" : "Union",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                           "codeProperty" : "medication",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Non opioid pain medications",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
+                        }, {
+                           "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                           "codeProperty" : "medication",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Non opioid pain medications",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
                      }, {
-                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                        "codeProperty" : "medication",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Non opioid pain medications",
-                           "preserve" : true,
-                           "type" : "ValueSetRef"
-                        }
+                        "value" : 2,
+                        "unit" : "years",
+                        "type" : "Quantity"
                      } ]
-                  }, {
-                     "value" : 2,
-                     "unit" : "years",
-                     "type" : "Quantity"
                   } ]
-               } ]
+               },
+               "else" : {
+                  "name" : "ActiveCompletedOrStoppedMedicationRequest",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "MedicationRequestLookBack",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                           "codeProperty" : "medication",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Non opioid pain medications",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
+                        }, {
+                           "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                           "codeProperty" : "medication",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Non opioid pain medications",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
+                     }, {
+                        "value" : 2,
+                        "unit" : "years",
+                        "type" : "Quantity"
+                     } ]
+                  } ]
+               }
             }
          }, {
             "name" : "NonOpioidMedicationStatements",
@@ -8770,44 +9008,91 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "name" : "ActiveCompletedOrStoppedMedicationRequest",
-               "libraryName" : "C3F",
-               "type" : "FunctionRef",
-               "operand" : [ {
-                  "name" : "MedicationRequestLookBack",
+               "type" : "If",
+               "condition" : {
+                  "name" : "Only Active Medications",
+                  "type" : "ExpressionRef"
+               },
+               "then" : {
+                  "name" : "ActiveMedicationRequest",
                   "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "type" : "Union",
+                     "name" : "MedicationRequestLookBack",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
                      "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                        "codeProperty" : "medication",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Benzodiazepine medications",
-                           "preserve" : true,
-                           "type" : "ValueSetRef"
-                        }
+                        "type" : "Union",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                           "codeProperty" : "medication",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Benzodiazepine medications",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
+                        }, {
+                           "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                           "codeProperty" : "medication",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Benzodiazepine medications",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
                      }, {
-                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                        "codeProperty" : "medication",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Benzodiazepine medications",
-                           "preserve" : true,
-                           "type" : "ValueSetRef"
-                        }
+                        "value" : 2,
+                        "unit" : "years",
+                        "type" : "Quantity"
                      } ]
-                  }, {
-                     "value" : 2,
-                     "unit" : "years",
-                     "type" : "Quantity"
                   } ]
-               } ]
+               },
+               "else" : {
+                  "name" : "ActiveCompletedOrStoppedMedicationRequest",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "MedicationRequestLookBack",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                           "codeProperty" : "medication",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Benzodiazepine medications",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
+                        }, {
+                           "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                           "codeProperty" : "medication",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Benzodiazepine medications",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
+                     }, {
+                        "value" : 2,
+                        "unit" : "years",
+                        "type" : "Quantity"
+                     } ]
+                  } ]
+               }
             }
          }, {
             "name" : "ReportBenzodiazepineMedicationRequests",
@@ -8928,103 +9213,209 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "MS",
-                  "expression" : {
-                     "name" : "ActiveOrCompletedMedicationStatement",
-                     "libraryName" : "C3F",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "name" : "MedicationStatementLookBack",
+               "type" : "If",
+               "condition" : {
+                  "name" : "Only Active Medications",
+                  "type" : "ExpressionRef"
+               },
+               "then" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "MS",
+                     "expression" : {
+                        "name" : "ActiveMedicationStatement",
                         "libraryName" : "C3F",
                         "type" : "FunctionRef",
                         "operand" : [ {
-                           "type" : "Union",
+                           "name" : "MedicationStatementLookBack",
+                           "libraryName" : "C3F",
+                           "type" : "FunctionRef",
                            "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
-                              "codeProperty" : "medication",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Benzodiazepine medications",
-                                 "preserve" : true,
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
-                              "codeProperty" : "medication",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Benzodiazepine medications",
-                                 "preserve" : true,
-                                 "type" : "ValueSetRef"
-                              }
-                           } ]
-                        }, {
-                           "value" : 2,
-                           "unit" : "years",
-                           "type" : "Quantity"
-                        } ]
-                     } ]
-                  }
-               } ],
-               "relationship" : [ {
-                  "alias" : "MR",
-                  "type" : "Without",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                     "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                     "type" : "Retrieve"
-                  },
-                  "suchThat" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "type" : "Query",
-                        "source" : [ {
-                           "alias" : "b",
-                           "expression" : {
-                              "path" : "basedOn",
-                              "scope" : "MS",
-                              "type" : "Property"
-                           }
-                        } ],
-                        "relationship" : [ ],
-                        "where" : {
-                           "type" : "EndsWith",
-                           "operand" : [ {
-                              "name" : "ToString",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
+                              "type" : "Union",
                               "operand" : [ {
-                                 "path" : "reference",
-                                 "scope" : "b",
-                                 "type" : "Property"
+                                 "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                 "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                 "codeProperty" : "medication",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Benzodiazepine medications",
+                                    "preserve" : true,
+                                    "type" : "ValueSetRef"
+                                 }
+                              }, {
+                                 "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                 "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                 "codeProperty" : "medication",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Benzodiazepine medications",
+                                    "preserve" : true,
+                                    "type" : "ValueSetRef"
+                                 }
                               } ]
                            }, {
-                              "type" : "Concatenate",
+                              "value" : 2,
+                              "unit" : "years",
+                              "type" : "Quantity"
+                           } ]
+                        } ]
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "MR",
+                     "type" : "Without",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "type" : "Retrieve"
+                     },
+                     "suchThat" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "b",
+                              "expression" : {
+                                 "path" : "basedOn",
+                                 "scope" : "MS",
+                                 "type" : "Property"
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "EndsWith",
                               "operand" : [ {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                 "value" : "MedicationRequest/",
-                                 "type" : "Literal"
-                              }, {
                                  "name" : "ToString",
                                  "libraryName" : "FHIRHelpers",
                                  "type" : "FunctionRef",
                                  "operand" : [ {
-                                    "path" : "id",
-                                    "scope" : "MR",
+                                    "path" : "reference",
+                                    "scope" : "b",
                                     "type" : "Property"
                                  } ]
+                              }, {
+                                 "type" : "Concatenate",
+                                 "operand" : [ {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "MedicationRequest/",
+                                    "type" : "Literal"
+                                 }, {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "MR",
+                                       "type" : "Property"
+                                    } ]
+                                 } ]
                               } ]
-                           } ]
+                           }
                         }
                      }
-                  }
-               } ]
+                  } ]
+               },
+               "else" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "MS",
+                     "expression" : {
+                        "name" : "ActiveOrCompletedMedicationStatement",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "MedicationStatementLookBack",
+                           "libraryName" : "C3F",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "Union",
+                              "operand" : [ {
+                                 "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                 "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                 "codeProperty" : "medication",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Benzodiazepine medications",
+                                    "preserve" : true,
+                                    "type" : "ValueSetRef"
+                                 }
+                              }, {
+                                 "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                 "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                 "codeProperty" : "medication",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Benzodiazepine medications",
+                                    "preserve" : true,
+                                    "type" : "ValueSetRef"
+                                 }
+                              } ]
+                           }, {
+                              "value" : 2,
+                              "unit" : "years",
+                              "type" : "Quantity"
+                           } ]
+                        } ]
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "MR",
+                     "type" : "Without",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "type" : "Retrieve"
+                     },
+                     "suchThat" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "b",
+                              "expression" : {
+                                 "path" : "basedOn",
+                                 "scope" : "MS",
+                                 "type" : "Property"
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "EndsWith",
+                              "operand" : [ {
+                                 "name" : "ToString",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "path" : "reference",
+                                    "scope" : "b",
+                                    "type" : "Property"
+                                 } ]
+                              }, {
+                                 "type" : "Concatenate",
+                                 "operand" : [ {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "MedicationRequest/",
+                                    "type" : "Literal"
+                                 }, {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "MR",
+                                       "type" : "Property"
+                                    } ]
+                                 } ]
+                              } ]
+                           }
+                        }
+                     }
+                  } ]
+               }
             }
          }, {
             "name" : "ReportBenzodiazepineMedicationStatements",
