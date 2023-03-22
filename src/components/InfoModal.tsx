@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactTable from 'react-table';
+import { Modal, Button } from "react-bootstrap";
 
 export default class InfoModal extends Component<any, any> {
   elementsTableProps: { id: string; };
@@ -17,18 +18,19 @@ export default class InfoModal extends Component<any, any> {
   }
 
   renderElements = (elements: any) => {
-    const tableElements = elements.elements;
-    const columns = [{
-      Header: () => { return <span className="col-header">Name</span> },
-      accessor: 'name',
-      minWidth: 225
-    }, {
-      Header: () => { return <span className="col-header">Status</span> },
-      accessor: 'status'
-    }, {
-      Header: () => { return <span className="col-header">Lookback</span> },
-      accessor: 'lookback'
-    }];
+    // debugger;
+    // const tableElements = elements.elements;
+    // const columns = [{
+    //   Header: () => { return <span className="col-header">Name</span> },
+    //   accessor: 'name',
+    //   minWidth: 225
+    // }, {
+    //   Header: () => { return <span className="col-header">Status</span> },
+    //   accessor: 'status'
+    // }, {
+    //   Header: () => { return <span className="col-header">Lookback</span> },
+    //   accessor: 'lookback'
+    // }];
     if (this.props.subSection.dataKey === "OpioidMedications" || this.props.subSection.dataKey === "NonOpioidMedications") {
       if (this.props.subSection.warningText && this.props.modalRole === 'warning') {
         return (
@@ -59,62 +61,62 @@ export default class InfoModal extends Component<any, any> {
         );
       }
     }
-    return (
-      <div className="element" role="table"
-        aria-label={elements.description} aria-describedby={this.elementsTableProps.id}>
-        <h4>{elements.description}</h4>
-        <ReactTable
-          className="elements__table"
-          columns={columns}
-          data={tableElements}
-          minRows={1}
-          showPagination={false}
-          resizable={false}
-          getProps={() => { return this.elementsTableProps }}
-        />
-      </div>
-    );
+    // return (
+    //   <div className="element" role="table"
+    //     aria-label={elements.description} aria-describedby={this.elementsTableProps.id}>
+    //     <h4>{elements.description}</h4>
+    //     <ReactTable
+    //       className="elements__table"
+    //       columns={columns}
+    //       data={tableElements}
+    //       minRows={1}
+    //       showPagination={false}
+    //       resizable={false}
+    //       getProps={() => { return this.elementsTableProps }}
+    //     />
+    //   </div>
+    // );
   }
 
-  renderReferences = (references: any) => {
-    const columns = [{
-      Header: () => { return <span className="col-header">Link</span> },
-      accessor: 'urlLink',
-      maxWidth: 50,
-      sortable: false
-    }, {
-      Header: () => { return <span className="col-header">Title</span> },
-      accessor: 'title'
-    }, {
-      Header: () => { return <span className="col-header">Details</span> },
-      accessor: 'details'
-    }];
+  // renderReferences = (references: any) => {
+  //   const columns = [{
+  //     Header: () => { return <span className="col-header">Link</span> },
+  //     accessor: 'urlLink',
+  //     maxWidth: 50,
+  //     sortable: false
+  //   }, {
+  //     Header: () => { return <span className="col-header">Title</span> },
+  //     accessor: 'title'
+  //   }, {
+  //     Header: () => { return <span className="col-header">Details</span> },
+  //     accessor: 'details'
+  //   }];
 
-    let data = references;
-    data.forEach((reference: any) => {
-      reference.urlLink = (
-        <a href={reference.url} data-src={reference.title} target="_blank"
-          rel="noopener noreferrer"><FontAwesomeIcon icon="link" title="link" /></a>
-      );
-    });
+  //   let data = references;
+  //   data.forEach((reference: any) => {
+  //     reference.urlLink = (
+  //       <a href={reference.url} data-src={reference.title} target="_blank"
+  //         rel="noopener noreferrer"><FontAwesomeIcon icon="link" title="link" /></a>
+  //     );
+  //   });
 
-    return (
-      <div className="reference" role="table"
-        aria-label="References" aria-describedby={this.referencesTableProps.id}>
-        <ReactTable
-          className="elements__table"
-          columns={columns}
-          data={data}
-          minRows={1}
-          showPagination={false}
-          resizable={false}
-          getProps={() => {
-            return this.referencesTableProps;
-          }}
-        />
-      </div>
-    );
-  }
+  //   return (
+  //     <div className="reference" role="table"
+  //       aria-label="References" aria-describedby={this.referencesTableProps.id}>
+  //       <ReactTable
+  //         className="elements__table"
+  //         columns={columns}
+  //         data={data}
+  //         minRows={1}
+  //         showPagination={false}
+  //         resizable={false}
+  //         getProps={() => {
+  //           return this.referencesTableProps;
+  //         }}
+  //       />
+  //     </div>
+  //   );
+  // }
 
   render() {
     const { subSection, closeModal, modalRole } = this.props;
@@ -122,13 +124,30 @@ export default class InfoModal extends Component<any, any> {
     const references = subSection.info.filter((el: any) => el.type === "reference");
 
     return (
+        
+
+
       <div className={`${modalRole}-modal`}>
-        <div className="info-modal__header">
+
+        <Modal.Header closeButton closeVariant='white' className="info-modal__header">
+          <Modal.Title>More Information for {subSection.name}</Modal.Title>
+        </Modal.Header>
+        {/* <div className="info-modal__header">
           More Information for {subSection.name}
           <FontAwesomeIcon icon="times" title="close" className="close-icon" onClick={closeModal} />
-        </div>
+        </div> */}
 
-        <div className="info-modal__body">
+<Modal.Body className="info-modal__body">
+  
+{elements != null &&
+            <div className="elements">
+              {this.renderElements(elements)}
+            </div>
+          }
+  
+  </Modal.Body>
+
+        {/* <div className="info-modal__body">
           {elements != null &&
             <div className="elements">
               {this.renderElements(elements)}
@@ -141,7 +160,7 @@ export default class InfoModal extends Component<any, any> {
               {this.renderReferences(references)}
             </div>
           }
-        </div>
+        </div> */}
       </div>
     );
   }

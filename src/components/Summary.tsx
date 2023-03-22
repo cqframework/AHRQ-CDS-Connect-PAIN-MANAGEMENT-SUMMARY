@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import ReactTooltip from "react-tooltip";
 import ReactTable, { Column } from "react-table";
 import ReactModal from "react-modal";
+import { Modal, Button } from "react-bootstrap";
 
 // import summaryMap from './summary.json';
 import summaryMap from "./summary.json";
@@ -28,6 +29,8 @@ export default class Summary extends Component<any, any> {
   // sortitHelper: any = sortit;
   summaryMapData: any = summaryMap;
   logged: boolean = false;
+  opioidWarning: boolean = false;
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -66,6 +69,7 @@ export default class Summary extends Component<any, any> {
 
   handleOpenModal = (modalSubSection: any, event: any, modalRole?: any) => {
     //only open modal   on 'enter' or click
+    // debugger;
     if (event.keyCode === 13 || event.type === "click") {
       this.setState({ showModal: true, modalSubSection, modalRole });
     }
@@ -187,13 +191,13 @@ export default class Summary extends Component<any, any> {
           entry.Location = locationWord.join(",");
         }
       }
-      if (
-        entry.PainYesNo &&
-        entry.PainYesNo !== null &&
-        entry.PainYesNo === true
-      ) {
-        entry.PainYesNo = "Y";
-      }
+      // if (
+      //   entry.PainYesNo &&
+      //   entry.PainYesNo !== null &&
+      //   entry.PainYesNo === true
+      // ) {
+      //   entry.PainYesNo = "Y";
+      // }
     });
     
     return entries;
@@ -244,7 +248,53 @@ export default class Summary extends Component<any, any> {
       
       const column: Column = {
         id: header,
-        Header: () => <span className="col-header">{header}</span>,
+        Header: () => <span className="col-header">
+            {header === "Opioids" ? 
+            <div
+            onClick={(event) => this.handleOpenModal(subSection, event, 'info')}
+            onKeyDown={(event) => this.handleOpenModal(subSection, event, 'info')}
+            role="button"
+            tabIndex={0}
+            aria-label={subSection.name}>
+              {header}
+              {subSection.recommendationText ? <FontAwesomeIcon
+                  className='info-icon mx-3'
+                  icon="info-circle"
+                  title={'more info: ' + subSection.name}
+                  data-tip="more info"
+                  role="tooltip"
+                  tabIndex={0}
+              /> : ''}
+          </div> :
+            header === "Non-Opioids" ? 
+            <div id="opioid-title">
+                                
+                                {subSection.info &&
+                                    <div
+                                        onClick={(event) => this.handleOpenModal(subSection, event, 'info')}
+                                        onKeyDown={(event) => this.handleOpenModal(subSection, event, 'info')}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-label={subSection.name}>
+                                          {header}
+                                        {subSection.recommendationText ? <FontAwesomeIcon
+                                            className='info-icon mx-3'
+                                            icon="info-circle"
+                                            title={'more info: ' + subSection.name}
+                                            data-tip="more info"
+                                            role="tooltip"
+                                            tabIndex={0}
+                                        /> : ''}
+                                    </div>
+                                }
+                                
+                            </div> 
+                
+          : header}
+
+            
+            
+            </span>,
 
         accessor: (entry: any) => {
           let value = entry[headerKey];
@@ -265,10 +315,10 @@ export default class Summary extends Component<any, any> {
         Cell: ({ value }) => {
           // check section and apply cell formatting accordingly
           if(value === "Very Severe" || value === "Very much"){
-            return <strong className="text-danger">{value} <FontAwesomeIcon icon={faExclamationTriangle} size="lg" title="toggle" className="warning-data" /></strong>
+            return <strong className="text-danger">{value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()}</strong>
           }
           if(value === "Severe" || value === "Quite a bit"){
-            return <span className="text-danger">{value}</span>
+            return <span className="text-danger">{value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()}</span>
           }
           return <span className="">{value}</span>
       },
@@ -379,79 +429,105 @@ export default class Summary extends Component<any, any> {
       }
 
       // Other Observations - conditions/ medications/ urine and drug sample header text 
-      if(section === "PertinentConditions"){
-        datatable = (
-        <p>Where is this data from? Problem list entries & visit diagnoses over past 12 months (may cause duplicates)</p>
-        );
-      } else if (subSection.dataKey === ""){
+    //   if(section === "PertinentConditions"){
+    //     datatable = (
+    //     <p>Where is this data from? Problem list entries & visit diagnoses over past 12 months (may cause duplicates)</p>
+    //     );
+    //   } else if (subSection.dataKey === ""){
 
-      } else if(subSection.dataKey === "")
-      {
+    //   } else if(subSection.dataKey === "")
+    //   {
 
-      } else {
+    //   } else {
 
-      // if (subSection.dataKey === "OpioidMedications") {
-      //   subSection.recommendationText = this.props.summary.CurrentPertinentTreatments.Recommendation3Text || null;
+      if (subSection.dataKey === "OpioidMedications") {
+        subSection.recommendationText = this.props.summary.CurrentPertinentTreatments.Recommendation3Text || null;
+
+        debugger;
         
-      //   if (this.props.summary.CurrentPertinentTreatments.Recommendation5Text) {
-      //     subSection.warningText = this.props.summary.CurrentPertinentTreatments.Recommendation5Text;
-      //   }
-      //   // Opioid Medications
-      //   datatable = (
-      //     <div id={subSection.dataKey} className="sub-section__header">
-      //       <div id="opioid-title">
-      //         <h3 className="opioid-name">
-      //           {/* {subSection.name} */}
-      //         </h3>
-      //         <div className="total-mme-link">
-      //           {/* <a
-      //             target="_blank"
-      //             rel="noopener noreferrer"
-      //             href="https://www.google.com/url?q=http://build.fhir.org/ig/cqframework/opioid-mme-r4/Library-MMECalculator.html&sa=D&ust=1603413553690000&usg=AFQjCNHoWmeK3G7VrDkxD7MeJI6A3syYYA"
-      //           >
-      //             {" "}
-      //             Total MME/Day:{" "}
-      //           </a> */}
-      //           <span>
-      //             {/* {this.props.summary.CurrentPertinentTreatments.CurrentMME[0]
-      //               .Result !== null
-      //               ? this.props.summary.CurrentPertinentTreatments
-      //                   .CurrentMME[0].Result
-      //               : "N/A"} */}
-      //           </span>
-      //         </div>
-      //       </div>
-      //     </div>
-      //   );
-      // } 
-      //else if (subSection.dataKey === "NonOpioidMedications") {
-      //   subSection.recommendationText =
-      //     this.props.summary.CurrentPertinentTreatments.Recommendation11Text ||
-      //     null;
+        if (this.props.summary.CurrentPertinentTreatments.Recommendation5Text) {
+          subSection.warningText = this.props.summary.CurrentPertinentTreatments.Recommendation5Text;
+          this.opioidWarning = true;
+        }
+        // Opioid Medications
+        datatable = (
+            <>
+              <div id={subSection.dataKey} className="sub-section__header">
+                <div id="opioid-title">
+                  {/* <h3 className="opioid-name">
+                    {subSection.name}
+                    {subSection.info &&
+                                        <div
+                                        onClick={(event) => this.handleOpenModal(subSection, event, 'info')}
+                                        onKeyDown={(event) => this.handleOpenModal(subSection, event, 'info')}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-label={subSection.name}>
+                                        {subSection.recommendationText ? <FontAwesomeIcon
+                                            className='info-icon'
+                                            icon="info-circle"
+                                            title={'more info: ' + subSection.name}
+                                            data-tip="more info"
+                                            role="tooltip"
+                                            tabIndex={0}
+                                        /> : ''}
+                                    </div>
+                                }
+              </h3> */}
+              
+              <div className="total-mme-link p-3 text-end">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.google.com/url?q=http://build.fhir.org/ig/cqframework/opioid-mme-r4/Library-MMECalculator.html&sa=D&ust=1603413553690000&usg=AFQjCNHoWmeK3G7VrDkxD7MeJI6A3syYYA"
+                >
+  
+                  Total MME/Day
+                </a>
+                {": "}
+                <span>
+                  {this.props.summary.CurrentPertinentTreatments.CurrentMME[0]
+                    .Result !== null
+                    ? this.props.summary.CurrentPertinentTreatments
+                        .CurrentMME[0].Result
+                    : "N/A"}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+</>
+        );
+        
+      } 
+      else if (subSection.dataKey === "NonOpioidMedications") {
+        subSection.recommendationText =
+          this.props.summary.CurrentPertinentTreatments.Recommendation11Text ||
+          null;
 
-      //             // Opioid Medications
-      //   datatable = (
-      //     <>
-      //       {/* <div>
-      //         *Self-reported medications are listed below when patients have
-      //         provided this information via MyPAIN.
-      //         <br />
-      //         *Active prescriptions do not include locally compounded
-      //         medications.
-      //         <br />
-      //         <h3> ACTIVE PRESCRIPTIONS</h3>
-      //       </div> */}
-      //       <div id={subSection.dataKey} className="sub-section__header">
+                  // Opioid Medications
+        datatable = (
+          <>
+            {/* <div>
+              *Self-reported medications are listed below when patients have
+              provided this information via MyPAIN.
+              <br />
+              *Active prescriptions do not include locally compounded
+              medications.
+              <br />
+              <h3> ACTIVE PRESCRIPTIONS</h3>
+            </div> */}
+            {/* <div id={subSection.dataKey} className="sub-section__header">
 
-      //         <div id="opioid-title">
-      //           <h3 className="opioid-name"> 
-      //             {/* {subSection.name} */}
-      //           </h3>
-      //         </div>
-      //       </div>
-      //     </>
-      //   );
-      // } else {
+              <div id="opioid-title">
+                <h3 className="opioid-name"> 
+                  {subSection.name}
+                </h3>
+              </div>
+            </div> */}
+          </>
+        );
+      } else {
         // Pain location and Intensity and treatments etc regular tables
 
         datatable = (
@@ -475,7 +551,6 @@ export default class Summary extends Component<any, any> {
             subSection.tables.map((table: any, index: any) =>
               this.renderTable(table, entries, section, subSection, index)
             )}
-           
         </div>
         {/* { section === "PertinentConditions" && 
         
@@ -488,6 +563,97 @@ export default class Summary extends Component<any, any> {
         </div>
       );
     });
+  }
+
+  renderInfo(section){
+    const sectionMap = this.summaryMapData[section];
+    let data;
+
+
+    if(section === 'PertinentConditions')
+    {
+     data = (
+        <div><p>Where is this data from? Problem list entries & visit diagnoses over past 12 months (may cause duplicates)</p></div>
+      )
+    }
+
+
+    if(section === 'CurrentPertinentTreatments' ){
+      data = (
+        <div>
+          <p>Where is this data from? From the medication list. Only includes NIH designated pain medications. Does not include locally compounded medications.</p>
+          <div className="">
+            <h3>Active Pain-Related Medications</h3>
+          </div>
+          
+          {sectionMap.map((subSection: any) => { 
+          return (
+                    subSection.dataKey === 'OpioidMedications' &&
+                      subSection.info && (
+                          <div className="alert alert-danger" role="alert">
+                            
+                            <div
+                            onClick={(event) => this.handleOpenModal(subSection, event, 'warning')}
+                            onKeyDown={(event) => this.handleOpenModal(subSection, event, 'warning')}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={subSection.name}>
+                              {subSection.warningText && 
+                              <div>
+                                <FontAwesomeIcon
+                                    className='warning-icon'
+                                    icon={faExclamationTriangle}
+                                    title={'warning: ' + subSection.name}
+                                    data-tip="warning"
+                                    role="tooltip"
+                                    tabIndex={0}
+                                />
+                                <span className="px-3">{subSection.name}: MME &#8807; 50</span>
+                              </div>
+                                }
+                            </div>
+                          </div>
+
+                      ) 
+                    
+          )
+            })
+          }
+        </div>
+      )}
+      // sectionMap.map((subSection: any) => { 
+      //   if (subSection.dataKey === 'OpioidMedications') {
+      //     {subSection.info && (
+      //      data = (
+      //         <div className="alert alert-danger" role="alert">
+      //           <div
+      //           onClick={(event) => this.handleOpenModal(subSection, event, 'warning')}
+      //           onKeyDown={(event) => this.handleOpenModal(subSection, event, 'warning')}
+      //           role="button"
+      //           tabIndex={0}
+      //           aria-label={subSection.name}>
+      //             {subSection.warningText && 
+      //             <div>
+      //               <FontAwesomeIcon
+      //                   className='warning-icon'
+      //                   icon={faExclamationTriangle}
+      //                   title={'warning: ' + subSection.name}
+      //                   data-tip="warning"
+      //                   role="tooltip"
+      //                   tabIndex={0}
+      //               />
+      //               <span className="px-3">{subSection.name}: MME &#8807; 50</span>
+      //             </div>
+      //               }
+      //           </div>
+      //         </div>
+      //       )
+      //     )} 
+      //   }})
+      // }
+
+
+    return data;
   }
 
   renderSectionHeader(section: string) {
@@ -557,7 +723,7 @@ export default class Summary extends Component<any, any> {
             <div className="card border-0 m-5x">
               <nav className="sections">
                 <div className="row nav nav-tabs border-bottom-0" id="nav-tab" role="tablist">
-                  <div className="col-6">
+                  <div className="col-12 col-md-6">
                     <div className="row patient">
                       <div className="col-12">
                       <p><strong>FROM PATIENT</strong> VIA MYPAIN (OCT 10, 2022)</p>
@@ -571,7 +737,7 @@ export default class Summary extends Component<any, any> {
                     </div>
                   </div>
                 
-                  <div className="col-6"> 
+                  <div className="col-12 col-md-6"> 
                     <div className="row treatment">
                       <div className="col-12">
                       <p><strong>FROM HEALTH RECORD</strong></p>
@@ -729,10 +895,21 @@ export default class Summary extends Component<any, any> {
                 <div className="tab-pane fade" id="nav-treatment-effectiveness" role="tabpanel" aria-labelledby="nav-treatment-effectiveness-tab">{this.renderSection("TreatmentEffectiveness")}</div>
                 <div className="tab-pane fade" id="nav-pertinent-conditions" role="tabpanel" aria-labelledby="nav-pertinent-conditions-tab">
                   {/* <p>Where is this data from? Problem list entries & visit diagnoses over past 12 months (may cause duplicates)</p> */}
+                 
+                  {this.renderInfo("PertinentConditions")}
                   {this.renderSection("PertinentConditions")} 
                   
                 </div>
-                <div className="tab-pane fade" id="nav-medications" role="tabpanel" aria-labelledby="nav-medications-tab">{this.renderSection("CurrentPertinentTreatments")}</div>
+                <div className="tab-pane fade" id="nav-medications" role="tabpanel" aria-labelledby="nav-medications-tab">
+                
+              
+              {this.renderInfo("CurrentPertinentTreatments")}
+              
+                                    
+             
+
+
+                  {this.renderSection("CurrentPertinentTreatments")}</div>
                 <div className="tab-pane fade" id="nav-urine-drug-screening" role="tabpanel" aria-labelledby="nav-urine-drug-screening-tab">{this.renderSection("UrineDrugScreening")}</div>
               </div>
             </div>
@@ -760,6 +937,31 @@ export default class Summary extends Component<any, any> {
           ) : (
             ""
           )} */}
+          {/* <ReactModal
+                        className="modal"
+                        overlayClassName="overlay"
+                        isOpen={this.state.showModal}
+                        onRequestClose={this.handleCloseModal}
+                        contentLabel="More Info"
+                        >
+                        <InfoModal
+                            closeModal={this.handleCloseModal}
+                            subSection={this.state.modalSubSection}
+                            modalRole={this.state.modalRole} />
+                    </ReactModal> */}
+
+
+                    <Modal size={"lg"} show={this.state.showModal} onHide={this.handleCloseModal}>
+                    <InfoModal
+                            closeModal={this.handleCloseModal}
+                            subSection={this.state.modalSubSection}
+                            modalRole={this.state.modalRole} />
+        {/* <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body> */}
+        
+      </Modal>
 
           {this.state.appConfig ? (
             <Footer key={this.state.appConfig} receiveTools={this.showTools}>
@@ -784,6 +986,9 @@ export default class Summary extends Component<any, any> {
             ""
           )}
 
+<ReactTooltip className="summary-tooltip" />
+
+                    
         </div>
       </div>
     );
