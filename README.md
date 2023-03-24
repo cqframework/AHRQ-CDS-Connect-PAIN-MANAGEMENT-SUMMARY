@@ -43,6 +43,16 @@ This CDS logic queries for several concepts that do not yet have standardized co
 
 Systems integrating the Pain Management Summary will need to expose the corresponding data as observations using the codes above.  As standardized codes become available, these local codes will be replaced.
 
+### To run an image from dockerhub
+The images for PainManger version are stored at [dockerhub](https://hub.docker.com/r/alphora/pain-manager). They may be used by running docker and specifying
+   ```
+   docker pull alphora/pain-manager:v0.10.0 
+   ```
+
+This image may be used by 
+   ```
+   docker run -p 80:80 pain-manager:v0.10.0 
+   ``` 
 ### To build and run in development:
 
 1. Install [Node.js](https://nodejs.org/en/download/) (LTS edition, currently 12.x)
