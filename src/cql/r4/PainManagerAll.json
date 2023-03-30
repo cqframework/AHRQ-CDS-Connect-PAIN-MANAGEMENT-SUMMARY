@@ -7743,6 +7743,15 @@
                } ]
             }
          }, {
+            "name" : "Use MMECalculator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+               "value" : "true",
+               "type" : "Literal"
+            }
+         }, {
             "name" : "ReportOpioidMedicationRequests",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -7812,20 +7821,34 @@
                      }, {
                         "name" : "MME",
                         "value" : {
-                           "name" : "MMEText",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "name" : "TotalMME",
-                              "libraryName" : "MMECalculator",
+                           "type" : "If",
+                           "condition" : {
+                              "name" : "Use MMECalculator",
+                              "type" : "ExpressionRef"
+                           },
+                           "then" : {
+                              "name" : "MMEText",
                               "type" : "FunctionRef",
                               "operand" : [ {
-                                 "type" : "List",
-                                 "element" : [ {
-                                    "name" : "O",
-                                    "type" : "AliasRef"
+                                 "name" : "TotalMME",
+                                 "libraryName" : "MMECalculator",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "type" : "List",
+                                    "element" : [ {
+                                       "name" : "O",
+                                       "type" : "AliasRef"
+                                    } ]
                                  } ]
                               } ]
-                           } ]
+                           },
+                           "else" : {
+                              "asType" : "{urn:hl7-org:elm-types:r1}String",
+                              "type" : "As",
+                              "operand" : {
+                                 "type" : "Null"
+                              }
+                           }
                         }
                      }, {
                         "name" : "Sig",
@@ -8133,20 +8156,34 @@
                      }, {
                         "name" : "MME",
                         "value" : {
-                           "name" : "MMEText",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "name" : "TotalMME",
-                              "libraryName" : "MMECalculator",
+                           "type" : "If",
+                           "condition" : {
+                              "name" : "Use MMECalculator",
+                              "type" : "ExpressionRef"
+                           },
+                           "then" : {
+                              "name" : "MMEText",
                               "type" : "FunctionRef",
                               "operand" : [ {
-                                 "type" : "List",
-                                 "element" : [ {
-                                    "name" : "O",
-                                    "type" : "AliasRef"
+                                 "name" : "TotalMME",
+                                 "libraryName" : "MMECalculator",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "type" : "List",
+                                    "element" : [ {
+                                       "name" : "O",
+                                       "type" : "AliasRef"
+                                    } ]
                                  } ]
                               } ]
-                           } ]
+                           },
+                           "else" : {
+                              "asType" : "{urn:hl7-org:elm-types:r1}String",
+                              "type" : "As",
+                              "operand" : {
+                                 "type" : "Null"
+                              }
+                           }
                         }
                      }, {
                         "name" : "Sig",
@@ -10752,13 +10789,27 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "name" : "TotalMME",
-               "libraryName" : "MMECalculator",
-               "type" : "FunctionRef",
-               "operand" : [ {
-                  "name" : "ActiveOpioidMedications",
+               "type" : "If",
+               "condition" : {
+                  "name" : "Use MMECalculator",
                   "type" : "ExpressionRef"
-               } ]
+               },
+               "then" : {
+                  "name" : "TotalMME",
+                  "libraryName" : "MMECalculator",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ActiveOpioidMedications",
+                     "type" : "ExpressionRef"
+                  } ]
+               },
+               "else" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Quantity",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  }
+               }
             }
          }, {
             "name" : "ReportCurrentMME",

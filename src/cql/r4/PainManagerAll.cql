@@ -1086,7 +1086,7 @@ define ReportOpioidMedicationRequests:
     Name:  ConceptText(O.medication as FHIR.CodeableConcept),
     Start: DateTimeText(O.authoredOn),
     End: null as String, // MedicationRequest end date not supported in R4,
-    MME: MMEText(MMECalculator.TotalMME(List{O})),
+    MME: if "Use MMECalculator" then MMEText(MMECalculator.TotalMME(List{O})) else null,
     Sig: (singleton from (O.dosageInstruction)).text,
     Status: O.status.value
   }
@@ -1362,7 +1362,7 @@ define ReportNaloxoneMedicationRequests:
     Name:  ConceptText(O.medication as FHIR.CodeableConcept),
     Start: DateTimeText(O.authoredOn),
     End:   null as String, // MedicationRequest end date not supported in R4,
-    MME: MMEText(MMECalculator.TotalMME(List{O})),
+    MME: if "Use MMECalculator" then MMEText(MMECalculator.TotalMME(List{O})) else null,
     Sig: (singleton from (O.dosageInstruction)).text,
     Status: O.status.value
   }
@@ -1478,7 +1478,7 @@ define TestActiveOpioidMedications2:
 */
 
 define CurrentMME:
-  MMECalculator.TotalMME(ActiveOpioidMedications)
+  if "Use MMECalculator" then MMECalculator.TotalMME(ActiveOpioidMedications) else null
 
 define ReportCurrentMME:
 ({
