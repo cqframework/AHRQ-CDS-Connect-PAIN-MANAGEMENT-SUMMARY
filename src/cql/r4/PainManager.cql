@@ -36,6 +36,7 @@ codesystem "LOINC": 'http://loinc.org'
 codesystem "SNOMED-CT": 'http://snomed.info/sct'
 
 codesystem "MyPAIN Questionnaire Codes": 'http://fhir.org/guides/cqf/cds4cpm/CodeSystem/mypain-questionnaire-codes'
+codesystem "MyPAIN QuestionnaireResponse Codes": 'http://fhir.org/guides/cqf/cds4cpm/CodeSystem/mypain-questionnaireresponse-codes'
 
 valueset "MyPAIN All Questionnaire Codes": 'http://fhir.org/guides/cqf/cds4cpm/ValueSet/mypain-all-questionnaire-codes'
 valueset "MyPAIN All QuestionnaireResponse Codes": 'http://fhir.org/guides/cqf/cds4cpm/ValueSet/mypain-all-questionnaireresponse-codes'
@@ -57,6 +58,11 @@ code "painLocationLowerLegs": 'mpq-1050' from "MyPAIN Questionnaire Codes" displ
 code "painLocationFeet": 'mpq-1051' from "MyPAIN Questionnaire Codes" display 'Foot pain location'
 code "painLocationEverywhere": 'mpq-1052' from "MyPAIN Questionnaire Codes" display 'Everywhere pain location'
 code "painLocationOther": 'mpq-1053' from "MyPAIN Questionnaire Codes" display 'Other pain location'
+code "painLocationBack": 'mpq-1066' from "MyPAIN Questionnaire Codes" display 'Back pain location'
+code "painLocationHandsWrist": 'mpq-1067' from "MyPAIN Questionnaire Codes" display 'Hands/Wrist pain location'
+code "painLocationAbdomenPelvis": 'mpq-1068' from "MyPAIN Questionnaire Codes" display 'Abdomen/Pelvis pain location'
+code "painLocationFeetAnkles": 'mpq-1069' from "MyPAIN Questionnaire Codes" display 'Feet/Ankles pain location'
+
 code "flatTiresVideo": 'mpq-1061' from "MyPAIN Questionnaire Codes" display 'Did the patient view the 4 flat tires video'
 code "cdcLink": 'mpq-1062' from "MyPAIN Questionnaire Codes" display 'Did the patient access the US Chronic Pain website'
 
@@ -104,11 +110,66 @@ code "cbdOil": 'mpq-1060' from "MyPAIN Questionnaire Codes" display 'How often h
 code "musicTherapy": 'mpq-1033' from "MyPAIN Questionnaire Codes" display 'How often has Music therapy helped'
 code "otherNewTreatments": 'mpq-1034' from "MyPAIN Questionnaire Codes" display 'Have you tried any Other new treatments'
 
+code "otcMedications": 'mpq-1070' from "MyPAIN Questionnaire Codes" display 'Over-the-counter pain reliever (such as Advil, Aleve, Aspirin, Ibuprofen, Motrin, or Tylenol)'
+code "prescriptionNonsteroidal": 'mpq-1071' from "MyPAIN Questionnaire Codes" display 'display": "Prescription nonsteroidal anti-inflammatory (such as Celebrex)'
+code "prescriptionNervePainMed": 'mpq-1072' from "MyPAIN Questionnaire Codes" display 'Prescription nerve pain medication (such as Lyrica, Neurontin, or Cymbalta)'
+code "prescriptionMuscleRelaxantMed": 'mpq-1073' from "MyPAIN Questionnaire Codes" display 'Prescription muscle relaxant (such as Soma or Baclofen)'
+code "prescriptionOpioidMed": 'mpq-1074' from "MyPAIN Questionnaire Codes" display 'Prescription opioid medication (such as Vicodin, hydrocodone, oxycodone, codeine, morphine, or tramadol)'
+code "otherMedicationTried": 'mpq-1075' from "MyPAIN Questionnaire Codes" display 'Other: describe other medications youve tried for pain'
+code "noMedicationsTried": 'mpq-1076' from "MyPAIN Questionnaire Codes" display 'I havent tried any medications for pain.'
+code "noSpecialistsSeen": 'mpq-1077' from "MyPAIN Questionnaire Codes" display 'I havent seen any specialists for pain'
+code "dryNeedling": 'mpq-1078' from "MyPAIN Questionnaire Codes" display 'Dry needling or cupping'
+code "acupunctureTx": 'mpq-1079' from "MyPAIN Questionnaire Codes" display 'Acupuncture'
+code "noTreatmentsTried": 'mpq-1080' from "MyPAIN Questionnaire Codes" display 'I havent tried any procedures or physical treatments for pain.'
+code "noTopicalTxTried": 'mpq-1081' from "MyPAIN Questionnaire Codes" display 'I havent tried any topical treatments or devices for pain.'
+code "noLifestyleChanges": 'mpq-1082' from "MyPAIN Questionnaire Codes" display 'I havent tried any lifestyle changes for pain.'
+code "topicalTxTried": 'mpq-1083' from "MyPAIN Questionnaire Codes" display 'What topical treatments or devices have you tried for pain?'
+code "alternativeTxTried": 'mpq-1084' from "MyPAIN Questionnaire Codes" display 'What alternative treatments have you tried for pain?'
+code "noALternativeTxTried": 'mpq-1085' from "MyPAIN Questionnaire Codes" display 'I havent tried any alternative treatments for pain'
+code "specialistsSeen": 'mpq-1086' from "MyPAIN Questionnaire Codes" display 'What specialists have you seen for pain?'
+code "chiropractorSpecialist": 'mpq-1087' from "MyPAIN Questionnaire Codes" display 'Chiropractor'
+code "physicalTherapist": 'mpq-1088' from "MyPAIN Questionnaire Codes" display 'Physical therapist'
+code "painManagementSpecialist": 'mpq-1089' from "MyPAIN Questionnaire Codes" display 'Pain management specialist'
+code "orthopedist": 'mpq-1090' from "MyPAIN Questionnaire Codes" display 'Orthopedist'
+code "psychologist": 'mpq-1091' from "MyPAIN Questionnaire Codes" display 'Psychologist or counselor'
+code "integrativeMedicineSpecialist": 'mpq-1092' from "MyPAIN Questionnaire Codes" display 'Integrative medicine specialist'
+code "otherSpecialists": 'mpq-1093' from "MyPAIN Questionnaire Codes" display 'Other: describe other specialists you have seen for pain (such as neurologist, spine doctor rheumatologist, or physiatrist)'
+code "surgery": 'mpq-1094' from "MyPAIN Questionnaire Codes" display 'Surgery'
+code "injection": 'mpq-1095' from "MyPAIN Questionnaire Codes" display 'Injection (such as a shot to relieve inflammation)'
+code "massageTx": 'mpq-1096' from "MyPAIN Questionnaire Codes" display 'Massage'
+code "otherTreatments": 'mpq-1097' from "MyPAIN Questionnaire Codes" display 'Other: describe other procedures or physical treatments youve tried for pain'
+code "heatOrIceTx": 'mpq-1' from "MyPAIN Questionnaire Codes" display 'Heat and/or ice'
+code "topicalMedications": 'mpq-1100' from "MyPAIN Questionnaire Codes" display 'Topical medications (such as creams, lotions, gel, patches, Bengay, Tiger Balm, Salonpas, Biofreeze, or Lidoderm)'
+code "tensUnit": 'mpq-1101' from "MyPAIN Questionnaire Codes" display 'TENs unit'
+code "bracing": 'mpq-1102' from "MyPAIN Questionnaire Codes" display 'Bracing'
+code "otherTopicalTx": 'mpq-1103' from "MyPAIN Questionnaire Codes" display 'Other: describe other topical treatments or devices youve tried for pain'
+code "exerciseOrStretching": 'mpq-1104' from "MyPAIN Questionnaire Codes" display 'Exercises or stretching (such as walking, yoga, water aerobics)'
+code "dietOrHydration": 'mpq-1105' from "MyPAIN Questionnaire Codes" display 'Diet or hydration (such as an anti-inflammatory diet or drinking enough water)'
+code "weightLossTx": 'mpq-1106' from "MyPAIN Questionnaire Codes" display 'Weight loss'
+code "stressReduction": 'mpq-1107' from "MyPAIN Questionnaire Codes" display 'Stress reduction (such as relaxation, meditation, mindfulness, laughter)'
+code "postureOrErgonomics": 'mpq-1108' from "MyPAIN Questionnaire Codes" display 'Posture or ergonomics'
+code "otherLifestyleChanges": 'mpq-1109' from "MyPAIN Questionnaire Codes" display 'Other: describe other lifestyle changes youve tried for pain'
+code "herbalTx": 'mpq-1110' from "MyPAIN Questionnaire Codes" display 'Herbal treatments or supplements (such as ginseng or kava kava)'
+code "aromatherapyTx": 'mpq-1111' from "MyPAIN Questionnaire Codes" display 'Aromatherapy'
+code "cbdOilTx": 'mpq-1112' from "MyPAIN Questionnaire Codes" display 'CBD oil'
+code "marijuana": 'mpq-1113' from "MyPAIN Questionnaire Codes" display 'Marijuana used for medical purposes'
+code "otherAlternativeTx": 'mpq-1114' from "MyPAIN Questionnaire Codes" display 'Other: describe other alternative treatments youve tried for pain'
+code "activityGoals": 'mpq-1115' from "MyPAIN Questionnaire Codes" display 'Activity Goals: what goals do you have for your daily activities?'
+code "barriersActivityGoals": 'mpq-1116' from "MyPAIN Questionnaire Codes" display 'Activity Goals: what are the biggest barriers to achieving your daily activity goals?'
+
 code "physicalTreatmentsOther": 'mpq-1054' from "MyPAIN Questionnaire Codes" display 'Other physical treatment'
 code "prescriptionOther": 'mpq-1057' from "MyPAIN Questionnaire Codes" display 'Other prescription treatment'
 code "newTreatmentOther": 'mpq-1059' from "MyPAIN Questionnaire Codes" display 'Other new treatment'
 code "painGoal": 'mpq-1035' from "MyPAIN Questionnaire Codes" display 'Pain Goal'
 code "goalBarriers": 'mpq-1036' from "MyPAIN Questionnaire Codes" display 'Goal Barriers'
+
+  // Codes from MyPAIN QuestionnaireResponse Codes
+code "notAtAllEffective": 'mpqr-1019' from "MyPAIN QuestionnaireResponse Codes" display 'Not at all'
+code "slightlyEffective": 'mpqr-1020' from "MyPAIN QuestionnaireResponse Codes" display 'Slightly'
+code "moderatelyEffective": 'mpqr-1021' from "MyPAIN QuestionnaireResponse Codes" display 'Moderately'
+code "greatlyEffective": 'mpqr-1022' from "MyPAIN QuestionnaireResponse Codes" display 'Greatly'
+
+parameter InclusionMedicationsLookbackPeriod default 180 days
 
 concept "Questionnaire response Document":
   { "Questionnaire response Document code" } display 'Questionnaire response Document'
@@ -121,7 +182,7 @@ define ActiveOpioidMedications:
   C3F.ActiveMedicationRequest([MedicationRequest: Cx."Opioid Pain Medications"])
 
 define CurrentMME:
-  MMECalculator.TotalMME(ActiveOpioidMedications)
+  if "Use MMECalculator" then MMECalculator.TotalMME(ActiveOpioidMedications) else null
 
 define ReportCurrentMME:
 ({
@@ -170,21 +231,10 @@ define QuestionnaireObservations:
 
 //TODO - eventually this needs to walk thru nested items beyond 2
 define function QuestionTextByLinkId(Obs FHIR.Observation):
-  ([Questionnaire] Q where Q.id = 'mypain-questionnaire') singleQ
+  ([Questionnaire] Q where Q.id = 'mypain-questionnaire-ufl') singleQ
 return (Coalesce(singleQ.item.item, singleQ.item)) QItem
     where QItem.linkId = Obs.extension[0].extension[0].value as FHIR.string
       return QItem.prefix
-
-
-
-/*
-MyPAINSubmitDate: ReportMyPAINSubmitDate,
-ActivityGoals: ReportActivityGoals,
-ActivityBarriers: ReportActivityBarriers,
-PainLocations: ReportPainLocations,
-PainIntensityAndInterference: ReportPainIntensityAndInterference,
-ResourcesProvidedInMyPAIN: ReportResourcesProvidedInMyPAIN
-*/
 
 // NOTE: This should NOT use the QuestionnaireResponse, it should use the MyPAINSubmitDate Observation
 define ReportMyPAINSubmitDate:
@@ -198,6 +248,42 @@ define ReportActivityGoals:
 define ReportActivityBarriers:
 (QuestionnaireObservations) qrOb where qrOb.code.coding[0].code.value = 'mpq-1036'
   return qrOb.value
+
+define function GetSimpleText(qrOb FHIR.Observation):
+  case
+    when qrOb.code ~ painLocationHead then 'Head'
+    when qrOb.code ~ painLocationNeck then 'Neck'
+    when qrOb.code ~ painLocationShoulders then 'Shoulders'
+    when qrOb.code ~ painLocationArms then 'Arms'
+    when qrOb.code ~ painLocationUpperBack then 'Upper Back'
+    when qrOb.code ~ painLocationLowerBack  then 'Lower Back'
+    when qrOb.code ~ painLocationHands then 'Hands'
+    when qrOb.code ~ painLocationAbdomen then 'Abdomen'
+    when qrOb.code ~ painLocationPelvis then 'Pelvis'
+    when qrOb.code ~ painLocationHips then 'Hips'
+    when qrOb.code ~ painLocationUpperLegs then 'Upper Legs'
+    when qrOb.code ~ painLocationKnees then 'Knees'
+    when qrOb.code ~ painLocationLowerLegs then 'Lower Legs'
+    when qrOb.code ~ painLocationFeet then 'Feet'
+    when qrOb.code ~ painLocationEverywhere then 'Everywhere'
+    when qrOb.code ~ painLocationBack then 'Back'
+    when qrOb.code ~ painLocationHandsWrist then 'Hands/Wrist'
+    when qrOb.code ~ painLocationAbdomenPelvis then 'Abdoment/Pelvis'
+    when qrOb.code ~ painLocationFeetAnkles then 'Feet/Ankles'
+    when qrOb.code ~ worstPain then 'At its worst (past 7 days)'
+    when qrOb.code ~ averagePain then 'Average Pain (past 7 days'
+    when qrOb.code ~ painRightNow then 'Current Pain'
+    when qrOb.code ~ dayToDay then 'Day to day activities'
+    when qrOb.code ~ homeWork then 'Work around the home'
+    when qrOb.code ~ socialActivities then 'Ability to participate in social activities'
+    when qrOb.code ~ householdChores then 'Household chores'
+    when qrOb.code ~ funActivities then 'Things you usually do for fun'
+    when qrOb.code ~ enjoySocial then 'Enjoyment of social activities'
+    when qrOb.code ~ enjoyLife then 'Enjoyment of life'
+    when qrOb.code ~ enjoyFamily then 'Family life'
+
+    else ''
+  end
 
 // Data from the most recent PainLocation Observations
 define ReportPainLocations:
@@ -217,12 +303,17 @@ define ReportPainLocations:
         or qrOb.code ~ painLocationLowerLegs
         or qrOb.code ~ painLocationFeet
         or qrOb.code ~ painLocationEverywhere
-        or qrOb.code ~ painLocationOther)
+        or qrOb.code ~ painLocationBack
+        or qrOb.code ~ painLocationHandsWrist
+        or qrOb.code ~ painLocationAbdomenPelvis
+        or qrOb.code ~ painLocationFeetAnkles
+        )
     return
       {
         Location: qrOb.code.coding[0].display.value,
+        SimpleLocation: GetSimpleText(qrOb),
         PainYesNo: true,
-        Description: ObservationValue(qrOb)
+        Description: Combine(qrOb.value.coding.display, ', ')
       }
 
 // Data from the most recent PainIntensityAndInteference Observations
@@ -243,6 +334,35 @@ define ReportPainIntensityAndInterference:
   {
     Question: qrOb.code.coding[0].display.value,
     Response: ObservationValue(qrOb)
+  }
+
+define ReportPainIntensity:
+    (QuestionnaireObservations) qrOb where
+        (qrOb.code ~ worstPain
+        or qrOb.code ~ averagePain
+        or qrOb.code ~ painRightNow)
+    return
+    {
+        Question: qrOb.code.coding[0].display.value,
+        Response: ObservationValue(qrOb),
+        SimpleText: GetSimpleText(qrOb)
+    }
+
+    define ReportPainInterference:
+    (QuestionnaireObservations) qrOb where
+        (qrOb.code ~ dayToDay
+        or qrOb.code ~ homeWork
+        or qrOb.code ~ socialActivities
+        or qrOb.code ~ householdChores
+        or qrOb.code ~ funActivities
+        or qrOb.code ~ enjoySocial
+        or qrOb.code ~ enjoyLife
+        or qrOb.code ~ enjoyFamily)
+  return
+  {
+    Question: qrOb.code.coding[0].display.value,
+    Response: ObservationValue(qrOb),
+    SimpleText: GetSimpleText(qrOb)
   }
 
   define function GetResourceURL(qrOb Observation):
@@ -304,8 +424,79 @@ define ReportSelfReportedTreatmentsFromMyPAIN:
     return
     {
         Treatment: QuestionTextByLinkId(qrOb)[0].value[0],
+        Effectiveness: ObservationValue(qrOb),
+        QRCode: qrOb.code,
+        mpqrValue: qrOb.value.coding[0].code
+    }
+
+    // Data from the most recent self reported MyPAIN observations that are self reported treatments
+define TreatmentObservationsFromMyPain:
+  (QuestionnaireObservations) qrOb where
+        (qrOb.code ~ otcMedications
+        )
+  return{
+        Treatment: QuestionTextByLinkId(qrOb)[0].value[0],
         Effectiveness: ObservationValue(qrOb)
     }
+
+
+    // Data from the most recent self reported MyPAIN observations - treatments not tried
+define ReportNotTriedTx:
+    (QuestionnaireObservations) qrOb where
+      ((qrOb.code ~ noMedicationsTried and qrOb.value = true)
+      or (qrOb.code ~ noSpecialistsSeen and qrOb.value = true)
+      or (qrOb.code ~ noTreatmentsTried and qrOb.value = true)
+      or (qrOb.code ~ noTopicalTxTried and qrOb.value = true)
+      or (qrOb.code ~ noLifestyleChanges and qrOb.value = true)
+      or (qrOb.code~ noALternativeTxTried and qrOb.value = true))
+//      (qrOb.code is CodeableConcept and (qrOb.code as CodeableConcept) ~ noMedicationsTried)
+//(qrOb.code is CodeableConcept and ((qrOb.code as CodeableConcept) ~ "noMedicationsTried"  )
+      return{
+        Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
+      }
+
+define ReportGreatlyEffectiveTx:
+    (QuestionnaireObservations) qrOb where
+    ((qrOb.value as CodeableConcept) ~ greatlyEffective)
+      return{
+        Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
+      }
+
+define ReportModeratelyEffectiveTx:
+    (QuestionnaireObservations) qrOb where
+    ((qrOb.value as CodeableConcept) ~ moderatelyEffective)
+      return{
+        Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
+      }
+
+define ReportSlightlyEffectiveTx:
+    (QuestionnaireObservations) qrOb where
+    ((qrOb.value as CodeableConcept) ~ slightlyEffective)
+      return{
+        Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
+      }
+define ReportNotEffectiveTx:
+    (QuestionnaireObservations) qrOb where
+      ((qrOb.value as CodeableConcept) ~ notAtAllEffective)
+      return{
+        Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
+      }
+
+define ReportOtherTx:
+    (QuestionnaireObservations) qrOb where
+      (qrOb.code ~ otherMedicationTried
+      or qrOb.code ~ otherSpecialists
+      or qrOb.code ~ otherTreatments
+      or qrOb.code ~ otherTopicalTx
+      or qrOb.code ~ otherLifestyleChanges
+      or qrOb.code ~ otherAlternativeTx
+      or qrOb.code ~ otherOTC
+      or qrOb.code ~ otherNewTreatments
+      or qrOb.code ~ newTreatmentOther)
+      return{
+        Response: ObservationValue(qrOb)
+      }
+
 
 // ******************************* Decision Logic ******************************
 
@@ -442,7 +633,14 @@ Activity Barriers
 | Resource | Viewed On |
 
 */
+// Control flags -- These actually belong in a Config.cql file (similar to the config file in opioid-cds-r4 IG), but this app is not processing it correctly.
+define "Only Active Medications":
+    true
 
+define "Use MMECalculator":
+    true
+
+// Return results for use in application
 define Summary: {
    Patient: {
     Name: Combine(Patient.name.given G return G.value, ' ') + ' ' + Combine(Patient.name.family F return F.value, ' '),
@@ -467,6 +665,14 @@ define Summary: {
     Recommendation5Text: ReportRecommendation5Text,
     Recommendation11Text: ReportRecommendation11Text
   },
+  TreatmentEffectiveness: {
+    NotTriedTx: ReportNotTriedTx,
+    GreatlyEffectiveTx: ReportGreatlyEffectiveTx,
+    ModeratelyEffectiveTx: ReportModeratelyEffectiveTx,
+    SlightlyEffectiveTx: ReportSlightlyEffectiveTx,
+    NotEffectiveTx: ReportNotEffectiveTx,
+    OtherTx: ReportOtherTx
+  },
   UrineDrugScreening: {
     UrineDrugScreens: F2C.ReportUrineDrugScreens,
     Recommendation10Text: ReportRecommendation10Text
@@ -476,6 +682,8 @@ define Summary: {
     ActivityGoals: ReportActivityGoals,
     ActivityBarriers: ReportActivityBarriers,
     PainLocations: ReportPainLocations,
+    PainIntensity: ReportPainIntensity,
+    PainInterference: ReportPainInterference,
     PainIntensityAndInterference: ReportPainIntensityAndInterference,
     ResourcesProvidedInMyPAIN: ReportResourcesProvidedInMyPAIN
   }

@@ -1,6 +1,7 @@
 {
    "library" : {
       "annotation" : [ {
+         "translatorVersion" : "2.7.0-SNAPSHOT",
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       } ],
@@ -368,8 +369,7 @@
                         },
                         "valueset" : {
                            "name" : "Oncology specialty designations (NUCC)",
-                           "libraryName" : "Common",
-                           "type" : "ValueSetRef"
+                           "libraryName" : "Common"
                         }
                      }
                   }
@@ -515,8 +515,7 @@
                               },
                               "valueset" : {
                                  "name" : "Oncology specialty designations (NUCC)",
-                                 "libraryName" : "Common",
-                                 "type" : "ValueSetRef"
+                                 "libraryName" : "Common"
                               }
                            }, {
                               "type" : "Exists",
@@ -825,15 +824,28 @@
                "source" : [ {
                   "alias" : "Statement",
                   "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                     "codeProperty" : "medication",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Opioid analgesics with ambulatory misuse potential",
-                        "libraryName" : "Common",
-                        "type" : "ValueSetRef"
-                     }
+                     "type" : "Union",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                        "codeProperty" : "medication",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Opioid analgesics with ambulatory misuse potential",
+                           "libraryName" : "Common",
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                        "codeProperty" : "medication",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Opioid analgesics with ambulatory misuse potential",
+                           "libraryName" : "Common",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
                   }
                } ],
                "relationship" : [ ],
@@ -912,15 +924,28 @@
                "source" : [ {
                   "alias" : "OpioidDispense",
                   "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                     "codeProperty" : "medication",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Opioid analgesics with ambulatory misuse potential",
-                        "libraryName" : "Common",
-                        "type" : "ValueSetRef"
-                     }
+                     "type" : "Union",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                        "codeProperty" : "medication",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Opioid analgesics with ambulatory misuse potential",
+                           "libraryName" : "Common",
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                        "codeProperty" : "medication",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Opioid analgesics with ambulatory misuse potential",
+                           "libraryName" : "Common",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
                   }
                } ],
                "relationship" : [ ],
@@ -1045,58 +1070,54 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
+                  "type" : "And",
+                  "operand" : [ {
                      "type" : "And",
                      "operand" : [ {
-                        "type" : "And",
-                        "operand" : [ {
-                           "type" : "Not",
+                        "type" : "Not",
+                        "operand" : {
+                           "type" : "IsNull",
                            "operand" : {
-                              "type" : "IsNull",
-                              "operand" : {
-                                 "path" : "authoredOn",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "name" : "prescription",
-                                    "type" : "OperandRef"
-                                 }
+                              "path" : "authoredOn",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "prescription",
+                                 "type" : "OperandRef"
                               }
                            }
-                        }, {
-                           "type" : "Not",
-                           "operand" : {
-                              "type" : "IsNull",
-                              "operand" : {
-                                 "path" : "dispenseRequest",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "name" : "prescription",
-                                    "type" : "OperandRef"
-                                 }
-                              }
-                           }
-                        } ]
+                        }
                      }, {
                         "type" : "Not",
                         "operand" : {
                            "type" : "IsNull",
                            "operand" : {
-                              "path" : "expectedSupplyDuration",
+                              "path" : "dispenseRequest",
                               "type" : "Property",
                               "source" : {
-                                 "path" : "dispenseRequest",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "name" : "prescription",
-                                    "type" : "OperandRef"
-                                 }
+                                 "name" : "prescription",
+                                 "type" : "OperandRef"
                               }
                            }
                         }
                      } ]
-                  }
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "type" : "IsNull",
+                        "operand" : {
+                           "path" : "expectedSupplyDuration",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "dispenseRequest",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "prescription",
+                                 "type" : "OperandRef"
+                              }
+                           }
+                        }
+                     }
+                  } ]
                },
                "then" : {
                   "lowClosed" : true,
@@ -1207,15 +1228,28 @@
                            "source" : [ {
                               "alias" : "OpioidPrescription",
                               "expression" : {
-                                 "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                                 "codeProperty" : "medication",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Opioid analgesics with ambulatory misuse potential",
-                                    "libraryName" : "Common",
-                                    "type" : "ValueSetRef"
-                                 }
+                                 "type" : "Union",
+                                 "operand" : [ {
+                                    "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                    "codeProperty" : "medication",
+                                    "codeComparator" : "in",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Opioid analgesics with ambulatory misuse potential",
+                                       "libraryName" : "Common",
+                                       "type" : "ValueSetRef"
+                                    }
+                                 }, {
+                                    "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                    "codeProperty" : "medication",
+                                    "codeComparator" : "in",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Opioid analgesics with ambulatory misuse potential",
+                                       "libraryName" : "Common",
+                                       "type" : "ValueSetRef"
+                                    }
+                                 } ]
                               }
                            } ],
                            "relationship" : [ ],

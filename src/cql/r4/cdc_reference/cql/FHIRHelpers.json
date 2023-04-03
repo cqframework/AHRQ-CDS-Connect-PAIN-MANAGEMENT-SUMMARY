@@ -1,6 +1,7 @@
 {
    "library" : {
       "annotation" : [ {
+         "translatorVersion" : "2.7.0-SNAPSHOT",
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       } ],
@@ -31,14 +32,10 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "IsNull",
                   "operand" : {
-                     "type" : "IsNull",
-                     "operand" : {
-                        "name" : "period",
-                        "type" : "OperandRef"
-                     }
+                     "name" : "period",
+                     "type" : "OperandRef"
                   }
                },
                "then" : {
@@ -99,14 +96,10 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "IsNull",
                   "operand" : {
-                     "type" : "IsNull",
-                     "operand" : {
-                        "name" : "quantity",
-                        "type" : "OperandRef"
-                     }
+                     "name" : "quantity",
+                     "type" : "OperandRef"
                   }
                },
                "then" : {
@@ -165,14 +158,10 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "IsNull",
                   "operand" : {
-                     "type" : "IsNull",
-                     "operand" : {
-                        "name" : "range",
-                        "type" : "OperandRef"
-                     }
+                     "name" : "range",
+                     "type" : "OperandRef"
                   }
                },
                "then" : {
@@ -233,14 +222,10 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "IsNull",
                   "operand" : {
-                     "type" : "IsNull",
-                     "operand" : {
-                        "name" : "coding",
-                        "type" : "OperandRef"
-                     }
+                     "name" : "coding",
+                     "type" : "OperandRef"
                   }
                },
                "then" : {
@@ -327,14 +312,10 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "IsNull",
                   "operand" : {
-                     "type" : "IsNull",
-                     "operand" : {
-                        "name" : "concept",
-                        "type" : "OperandRef"
-                     }
+                     "name" : "concept",
+                     "type" : "OperandRef"
                   }
                },
                "then" : {

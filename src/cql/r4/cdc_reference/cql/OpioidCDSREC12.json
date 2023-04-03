@@ -1,6 +1,7 @@
 {
    "library" : {
       "annotation" : [ {
+         "translatorVersion" : "2.7.0-SNAPSHOT",
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       } ],
@@ -126,15 +127,28 @@
                            "source" : [ {
                               "alias" : "MR",
                               "expression" : {
-                                 "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                                 "codeProperty" : "medication",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Buprenorphine and methadone medications",
-                                    "libraryName" : "Common",
-                                    "type" : "ValueSetRef"
-                                 }
+                                 "type" : "Union",
+                                 "operand" : [ {
+                                    "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                    "codeProperty" : "medication",
+                                    "codeComparator" : "in",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Buprenorphine and methadone medications",
+                                       "libraryName" : "Common",
+                                       "type" : "ValueSetRef"
+                                    }
+                                 }, {
+                                    "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                    "codeProperty" : "medication",
+                                    "codeComparator" : "in",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Buprenorphine and methadone medications",
+                                       "libraryName" : "Common",
+                                       "type" : "ValueSetRef"
+                                    }
+                                 } ]
                               }
                            } ],
                            "relationship" : [ ],
@@ -436,12 +450,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "Is Recommendation Applicable?",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Is Recommendation Applicable?",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}String",
@@ -463,12 +473,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "Is Recommendation Applicable?",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Is Recommendation Applicable?",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}String",
@@ -490,12 +496,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "Is Recommendation Applicable?",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Is Recommendation Applicable?",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "type" : "Null"

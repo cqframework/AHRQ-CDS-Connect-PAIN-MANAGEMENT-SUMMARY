@@ -1,6 +1,7 @@
 {
    "library" : {
       "annotation" : [ {
+         "translatorVersion" : "2.7.0-SNAPSHOT",
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       } ],
@@ -188,12 +189,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "Is Recommendation Applicable?",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Is Recommendation Applicable?",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}String",
@@ -215,12 +212,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "Is Recommendation Applicable?",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Is Recommendation Applicable?",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}String",
@@ -242,22 +235,14 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "Is Recommendation Applicable?",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Is Recommendation Applicable?",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "type" : "If",
                   "condition" : {
-                     "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                     "type" : "As",
-                     "operand" : {
-                        "name" : "Patient Is Being Prescribed Benzodiazepine",
-                        "type" : "ExpressionRef"
-                     }
+                     "name" : "Patient Is Being Prescribed Benzodiazepine",
+                     "type" : "ExpressionRef"
                   },
                   "then" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}String",

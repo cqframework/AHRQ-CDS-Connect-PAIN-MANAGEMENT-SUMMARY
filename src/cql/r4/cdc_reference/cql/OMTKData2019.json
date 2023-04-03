@@ -1,6 +1,7 @@
 {
    "library" : {
       "annotation" : [ {
+         "translatorVersion" : "2.7.0-SNAPSHOT",
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       } ],
@@ -721,16 +722,12 @@
                         "then" : {
                            "type" : "If",
                            "condition" : {
-                              "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                              "type" : "As",
-                              "operand" : {
-                                 "name" : "IsLeapYear",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "name" : "y",
-                                    "type" : "OperandRef"
-                                 } ]
-                              }
+                              "name" : "IsLeapYear",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "y",
+                                 "type" : "OperandRef"
+                              } ]
                            },
                            "then" : {
                               "name" : "Days29",

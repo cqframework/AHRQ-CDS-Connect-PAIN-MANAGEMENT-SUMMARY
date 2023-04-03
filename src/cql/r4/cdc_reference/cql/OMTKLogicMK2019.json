@@ -1,6 +1,7 @@
 {
    "library" : {
       "annotation" : [ {
+         "translatorVersion" : "2.7.0-SNAPSHOT",
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       } ],
@@ -1433,48 +1434,44 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "And",
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "Less",
                      "operand" : [ {
-                        "type" : "Less",
-                        "operand" : [ {
-                           "path" : "value",
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "strength",
+                           "type" : "OperandRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                        "value" : "0.1",
+                        "type" : "Literal"
+                     } ]
+                  }, {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "type" : "PositionOf",
+                        "pattern" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "mg",
+                           "type" : "Literal"
+                        },
+                        "string" : {
+                           "path" : "unit",
                            "type" : "Property",
                            "source" : {
                               "name" : "strength",
                               "type" : "OperandRef"
                            }
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
-                           "value" : "0.1",
-                           "type" : "Literal"
-                        } ]
+                        }
                      }, {
-                        "type" : "Equal",
-                        "operand" : [ {
-                           "type" : "PositionOf",
-                           "pattern" : {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                              "value" : "mg",
-                              "type" : "Literal"
-                           },
-                           "string" : {
-                              "path" : "unit",
-                              "type" : "Property",
-                              "source" : {
-                                 "name" : "strength",
-                                 "type" : "OperandRef"
-                              }
-                           }
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                           "value" : "0",
-                           "type" : "Literal"
-                        } ]
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "0",
+                        "type" : "Literal"
                      } ]
-                  }
+                  } ]
                },
                "then" : {
                   "classType" : "{urn:hl7-org:elm-types:r1}Quantity",
@@ -1741,33 +1738,29 @@
                   "then" : {
                      "type" : "If",
                      "condition" : {
-                        "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                        "type" : "As",
-                        "operand" : {
-                           "type" : "In",
-                           "operand" : [ {
-                              "type" : "ToInteger",
-                              "operand" : {
-                                 "path" : "code",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "name" : "ingredientCode",
-                                    "type" : "OperandRef"
-                                 }
+                        "type" : "In",
+                        "operand" : [ {
+                           "type" : "ToInteger",
+                           "operand" : {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "ingredientCode",
+                                 "type" : "OperandRef"
                               }
+                           }
+                        }, {
+                           "type" : "List",
+                           "element" : [ {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "value" : "1819",
+                              "type" : "Literal"
                            }, {
-                              "type" : "List",
-                              "element" : [ {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                 "value" : "1819",
-                                 "type" : "Literal"
-                              }, {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                 "value" : "4337",
-                                 "type" : "Literal"
-                              } ]
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "value" : "4337",
+                              "type" : "Literal"
                            } ]
-                        }
+                        } ]
                      },
                      "then" : {
                         "classType" : "{urn:hl7-org:elm-types:r1}Quantity",
@@ -2097,17 +2090,13 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "IsNull",
                   "operand" : {
-                     "type" : "IsNull",
-                     "operand" : {
-                        "path" : "display",
-                        "type" : "Property",
-                        "source" : {
-                           "name" : "rxNormCode",
-                           "type" : "OperandRef"
-                        }
+                     "path" : "display",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "rxNormCode",
+                        "type" : "OperandRef"
                      }
                   }
                },
@@ -2186,33 +2175,29 @@
                   "then" : {
                      "type" : "If",
                      "condition" : {
-                        "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                        "type" : "As",
-                        "operand" : {
-                           "type" : "In",
-                           "operand" : [ {
-                              "type" : "ToInteger",
-                              "operand" : {
-                                 "path" : "code",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "name" : "ingredientCode",
-                                    "type" : "OperandRef"
-                                 }
+                        "type" : "In",
+                        "operand" : [ {
+                           "type" : "ToInteger",
+                           "operand" : {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "ingredientCode",
+                                 "type" : "OperandRef"
                               }
+                           }
+                        }, {
+                           "type" : "List",
+                           "element" : [ {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "value" : "1819",
+                              "type" : "Literal"
                            }, {
-                              "type" : "List",
-                              "element" : [ {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                 "value" : "1819",
-                                 "type" : "Literal"
-                              }, {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                 "value" : "4337",
-                                 "type" : "Literal"
-                              } ]
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "value" : "4337",
+                              "type" : "Literal"
                            } ]
-                        }
+                        } ]
                      },
                      "then" : {
                         "type" : "Concatenate",

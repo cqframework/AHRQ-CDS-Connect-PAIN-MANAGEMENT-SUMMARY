@@ -1,6 +1,7 @@
 {
    "library" : {
       "annotation" : [ {
+         "translatorVersion" : "2.7.0-SNAPSHOT",
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       } ],
@@ -271,12 +272,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "Is Recommendation Applicable?",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Is Recommendation Applicable?",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}String",
@@ -298,12 +295,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "Is Recommendation Applicable?",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Is Recommendation Applicable?",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}String",
@@ -439,12 +432,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "Is Recommendation Applicable?",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Is Recommendation Applicable?",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "type" : "Concatenate",
@@ -455,34 +444,30 @@
                   }, {
                      "type" : "If",
                      "condition" : {
-                        "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                        "type" : "As",
-                        "operand" : {
-                           "type" : "And",
-                           "operand" : [ {
-                              "type" : "Not",
+                        "type" : "And",
+                        "operand" : [ {
+                           "type" : "Not",
+                           "operand" : {
+                              "type" : "IsNull",
                               "operand" : {
-                                 "type" : "IsNull",
-                                 "operand" : {
-                                    "name" : "Detail List",
-                                    "type" : "ExpressionRef"
-                                 }
+                                 "name" : "Detail List",
+                                 "type" : "ExpressionRef"
                               }
-                           }, {
-                              "type" : "Not",
-                              "operand" : {
-                                 "type" : "Equal",
-                                 "operand" : [ {
-                                    "name" : "Detail List",
-                                    "type" : "ExpressionRef"
-                                 }, {
-                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                    "value" : "",
-                                    "type" : "Literal"
-                                 } ]
-                              }
-                           } ]
-                        }
+                           }
+                        }, {
+                           "type" : "Not",
+                           "operand" : {
+                              "type" : "Equal",
+                              "operand" : [ {
+                                 "name" : "Detail List",
+                                 "type" : "ExpressionRef"
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "",
+                                 "type" : "Literal"
+                              } ]
+                           }
+                        } ]
                      },
                      "then" : {
                         "type" : "Concatenate",

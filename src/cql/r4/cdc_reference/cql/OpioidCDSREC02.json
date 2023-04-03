@@ -1,6 +1,7 @@
 {
    "library" : {
       "annotation" : [ {
+         "translatorVersion" : "2.7.0-SNAPSHOT",
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       } ],
@@ -324,6 +325,7 @@
                                  }
                               },
                               "return" : {
+                                 "distinct" : false,
                                  "expression" : {
                                     "path" : "recorder",
                                     "type" : "Property",
@@ -540,12 +542,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "Is Recommendation Applicable?",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Is Recommendation Applicable?",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}String",
@@ -567,12 +565,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "Is Recommendation Applicable?",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Is Recommendation Applicable?",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}String",
@@ -594,12 +588,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "Is Recommendation Applicable?",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Is Recommendation Applicable?",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "type" : "Concatenate",
