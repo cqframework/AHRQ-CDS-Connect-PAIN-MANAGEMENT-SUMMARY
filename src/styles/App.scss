@@ -4,7 +4,7 @@
 
 /* ------------------------- IMPORT 3RD PARTY VENDORS ---------------------- */
 
-@import 'node_modules/react-table/react-table';
+// @import 'node_modules/react-table/react-table';
 
 /* ------------------------- IMPORT CUSTOM SCSS ---------------------------- */
 
@@ -14,7 +14,7 @@
 // @import 'elements/base';
 @import 'elements/modal';
 @import 'elements/spinner';
-@import 'elements/tables';
+// @import 'elements/tables';
 // component-specific
 @import 'components/Header';
 @import 'components/Summary';
@@ -28,3 +28,6 @@ main {
     min-height: 100%;
     position: relative;
 }
+
+// Main colors
+

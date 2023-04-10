@@ -95,24 +95,8 @@
               "flagText": "Factor that may place the patient at risk for an opioid-related harm"
             }
           ]
-        },
-        {
-          "headers": {
-            "Name": "Name",
-            "Visit": {
-              "key": "Visit",
-              "formatter": "datishAgeFormat",
-              "minWidth": 150
-            }
-          },
-          "filter": "Visit",
-          "flags": [
-            {
-              "flag": "always",
-              "flagText": "Factor that may place the patient at risk for an opioid-related harm"
-            }
-          ]
         }
+        
       ]
     }
   ],
@@ -156,11 +140,6 @@
               "key": "Start",
               "formatter": "datishFormat",
               "minWidth": 100
-            },
-            "Status": {
-              "key": "Status",
-              "formatter": "booleanFormat",
-              "minWidth": 100
             }
           },
           "flags": [
@@ -197,11 +176,6 @@
               "formatter": "datishFormat",
               "minWidth": 250
             },
-            "MME/Day": {
-              "key": "MME",
-              "formatter": "booleanFormat",
-              "minWidth": 100
-            },     
             "Sig": {
               "key": "Sig",
               "formatter": "booleanFormat",
@@ -210,11 +184,6 @@
             "Date Prescribed": {
               "key": "Start",
               "formatter": "datishFormat",
-              "minWidth": 100
-            },
-            "Status": {
-              "key": "Status",
-              "formatter": "booleanFormat",
               "minWidth": 100
             }
           },
@@ -247,16 +216,11 @@
       "tables": [
         {
           "headers": {
-            "Benzodiazepines": {
+            "Benzodiazepines or other CNS depressants": {
               "key": "Name",
               "formatter": "datishFormat",
               "minWidth": 250
-            },
-            "MME/Day": {
-              "key": "MME",
-              "formatter": "booleanFormat",
-              "minWidth": 100
-            },     
+            },   
             "Sig": {
               "key": "Sig",
               "formatter": "booleanFormat",
@@ -265,11 +229,6 @@
             "Date Prescribed": {
               "key": "Start",
               "formatter": "datishFormat",
-              "minWidth": 100
-            },
-            "Status": {
-              "key": "Status",
-              "formatter": "booleanFormat",
               "minWidth": 100
             }
           },
@@ -306,11 +265,6 @@
               "key": "Name",
               "formatter": "datishFormat",
               "minWidth": 250
-            },
-            "MME/Day": {
-              "key": "MME",
-              "formatter": "booleanFormat",
-              "minWidth": 100
             },     
             "Sig": {
               "key": "Sig",
@@ -320,11 +274,6 @@
             "Date Prescribed": {
               "key": "Start",
               "formatter": "datishFormat",
-              "minWidth": 100
-            },
-            "Status": {
-              "key": "Status",
-              "formatter": "booleanFormat",
               "minWidth": 100
             }
           },
@@ -359,12 +308,13 @@
       "tables": [
         {
           "headers": {
-            "Name": "Name",
-            "Date": {
+            "Date Collected": {
               "key": "Date",
               "formatter": "datishFormat"
             },
-            "Result": "Result"
+            "Lab Name": "Name",
+            "Interpretation": "Interpretation",
+            "Concentration": "Result"
           },
           "flags": [
             {
@@ -386,6 +336,47 @@
       ]
     }
   ],
+
+  
+  "GoalsAndBarriers": [
+    {
+      "name": "Goals And Barriers",
+      "dataKey": "ActivityGoals",
+      "dataKeySource": "SharedDecisionMaking",
+      "tables": [
+        {
+          "headers": {
+            "Activity Goals": "value"
+          },
+          "flags": [
+            {
+              "flag": "ifNone",
+              "flagText": "Absence of self-reported treatments from MyPAIN"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Goals And Barriers",
+      "dataKey": "ActivityBarriers",
+      "dataKeySource": "SharedDecisionMaking",
+      "tables": [
+        {
+          "headers": {
+            "Activity Barriers": "value"
+          },
+          "flags": [
+            {
+              "flag": "ifNone",
+              "flagText": "Absence of self-reported treatments from MyPAIN"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
   "SharedDecisionMaking": [
     {
       "name": "Pain Locations (only yes responses shown)",

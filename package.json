@@ -39,7 +39,7 @@
     "react-modal": "^3.11.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.2.0",
-    "react-table": "^6.11.4",
+    "react-table": "^7.8.0",
     "react-tooltip": "^3.11.6",
     "sass": "^1.49.9",
     "setprototypeof": "^1.2.0",
