@@ -31,13 +31,12 @@ export default class InfoModal extends Component<any, any> {
     //   Header: () => { return <span className="col-header">Lookback</span> },
     //   accessor: 'lookback'
     // }];
-    if (this.props.subSection.dataKey === "OpioidMedications" || this.props.subSection.dataKey === "NonOpioidMedications") {
+    if (this.props.subSection.dataKey === "OpioidMedications" || this.props.subSection.dataKey === "BenzodiazepineMedications" || this.props.subSection.dataKey === "NaloxoneMedications" ) {
       if (this.props.subSection.warningText && this.props.modalRole === 'warning') {
         return (
           <div className="element" role="table"
             aria-label={elements.description} aria-describedby={this.elementsTableProps.id}>
             <Markdown>{this.props.subSection.warningText}</Markdown>
-
           </div>
         );
       } else if (this.props.subSection.recommendationText) {
@@ -51,6 +50,19 @@ export default class InfoModal extends Component<any, any> {
       }
     }
     if (this.props.subSection.dataKey === "CoMorbidConditionsIncreasingRiskWhenUsingOpioids") {
+      if (this.props.subSection.recommendationText) {
+        return (
+          <div className="element" role="table"
+            aria-label={elements.description} aria-describedby={this.elementsTableProps.id}>
+            <p><Markdown>{this.props.subSection.recommendationText}</Markdown></p>
+
+          </div>
+        );
+      }
+    }
+
+
+    if (this.props.subSection.dataKey === "UrineDrugScreens") {
       if (this.props.subSection.recommendationText) {
         return (
           <div className="element" role="table"

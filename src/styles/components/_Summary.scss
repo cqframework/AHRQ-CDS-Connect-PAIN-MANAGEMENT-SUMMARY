@@ -1,3 +1,4 @@
+
 .summary {
     // display: flex;
     min-height: calc(100vh - 60px);
@@ -58,3 +59,88 @@
       }
     }
   }
+
+
+  .btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+
+.PainIntensity-table table, .PainInterference-table table, #nav-medications table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+
+#copy-tooltip .tooltip-inner {
+  color: #efefef;
+  background-color: #1e4e79;
+}
+
+#copy-tooltip .tooltip-arrow::before {
+  border-color: transparent;
+  border-left-color: #1e4e79;
+  border-width: 6px 0 6px 6px;
+}
+
+
+.bg-custom-primary{
+  background-color: #dceaf6;
+  color: #1e4e79;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+  --bs-table-accent-bg: #ccd4ea; 
+}
+
+.table-striped>tbody>tr:nth-of-type(even)>* {
+  --bs-table-accent-bg: #e8ebf5; 
+}
+.OpioidMedications-table .table-striped>tbody>tr:last-child>* {
+  --bs-table-accent-bg: #dceaf6; 
+  background-color: #dceaf6;
+  color: #1e4e79;
+}
+
+table {
+  border-collapse: collapse;
+  border-style: hidden;
+}
+
+table td, table th {
+  border-left: 1px solid #f7f7f7;
+}
+
+.border-custom-bottom{
+  border-bottom:  1px solid #1e4e79!important;
+}
+
+.border-custom-top{
+  border-top:  1px solid #1e4e79!important;
+}
+
+
+
+
+.btn-custom-outline-primary {
+  --bs-btn-color: #1e4e79;
+  --bs-btn-border-color: #1e4e79;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #1e4e79;
+  --bs-btn-hover-border-color: #1e4e79;
+  --bs-btn-focus-shadow-rgb: 13,110,253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #1e4e79;
+  --bs-btn-active-border-color: #1e4e79;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #1e4e79;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: #1e4e79;
+  --bs-gradient: none;
+}
