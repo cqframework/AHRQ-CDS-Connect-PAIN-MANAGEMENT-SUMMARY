@@ -1759,8 +1759,8 @@ define ReportNotTriedTx:
       or (qrOb.code ~ noLifestyleChanges and qrOb.value = true)
       or (qrOb.code~ noALternativeTxTried and qrOb.value = true))
       return{
-//        Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
-          Treatment: GetSimpleText(qrOb)
+        Treatment: QuestionTextByLinkId(qrOb)[0].value[0],
+        SimpleText: GetSimpleText(qrOb)
       }
 
 define ReportGreatlyEffectiveTx:
@@ -1869,8 +1869,10 @@ medications as well as other controlled prescription drugs and illicit drugs
 [CDC Opioid Prescribing Guideline, Recommendation #10](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm)."
 */
 define ReportRecommendation10Text:
+  if not exists ReportUrineDrugScreens then
+    '**No urine drug screen within the past year**\n\nPatient’s active medications include an opioid. Per CDC guidelines, when prescribing opioids for chronic pain, clinicians should use urine drug testing before starting opioid therapy and consider urine drug testing at least annually to assess for prescribed medications as well as other controlled prescription drugs and illicit drugs (recommendation category: B, evidence type: 4) [CDC Opioid Prescribing Guideline, Recommendation #10](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm).'
+  else
     'Patient’s active medications include an opioid. Per CDC guidelines, when prescribing opioids for chronic pain, clinicians should use urine drug testing before starting opioid therapy and consider urine drug testing at least annually to assess for prescribed medications as well as other controlled prescription drugs and illicit drugs (recommendation category: B, evidence type: 4) [CDC Opioid Prescribing Guideline, Recommendation #10](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm).'
-
 /*
 # Recommendation #11
 In Active Prescriptions|Non-Opioids, provide the following text as an Exclamation flyover when Benzodiazepines and Opioids are present:
