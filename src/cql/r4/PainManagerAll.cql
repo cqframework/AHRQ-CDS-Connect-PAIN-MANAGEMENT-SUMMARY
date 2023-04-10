@@ -1079,6 +1079,11 @@ define OpioidMedicationStatements:
     without [MedicationRequest] MR such that
       exists (MS.basedOn b where b.reference.endsWith('MedicationRequest/' + MR.id))
 
+define function PopulateSigField (mr MedicationRequest):
+    if (singleton from (mr.dosageInstruction)).text() is not null then
+        (singleton from (mr.dosageInstruction)).text()
+    else
+        (singleton from (mr.dosageInstruction)).doseQuantity + " " + (singleton from (mr.dosageInstruction)).doseQuantity
 define ReportOpioidMedicationRequests:
   (OpioidMedicationRequests) O
   return {
@@ -1586,7 +1591,12 @@ define function GetSimpleText(qrOb FHIR.Observation):
     when qrOb.code ~ enjoySocial then 'Enjoyment of social activities'
     when qrOb.code ~ enjoyLife then 'Enjoyment of life'
     when qrOb.code ~ enjoyFamily then 'Family life'
-
+    when qrOb.code ~ noMedicationsTried then 'Medications'
+    when qrOb.code ~ noSpecialistsSeen then 'Specialists'
+    when qrOb.code ~ noTreatmentsTried then 'Procedures or physical treatments'
+    when qrOb.code ~ noTopicalTxTried then 'Topical treatments or devices'
+    when qrOb.code ~ noLifestyleChanges then 'Lifestyle changes'
+    when qrOb.code ~ noALternativeTxTried then 'Alternative treatments'
     else ''
   end
 
@@ -1753,10 +1763,9 @@ define ReportNotTriedTx:
       or (qrOb.code ~ noTopicalTxTried and qrOb.value = true)
       or (qrOb.code ~ noLifestyleChanges and qrOb.value = true)
       or (qrOb.code~ noALternativeTxTried and qrOb.value = true))
-//      (qrOb.code is CodeableConcept and (qrOb.code as CodeableConcept) ~ noMedicationsTried)
-//(qrOb.code is CodeableConcept and ((qrOb.code as CodeableConcept) ~ "noMedicationsTried"  )
       return{
-        Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
+//        Treatment: QuestionTextByLinkId(qrOb)[0].value[0]
+          Treatment: GetSimpleText(qrOb)
       }
 
 define ReportGreatlyEffectiveTx:
