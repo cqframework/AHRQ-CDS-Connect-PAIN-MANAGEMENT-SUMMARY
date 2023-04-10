@@ -1869,10 +1869,7 @@ medications as well as other controlled prescription drugs and illicit drugs
 [CDC Opioid Prescribing Guideline, Recommendation #10](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm)."
 */
 define ReportRecommendation10Text:
-  if not exists ReportUrineDrugScreens then
-    '**No urine drug screen within the past year**\n\nPatient’s active medications include an opioid. Per CDC guidelines, when prescribing opioids for chronic pain, clinicians should use urine drug testing before starting opioid therapy and consider urine drug testing at least annually to assess for prescribed medications as well as other controlled prescription drugs and illicit drugs (recommendation category: B, evidence type: 4) [CDC Opioid Prescribing Guideline, Recommendation #10](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm).'
-  else
-    null
+    'Patient’s active medications include an opioid. Per CDC guidelines, when prescribing opioids for chronic pain, clinicians should use urine drug testing before starting opioid therapy and consider urine drug testing at least annually to assess for prescribed medications as well as other controlled prescription drugs and illicit drugs (recommendation category: B, evidence type: 4) [CDC Opioid Prescribing Guideline, Recommendation #10](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm).'
 
 /*
 # Recommendation #11
@@ -1971,6 +1968,7 @@ define Summary: {
     SelfReportedTreatmentsFromMyPAIN: ReportSelfReportedTreatmentsFromMyPAIN,
     Recommendation3Text: ReportRecommendation3Text,
     Recommendation5Text: ReportRecommendation5Text,
+    Recommendation8Text: ReportRecommendation8Text,
     Recommendation11Text: ReportRecommendation11Text
   },
   TreatmentEffectiveness: {

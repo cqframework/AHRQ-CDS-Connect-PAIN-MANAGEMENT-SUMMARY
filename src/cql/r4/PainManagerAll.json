@@ -15789,29 +15789,9 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "If",
-               "condition" : {
-                  "type" : "Not",
-                  "operand" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "ReportUrineDrugScreens",
-                        "type" : "ExpressionRef"
-                     }
-                  }
-               },
-               "then" : {
-                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                  "value" : "**No urine drug screen within the past year**\n\nPatient’s active medications include an opioid. Per CDC guidelines, when prescribing opioids for chronic pain, clinicians should use urine drug testing before starting opioid therapy and consider urine drug testing at least annually to assess for prescribed medications as well as other controlled prescription drugs and illicit drugs (recommendation category: B, evidence type: 4) [CDC Opioid Prescribing Guideline, Recommendation #10](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm).",
-                  "type" : "Literal"
-               },
-               "else" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}String",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "Null"
-                  }
-               }
+               "valueType" : "{urn:hl7-org:elm-types:r1}String",
+               "value" : "Patient’s active medications include an opioid. Per CDC guidelines, when prescribing opioids for chronic pain, clinicians should use urine drug testing before starting opioid therapy and consider urine drug testing at least annually to assess for prescribed medications as well as other controlled prescription drugs and illicit drugs (recommendation category: B, evidence type: 4) [CDC Opioid Prescribing Guideline, Recommendation #10](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm).",
+               "type" : "Literal"
             }
          }, {
             "name" : "ReportRecommendation11Text",
@@ -16110,6 +16090,12 @@
                         "name" : "Recommendation5Text",
                         "value" : {
                            "name" : "ReportRecommendation5Text",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "name" : "Recommendation8Text",
+                        "value" : {
+                           "name" : "ReportRecommendation8Text",
                            "type" : "ExpressionRef"
                         }
                      }, {
