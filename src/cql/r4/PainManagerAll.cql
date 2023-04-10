@@ -1079,11 +1079,6 @@ define OpioidMedicationStatements:
     without [MedicationRequest] MR such that
       exists (MS.basedOn b where b.reference.endsWith('MedicationRequest/' + MR.id))
 
-define function PopulateSigField (mr MedicationRequest):
-    if (singleton from (mr.dosageInstruction)).text() is not null then
-        (singleton from (mr.dosageInstruction)).text()
-    else
-        (singleton from (mr.dosageInstruction)).doseQuantity + " " + (singleton from (mr.dosageInstruction)).doseQuantity
 define ReportOpioidMedicationRequests:
   (OpioidMedicationRequests) O
   return {

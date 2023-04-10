@@ -12352,6 +12352,174 @@
                      "value" : "Family life",
                      "type" : "Literal"
                   }
+               }, {
+                  "when" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "qrOb",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }, {
+                        "type" : "ToConcept",
+                        "operand" : {
+                           "name" : "noMedicationsTried",
+                           "type" : "CodeRef"
+                        }
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Medications",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "qrOb",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }, {
+                        "type" : "ToConcept",
+                        "operand" : {
+                           "name" : "noSpecialistsSeen",
+                           "type" : "CodeRef"
+                        }
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Specialists",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "qrOb",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }, {
+                        "type" : "ToConcept",
+                        "operand" : {
+                           "name" : "noTreatmentsTried",
+                           "type" : "CodeRef"
+                        }
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Procedures or physical treatments",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "qrOb",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }, {
+                        "type" : "ToConcept",
+                        "operand" : {
+                           "name" : "noTopicalTxTried",
+                           "type" : "CodeRef"
+                        }
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Topical treatments or devices",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "qrOb",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }, {
+                        "type" : "ToConcept",
+                        "operand" : {
+                           "name" : "noLifestyleChanges",
+                           "type" : "CodeRef"
+                        }
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Lifestyle changes",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "qrOb",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }, {
+                        "type" : "ToConcept",
+                        "operand" : {
+                           "name" : "noALternativeTxTried",
+                           "type" : "CodeRef"
+                        }
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Alternative treatments",
+                     "type" : "Literal"
+                  }
                } ],
                "else" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}String",
@@ -14927,56 +15095,11 @@
                      "element" : [ {
                         "name" : "Treatment",
                         "value" : {
-                           "type" : "Indexer",
+                           "name" : "GetSimpleText",
+                           "type" : "FunctionRef",
                            "operand" : [ {
-                              "type" : "Query",
-                              "source" : [ {
-                                 "alias" : "$this",
-                                 "expression" : {
-                                    "type" : "Indexer",
-                                    "operand" : [ {
-                                       "name" : "QuestionTextByLinkId",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "name" : "qrOb",
-                                          "type" : "AliasRef"
-                                       } ]
-                                    }, {
-                                       "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                       "value" : "0",
-                                       "type" : "Literal"
-                                    } ]
-                                 }
-                              } ],
-                              "where" : {
-                                 "type" : "Not",
-                                 "operand" : {
-                                    "type" : "IsNull",
-                                    "operand" : {
-                                       "path" : "value",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "name" : "$this",
-                                          "type" : "AliasRef"
-                                       }
-                                    }
-                                 }
-                              },
-                              "return" : {
-                                 "distinct" : false,
-                                 "expression" : {
-                                    "path" : "value",
-                                    "type" : "Property",
-                                    "source" : {
-                                       "name" : "$this",
-                                       "type" : "AliasRef"
-                                    }
-                                 }
-                              }
-                           }, {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                              "value" : "0",
-                              "type" : "Literal"
+                              "name" : "qrOb",
+                              "type" : "AliasRef"
                            } ]
                         }
                      } ]
