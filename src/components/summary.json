@@ -512,11 +512,12 @@
           ]
         }
       ],
+
       "tables": [
         {
           "headers": {
             "Not Tried": {
-              "key": "Treatment",
+              "key": "SimpleText",
               "formatter": "datishFormat"
             }
           },
