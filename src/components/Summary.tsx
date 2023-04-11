@@ -713,7 +713,7 @@ export default class Summary extends Component<any, any> {
           {sectionMap.map((subSection: any) => { 
           return (
               subSection.dataKey === 'OpioidMedications' &&
-                subSection.info && (
+                subSection.info && subSection.warningText && (
                   <div className="alert alert-danger shadow-sm border-0" role="alert" key={subSection.dataKey}>
                     <div
                     onClick={(event) => this.handleOpenModal(subSection, event, 'warning')}
@@ -721,7 +721,7 @@ export default class Summary extends Component<any, any> {
                     role="button"
                     tabIndex={0}
                     aria-label={subSection.name}>
-                      {subSection.warningText && 
+                      
                       <div>
                         <FontAwesomeIcon
                             className='warning-icon'
@@ -733,7 +733,7 @@ export default class Summary extends Component<any, any> {
                         />
                         <span className="px-3">{subSection.name}: MME &#8807; 50</span>
                       </div>
-                      }
+                      
                     </div>
                   </div>
                 )       
@@ -743,7 +743,7 @@ export default class Summary extends Component<any, any> {
 
           
           <div className="">
-            <h3 className="mb-0">Active Pain-Related Medications</h3>
+            <h4 className="mb-0">Active Pain-Related Medications</h4>
           </div>
         </div>
       )}
