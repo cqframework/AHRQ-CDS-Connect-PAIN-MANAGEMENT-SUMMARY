@@ -1158,10 +1158,15 @@ define ReportNonOpioidMedicationStatements:
   sort by Start desc, End desc
 
 define ReportNonOpioidMedications:
-  (ReportNonOpioidMedicationRequests
-    union ReportNonOpioidMedicationStatements
-    union ReportBenzodiazepineMedications) M
-  sort by Start desc, End desc
+    if "Add Benzodiazepine to NonOpioid Medications" then
+      (ReportNonOpioidMedicationRequests
+        union ReportNonOpioidMedicationStatements
+        union ReportBenzodiazepineMedications) M
+      sort by Start desc, End desc
+    else
+      (ReportNonOpioidMedicationRequests
+        union ReportNonOpioidMedicationStatements) M
+      sort by Start desc, End desc
 
 // Non-pharmacologic treatments, orders, and referrals with dates (lookback 2 years)
 
@@ -1946,6 +1951,9 @@ define "Only Active Medications":
 
 define "Use MMECalculator":
     true
+
+define "Add Benzodiazepine to NonOpioid Medications":
+    false
 
 // Return results for use in application
 define Summary: {
