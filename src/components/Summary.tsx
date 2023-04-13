@@ -660,7 +660,7 @@ componentDidMount() {
                           <div className="col-12">
                             <p>
                               <strong>FROM PATIENT</strong> VIA MYPAIN{" "}
-                              {submitDate && `(submitDate)`}
+                              {submitDate && "(" + submitDate +")"}
                             </p>
                           </div>
                           <div className="col-12">
