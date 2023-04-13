@@ -1,132 +1,83 @@
-
 .summary {
-    // display: flex;
-    min-height: calc(100vh - 60px);
-  
-  }
-  
-  .sections {
-    .nav-link {
-      color: white;
-      isolation: isolate;
-      font-weight: bold;
-    }
-  
-    .nav-link:focus {
-      border-color: transparent;
-      background-color: white;
-    }
-  
-    .patient {
-  
-      .card-header{
-      background-color: #1e4e79;
-      }
-  
-      p {
-        color: #1e4e79;
-      }
-      .nav-link.active {
-        color: #1e4e79;
-        background-color: white;
-      }
-  
-      .nav-link:hover {
-        border-color: transparent;
-        background-color: #4b7194;
-        color: white;
-      }
-    }
-  
-    .treatment {
-      .card-header{
-        background-color: #2f73b5;
-        }
-    
-        p {
-          color: #2f73b5;
-        }
-     
-      .nav-link.active {
-        color: #2f73b5;
-        background-color: white;
-      }
-  
-      .nav-link:hover {
-        border-color: transparent;
-        background-color: #598fc4;
-        color: white;
-      }
-    }
-  }
-
-
-  .btn-circle {
-    width: 30px;
-    height: 30px;
-    padding: 6px 0px;
-    border-radius: 15px;
-    text-align: center;
-    font-size: 12px;
-    line-height: 1.42857;
+  min-height: calc(100vh - 60px);
 }
 
+.sections {
+  .nav-link {
+    color: white;
+    isolation: isolate;
+    font-weight: bold;
+  }
 
-.PainIntensity-table table, .PainInterference-table table, #nav-medications table {
-  table-layout: fixed;
-  width: 100%;
+  .nav-link:focus {
+    border-color: transparent;
+    background-color: white;
+  }
+
+  .patient {
+    .card-header {
+      background-color: $color-primary;
+    }
+
+    p {
+      color: $color-primary;
+    }
+
+    .nav-link.active {
+      color: $color-primary;
+      background-color: white;
+    }
+
+    .nav-link:hover {
+      border-color: transparent;
+      background-color: #4b7194;
+      color: white;
+    }
+  }
+
+  .treatment {
+    .card-header {
+      background-color: $color-secondary;
+    }
+
+    p {
+      color: $color-secondary;
+    }
+
+    .nav-link.active {
+      color: $color-secondary;
+      background-color: white;
+    }
+
+    .nav-link:hover {
+      border-color: transparent;
+      background-color: #598fc4;
+      color: white;
+    }
+  }
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
 }
 
 
 #copy-tooltip .tooltip-inner {
   color: #efefef;
-  background-color: #1e4e79;
+  background-color: $color-primary;
 }
 
 #copy-tooltip .tooltip-arrow::before {
   border-color: transparent;
-  border-left-color: #1e4e79;
+  border-left-color: $color-primary;
   border-width: 6px 0 6px 6px;
 }
-
-
-.bg-custom-primary{
-  background-color: #dceaf6;
-  color: #1e4e79;
-}
-
-.table-striped>tbody>tr:nth-of-type(odd)>* {
-  --bs-table-accent-bg: #ccd4ea; 
-}
-
-.table-striped>tbody>tr:nth-of-type(even)>* {
-  --bs-table-accent-bg: #e8ebf5; 
-}
-.OpioidMedications-table .table-striped>tbody>tr:last-child>* {
-  --bs-table-accent-bg: #dceaf6; 
-  background-color: #dceaf6;
-  color: #1e4e79;
-}
-
-table {
-  border-collapse: collapse;
-  border-style: hidden;
-}
-
-table td, table th {
-  border-left: 1px solid #f7f7f7;
-}
-
-.border-custom-bottom{
-  border-bottom:  1px solid #1e4e79!important;
-}
-
-.border-custom-top{
-  border-top:  1px solid #1e4e79!important;
-}
-
-
-
 
 .btn-custom-outline-primary {
   --bs-btn-color: #1e4e79;
@@ -134,7 +85,7 @@ table td, table th {
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: #1e4e79;
   --bs-btn-hover-border-color: #1e4e79;
-  --bs-btn-focus-shadow-rgb: 13,110,253;
+  --bs-btn-focus-shadow-rgb: 13, 110, 253;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #1e4e79;
   --bs-btn-active-border-color: #1e4e79;

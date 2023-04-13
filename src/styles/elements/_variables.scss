@@ -1,5 +1,5 @@
 //-------------------------- Colors -----------------------------------------//
-$color-black:#1e4e79;
+$color-black: #1e4e79;
 $color-white: #fff;
 $color-blue: #2f74b5;
 $color-gray-dark: #64707e;
@@ -12,6 +12,14 @@ $color-red: #ffa4a4;
 $color-red-dark: #e67171;
 $color-orange: #ab4317;
 $color-beige: #f9f3e3;
+
+//--------------------------  New Colors -------------------------------------//
+$color-primary: #1e4e79;
+$color-secondary: #2f73b5;
+$color-table: #dceaf6;
+//why don't these work?
+$color-table-row-even: #e8ebf5;
+$color-table-row-odd: #ccd4ea;
 
 // ------------------------- PATHS ----------------------------------------- //
 $fa-font-path: '/assets/fontawesome';
