@@ -9041,6 +9041,15 @@
                }
             }
          }, {
+            "name" : "Add Benzodiazepine to NonOpioid Medications",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+               "value" : "false",
+               "type" : "Literal"
+            }
+         }, {
             "name" : "BenzodiazepineMedicationRequests",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -9614,12 +9623,50 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "M",
-                  "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
+               "type" : "If",
+               "condition" : {
+                  "name" : "Add Benzodiazepine to NonOpioid Medications",
+                  "type" : "ExpressionRef"
+               },
+               "then" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "M",
+                     "expression" : {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "name" : "ReportNonOpioidMedicationRequests",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "name" : "ReportNonOpioidMedicationStatements",
+                              "type" : "ExpressionRef"
+                           } ]
+                        }, {
+                           "name" : "ReportBenzodiazepineMedications",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "sort" : {
+                     "by" : [ {
+                        "direction" : "desc",
+                        "path" : "Start",
+                        "type" : "ByColumn"
+                     }, {
+                        "direction" : "desc",
+                        "path" : "End",
+                        "type" : "ByColumn"
+                     } ]
+                  }
+               },
+               "else" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "M",
+                     "expression" : {
                         "type" : "Union",
                         "operand" : [ {
                            "name" : "ReportNonOpioidMedicationRequests",
@@ -9628,23 +9675,20 @@
                            "name" : "ReportNonOpioidMedicationStatements",
                            "type" : "ExpressionRef"
                         } ]
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "sort" : {
+                     "by" : [ {
+                        "direction" : "desc",
+                        "path" : "Start",
+                        "type" : "ByColumn"
                      }, {
-                        "name" : "ReportBenzodiazepineMedications",
-                        "type" : "ExpressionRef"
+                        "direction" : "desc",
+                        "path" : "End",
+                        "type" : "ByColumn"
                      } ]
                   }
-               } ],
-               "relationship" : [ ],
-               "sort" : {
-                  "by" : [ {
-                     "direction" : "desc",
-                     "path" : "Start",
-                     "type" : "ByColumn"
-                  }, {
-                     "direction" : "desc",
-                     "path" : "End",
-                     "type" : "ByColumn"
-                  } ]
                }
             }
          }, {
@@ -15900,15 +15944,6 @@
                      "type" : "Null"
                   }
                }
-            }
-         }, {
-            "name" : "Use MMECalculator",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
-               "value" : "true",
-               "type" : "Literal"
             }
          }, {
             "name" : "Summary",
