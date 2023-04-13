@@ -337,46 +337,6 @@
     }
   ],
 
-  
-  "GoalsAndBarriers": [
-    {
-      "name": "Goals And Barriers",
-      "dataKey": "ActivityGoals",
-      "dataKeySource": "SharedDecisionMaking",
-      "tables": [
-        {
-          "headers": {
-            "Activity Goals": "value"
-          },
-          "flags": [
-            {
-              "flag": "ifNone",
-              "flagText": "Absence of self-reported treatments from MyPAIN"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Goals And Barriers",
-      "dataKey": "ActivityBarriers",
-      "dataKeySource": "SharedDecisionMaking",
-      "tables": [
-        {
-          "headers": {
-            "Activity Barriers": "value"
-          },
-          "flags": [
-            {
-              "flag": "ifNone",
-              "flagText": "Absence of self-reported treatments from MyPAIN"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-
   "SharedDecisionMaking": [
     {
       "name": "Pain Locations (only yes responses shown)",
@@ -488,6 +448,44 @@
                 }
               },
               "flagText": "Decision One"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "GoalsAndBarriers": [
+    {
+      "name": "Goals And Barriers",
+      "dataKey": "ActivityGoals",
+      "dataKeySource": "SharedDecisionMaking",
+      "tables": [
+        {
+          "headers": {
+            "Activity Goals": "value"
+          },
+          "flags": [
+            {
+              "flag": "ifNone",
+              "flagText": "Absence of self-reported treatments from MyPAIN"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Goals And Barriers",
+      "dataKey": "ActivityBarriers",
+      "dataKeySource": "SharedDecisionMaking",
+      "tables": [
+        {
+          "headers": {
+            "Activity Barriers": "value"
+          },
+          "flags": [
+            {
+              "flag": "ifNone",
+              "flagText": "Absence of self-reported treatments from MyPAIN"
             }
           ]
         }
