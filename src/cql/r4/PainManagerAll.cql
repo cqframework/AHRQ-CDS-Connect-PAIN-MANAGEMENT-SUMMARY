@@ -1107,8 +1107,7 @@ define ReportOpioidMedicationStatements:
 
 define ReportOpioidMedications:
   (ReportOpioidMedicationRequests
-   union ReportOpioidMedicationStatements
-   union ReportNaloxoneMedications) M
+   union ReportOpioidMedicationStatements) M
   sort by Start desc, End desc
 
 // Non-opioid medication orders and statements with dates (lookback 2 years)
