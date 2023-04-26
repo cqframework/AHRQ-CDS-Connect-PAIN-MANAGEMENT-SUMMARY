@@ -152,51 +152,6 @@
       ]
     },
     {
-      "name": "Non-Opioids",
-      "dataKey": "NonOpioidMedications",
-      "dataKeySource": "CurrentPertinentTreatments",
-      "info": [
-        {
-          "type": "elements",
-          "description": "Non-Opioid Medications queries the following elements:",
-          "elements": [
-            {
-              "name": "Non-opioid medication statements and orders",
-              "status": "any",
-              "lookback": "2 years"
-            }
-          ]
-        }
-      ],
-      "tables": [
-        {
-          "headers": {
-            "Non-Opioids": {
-              "key": "Name",
-              "formatter": "datishFormat",
-              "minWidth": 250
-            },
-            "Sig": {
-              "key": "Sig",
-              "formatter": "booleanFormat",
-              "minWidth": 100
-            },
-            "Date Prescribed": {
-              "key": "Start",
-              "formatter": "datishFormat",
-              "minWidth": 100
-            }
-          },
-          "flags": [
-            {
-              "flag": "ifNone",
-              "flagText": "Absence of non-opioid medications"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "name": "Benzodiazepines",
       "dataKey": "BenzodiazepineMedications",
       "dataKeySource": "CurrentPertinentTreatments",
@@ -285,6 +240,51 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Non-Opioids",
+      "dataKey": "NonOpioidMedications",
+      "dataKeySource": "CurrentPertinentTreatments",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Non-Opioid Medications queries the following elements:",
+          "elements": [
+            {
+              "name": "Non-opioid medication statements and orders",
+              "status": "any",
+              "lookback": "2 years"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Non-Opioids": {
+              "key": "Name",
+              "formatter": "datishFormat",
+              "minWidth": 250
+            },
+            "Sig": {
+              "key": "Sig",
+              "formatter": "booleanFormat",
+              "minWidth": 100
+            },
+            "Date Prescribed": {
+              "key": "Start",
+              "formatter": "datishFormat",
+              "minWidth": 100
+            }
+          },
+          "flags": [
+            {
+              "flag": "ifNone",
+              "flagText": "Absence of non-opioid medications"
+            }
+          ]
+        }
+      ]
     }
   ],
   "UrineDrugScreening": [
@@ -358,7 +358,7 @@
       "tables": [
         {
           "headers": {
-            "Pain Location": {
+            "Pain location to discuss at visit": {
               "key":"SimpleLocation",
               "formatter": "datishFormat",
               "minWidth": 80
@@ -514,7 +514,7 @@
       "tables": [
         {
           "headers": {
-            "Not Tried": {
+            "Not Tried for Pain": {
               "key": "SimpleText",
               "formatter": "datishFormat"
             }
