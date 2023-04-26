@@ -8014,7 +8014,542 @@
                }
             }
          }, {
-            "name" : "ReportOpioidMedications",
+            "name" : "Add Naloxone to Opioid Medications",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+               "value" : "false",
+               "type" : "Literal"
+            }
+         }, {
+            "name" : "NaloxoneMedicationRequests",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "name" : "Only Active Medications",
+                  "type" : "ExpressionRef"
+               },
+               "then" : {
+                  "name" : "ActiveMedicationRequest",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "codeProperty" : "medication",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Naloxone medications",
+                           "preserve" : true,
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "codeProperty" : "medication",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Naloxone medications",
+                           "preserve" : true,
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  } ]
+               },
+               "else" : {
+                  "name" : "ActiveCompletedOrStoppedMedicationRequest",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "codeProperty" : "medication",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Naloxone medications",
+                           "preserve" : true,
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "codeProperty" : "medication",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Naloxone medications",
+                           "preserve" : true,
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  } ]
+               }
+            }
+         }, {
+            "name" : "ReportNaloxoneMedicationRequests",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "O",
+                  "expression" : {
+                     "name" : "NaloxoneMedicationRequests",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Type",
+                        "value" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "Request",
+                           "type" : "Literal"
+                        }
+                     }, {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "strict" : false,
+                              "type" : "As",
+                              "operand" : {
+                                 "path" : "medication",
+                                 "scope" : "O",
+                                 "type" : "Property"
+                              },
+                              "asTypeSpecifier" : {
+                                 "name" : "{http://hl7.org/fhir}CodeableConcept",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "Start",
+                        "value" : {
+                           "name" : "DateTimeText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "authoredOn",
+                              "scope" : "O",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "End",
+                        "value" : {
+                           "strict" : false,
+                           "type" : "As",
+                           "operand" : {
+                              "type" : "Null"
+                           },
+                           "asTypeSpecifier" : {
+                              "name" : "{urn:hl7-org:elm-types:r1}String",
+                              "type" : "NamedTypeSpecifier"
+                           }
+                        }
+                     }, {
+                        "name" : "MME",
+                        "value" : {
+                           "type" : "If",
+                           "condition" : {
+                              "name" : "Use MMECalculator",
+                              "type" : "ExpressionRef"
+                           },
+                           "then" : {
+                              "name" : "MMEText",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "TotalMME",
+                                 "libraryName" : "MMECalculator",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "type" : "List",
+                                    "element" : [ {
+                                       "name" : "O",
+                                       "type" : "AliasRef"
+                                    } ]
+                                 } ]
+                              } ]
+                           },
+                           "else" : {
+                              "asType" : "{urn:hl7-org:elm-types:r1}String",
+                              "type" : "As",
+                              "operand" : {
+                                 "type" : "Null"
+                              }
+                           }
+                        }
+                     }, {
+                        "name" : "Sig",
+                        "value" : {
+                           "path" : "text",
+                           "type" : "Property",
+                           "source" : {
+                              "type" : "SingletonFrom",
+                              "operand" : {
+                                 "path" : "dosageInstruction",
+                                 "scope" : "O",
+                                 "type" : "Property"
+                              }
+                           }
+                        }
+                     }, {
+                        "name" : "Status",
+                        "value" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "status",
+                              "scope" : "O",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "path" : "Start",
+                     "type" : "ByColumn"
+                  }, {
+                     "direction" : "desc",
+                     "path" : "End",
+                     "type" : "ByColumn"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "NaloxoneMedicationStatements",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "name" : "Only Active Medications",
+                  "type" : "ExpressionRef"
+               },
+               "then" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "MS",
+                     "expression" : {
+                        "name" : "ActiveMedicationStatement",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                              "codeProperty" : "medication",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Naloxone medications",
+                                 "preserve" : true,
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                              "codeProperty" : "medication",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Naloxone medications",
+                                 "preserve" : true,
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        } ]
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "MR",
+                     "type" : "Without",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "type" : "Retrieve"
+                     },
+                     "suchThat" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "b",
+                              "expression" : {
+                                 "path" : "basedOn",
+                                 "scope" : "MS",
+                                 "type" : "Property"
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "EndsWith",
+                              "operand" : [ {
+                                 "name" : "ToString",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "path" : "reference",
+                                    "scope" : "b",
+                                    "type" : "Property"
+                                 } ]
+                              }, {
+                                 "type" : "Concatenate",
+                                 "operand" : [ {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "MedicationRequest/",
+                                    "type" : "Literal"
+                                 }, {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "MR",
+                                       "type" : "Property"
+                                    } ]
+                                 } ]
+                              } ]
+                           }
+                        }
+                     }
+                  } ]
+               },
+               "else" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "MS",
+                     "expression" : {
+                        "name" : "ActiveOrCompletedMedicationStatement",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                              "codeProperty" : "medication",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Naloxone medications",
+                                 "preserve" : true,
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                              "codeProperty" : "medication",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Naloxone medications",
+                                 "preserve" : true,
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        } ]
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "MR",
+                     "type" : "Without",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                        "type" : "Retrieve"
+                     },
+                     "suchThat" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "b",
+                              "expression" : {
+                                 "path" : "basedOn",
+                                 "scope" : "MS",
+                                 "type" : "Property"
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "EndsWith",
+                              "operand" : [ {
+                                 "name" : "ToString",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "path" : "reference",
+                                    "scope" : "b",
+                                    "type" : "Property"
+                                 } ]
+                              }, {
+                                 "type" : "Concatenate",
+                                 "operand" : [ {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "MedicationRequest/",
+                                    "type" : "Literal"
+                                 }, {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "MR",
+                                       "type" : "Property"
+                                    } ]
+                                 } ]
+                              } ]
+                           }
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "ReportNaloxoneMedicationStatements",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "S",
+                  "expression" : {
+                     "name" : "NaloxoneMedicationStatements",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Type",
+                        "value" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "Statement",
+                           "type" : "Literal"
+                        }
+                     }, {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "strict" : false,
+                              "type" : "As",
+                              "operand" : {
+                                 "path" : "medication",
+                                 "scope" : "S",
+                                 "type" : "Property"
+                              },
+                              "asTypeSpecifier" : {
+                                 "name" : "{http://hl7.org/fhir}CodeableConcept",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "Start",
+                        "value" : {
+                           "name" : "MedicationStatementDate",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "S",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     }, {
+                        "name" : "End",
+                        "value" : {
+                           "name" : "DateTimeText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "end",
+                              "type" : "Property",
+                              "source" : {
+                                 "strict" : false,
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "effective",
+                                    "scope" : "S",
+                                    "type" : "Property"
+                                 },
+                                 "asTypeSpecifier" : {
+                                    "name" : "{http://hl7.org/fhir}Period",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "MME",
+                        "value" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "Not calculated",
+                           "type" : "Literal"
+                        }
+                     }, {
+                        "name" : "Sig",
+                        "value" : {
+                           "path" : "text",
+                           "type" : "Property",
+                           "source" : {
+                              "type" : "SingletonFrom",
+                              "operand" : {
+                                 "path" : "dosage",
+                                 "scope" : "S",
+                                 "type" : "Property"
+                              }
+                           }
+                        }
+                     }, {
+                        "name" : "Status",
+                        "value" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "status",
+                              "scope" : "S",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "path" : "Start",
+                     "type" : "ByColumn"
+                  }, {
+                     "direction" : "desc",
+                     "path" : "End",
+                     "type" : "ByColumn"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "ReportNaloxoneMedications",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -8024,10 +8559,10 @@
                   "expression" : {
                      "type" : "Union",
                      "operand" : [ {
-                        "name" : "ReportOpioidMedicationRequests",
+                        "name" : "ReportNaloxoneMedicationRequests",
                         "type" : "ExpressionRef"
                      }, {
-                        "name" : "ReportOpioidMedicationStatements",
+                        "name" : "ReportNaloxoneMedicationStatements",
                         "type" : "ExpressionRef"
                      } ]
                   }
@@ -8043,6 +8578,79 @@
                      "path" : "End",
                      "type" : "ByColumn"
                   } ]
+               }
+            }
+         }, {
+            "name" : "ReportOpioidMedications",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "name" : "Add Naloxone to Opioid Medications",
+                  "type" : "ExpressionRef"
+               },
+               "then" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "M",
+                     "expression" : {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "name" : "ReportOpioidMedicationRequests",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "name" : "ReportOpioidMedicationStatements",
+                              "type" : "ExpressionRef"
+                           } ]
+                        }, {
+                           "name" : "ReportNaloxoneMedications",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "sort" : {
+                     "by" : [ {
+                        "direction" : "desc",
+                        "path" : "Start",
+                        "type" : "ByColumn"
+                     }, {
+                        "direction" : "desc",
+                        "path" : "End",
+                        "type" : "ByColumn"
+                     } ]
+                  }
+               },
+               "else" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "M",
+                     "expression" : {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "name" : "ReportOpioidMedicationRequests",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "name" : "ReportOpioidMedicationStatements",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "sort" : {
+                     "by" : [ {
+                        "direction" : "desc",
+                        "path" : "Start",
+                        "type" : "ByColumn"
+                     }, {
+                        "direction" : "desc",
+                        "path" : "End",
+                        "type" : "ByColumn"
+                     } ]
+                  }
                }
             }
          }, {
@@ -10043,564 +10651,6 @@
                   "by" : [ {
                      "direction" : "desc",
                      "path" : "Date",
-                     "type" : "ByColumn"
-                  } ]
-               }
-            }
-         }, {
-            "name" : "NaloxoneMedicationRequests",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "If",
-               "condition" : {
-                  "name" : "Only Active Medications",
-                  "type" : "ExpressionRef"
-               },
-               "then" : {
-                  "name" : "ActiveMedicationRequest",
-                  "libraryName" : "C3F",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                        "codeProperty" : "medication",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Naloxone medications",
-                           "preserve" : true,
-                           "type" : "ValueSetRef"
-                        }
-                     }, {
-                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                        "codeProperty" : "medication",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Naloxone medications",
-                           "preserve" : true,
-                           "type" : "ValueSetRef"
-                        }
-                     } ]
-                  } ]
-               },
-               "else" : {
-                  "name" : "ActiveCompletedOrStoppedMedicationRequest",
-                  "libraryName" : "C3F",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                        "codeProperty" : "medication",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Naloxone medications",
-                           "preserve" : true,
-                           "type" : "ValueSetRef"
-                        }
-                     }, {
-                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                        "codeProperty" : "medication",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Naloxone medications",
-                           "preserve" : true,
-                           "type" : "ValueSetRef"
-                        }
-                     } ]
-                  } ]
-               }
-            }
-         }, {
-            "name" : "NaloxoneMedicationStatements",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "If",
-               "condition" : {
-                  "name" : "Only Active Medications",
-                  "type" : "ExpressionRef"
-               },
-               "then" : {
-                  "type" : "Query",
-                  "source" : [ {
-                     "alias" : "MS",
-                     "expression" : {
-                        "name" : "ActiveMedicationStatement",
-                        "libraryName" : "C3F",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
-                              "codeProperty" : "medication",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Naloxone medications",
-                                 "preserve" : true,
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
-                              "codeProperty" : "medication",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Naloxone medications",
-                                 "preserve" : true,
-                                 "type" : "ValueSetRef"
-                              }
-                           } ]
-                        } ]
-                     }
-                  } ],
-                  "relationship" : [ {
-                     "alias" : "MR",
-                     "type" : "Without",
-                     "expression" : {
-                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                        "type" : "Retrieve"
-                     },
-                     "suchThat" : {
-                        "type" : "Exists",
-                        "operand" : {
-                           "type" : "Query",
-                           "source" : [ {
-                              "alias" : "b",
-                              "expression" : {
-                                 "path" : "basedOn",
-                                 "scope" : "MS",
-                                 "type" : "Property"
-                              }
-                           } ],
-                           "relationship" : [ ],
-                           "where" : {
-                              "type" : "EndsWith",
-                              "operand" : [ {
-                                 "name" : "ToString",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "path" : "reference",
-                                    "scope" : "b",
-                                    "type" : "Property"
-                                 } ]
-                              }, {
-                                 "type" : "Concatenate",
-                                 "operand" : [ {
-                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                    "value" : "MedicationRequest/",
-                                    "type" : "Literal"
-                                 }, {
-                                    "name" : "ToString",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "path" : "id",
-                                       "scope" : "MR",
-                                       "type" : "Property"
-                                    } ]
-                                 } ]
-                              } ]
-                           }
-                        }
-                     }
-                  } ]
-               },
-               "else" : {
-                  "type" : "Query",
-                  "source" : [ {
-                     "alias" : "MS",
-                     "expression" : {
-                        "name" : "ActiveOrCompletedMedicationStatement",
-                        "libraryName" : "C3F",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
-                              "codeProperty" : "medication",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Naloxone medications",
-                                 "preserve" : true,
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
-                              "codeProperty" : "medication",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Naloxone medications",
-                                 "preserve" : true,
-                                 "type" : "ValueSetRef"
-                              }
-                           } ]
-                        } ]
-                     }
-                  } ],
-                  "relationship" : [ {
-                     "alias" : "MR",
-                     "type" : "Without",
-                     "expression" : {
-                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                        "type" : "Retrieve"
-                     },
-                     "suchThat" : {
-                        "type" : "Exists",
-                        "operand" : {
-                           "type" : "Query",
-                           "source" : [ {
-                              "alias" : "b",
-                              "expression" : {
-                                 "path" : "basedOn",
-                                 "scope" : "MS",
-                                 "type" : "Property"
-                              }
-                           } ],
-                           "relationship" : [ ],
-                           "where" : {
-                              "type" : "EndsWith",
-                              "operand" : [ {
-                                 "name" : "ToString",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "path" : "reference",
-                                    "scope" : "b",
-                                    "type" : "Property"
-                                 } ]
-                              }, {
-                                 "type" : "Concatenate",
-                                 "operand" : [ {
-                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                    "value" : "MedicationRequest/",
-                                    "type" : "Literal"
-                                 }, {
-                                    "name" : "ToString",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "path" : "id",
-                                       "scope" : "MR",
-                                       "type" : "Property"
-                                    } ]
-                                 } ]
-                              } ]
-                           }
-                        }
-                     }
-                  } ]
-               }
-            }
-         }, {
-            "name" : "ReportNaloxoneMedicationRequests",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "O",
-                  "expression" : {
-                     "name" : "NaloxoneMedicationRequests",
-                     "type" : "ExpressionRef"
-                  }
-               } ],
-               "relationship" : [ ],
-               "return" : {
-                  "expression" : {
-                     "type" : "Tuple",
-                     "element" : [ {
-                        "name" : "Type",
-                        "value" : {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "Request",
-                           "type" : "Literal"
-                        }
-                     }, {
-                        "name" : "Name",
-                        "value" : {
-                           "name" : "ConceptText",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "strict" : false,
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "medication",
-                                 "scope" : "O",
-                                 "type" : "Property"
-                              },
-                              "asTypeSpecifier" : {
-                                 "name" : "{http://hl7.org/fhir}CodeableConcept",
-                                 "type" : "NamedTypeSpecifier"
-                              }
-                           } ]
-                        }
-                     }, {
-                        "name" : "Start",
-                        "value" : {
-                           "name" : "DateTimeText",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "path" : "authoredOn",
-                              "scope" : "O",
-                              "type" : "Property"
-                           } ]
-                        }
-                     }, {
-                        "name" : "End",
-                        "value" : {
-                           "strict" : false,
-                           "type" : "As",
-                           "operand" : {
-                              "type" : "Null"
-                           },
-                           "asTypeSpecifier" : {
-                              "name" : "{urn:hl7-org:elm-types:r1}String",
-                              "type" : "NamedTypeSpecifier"
-                           }
-                        }
-                     }, {
-                        "name" : "MME",
-                        "value" : {
-                           "type" : "If",
-                           "condition" : {
-                              "name" : "Use MMECalculator",
-                              "type" : "ExpressionRef"
-                           },
-                           "then" : {
-                              "name" : "MMEText",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "name" : "TotalMME",
-                                 "libraryName" : "MMECalculator",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "type" : "List",
-                                    "element" : [ {
-                                       "name" : "O",
-                                       "type" : "AliasRef"
-                                    } ]
-                                 } ]
-                              } ]
-                           },
-                           "else" : {
-                              "asType" : "{urn:hl7-org:elm-types:r1}String",
-                              "type" : "As",
-                              "operand" : {
-                                 "type" : "Null"
-                              }
-                           }
-                        }
-                     }, {
-                        "name" : "Sig",
-                        "value" : {
-                           "path" : "text",
-                           "type" : "Property",
-                           "source" : {
-                              "type" : "SingletonFrom",
-                              "operand" : {
-                                 "path" : "dosageInstruction",
-                                 "scope" : "O",
-                                 "type" : "Property"
-                              }
-                           }
-                        }
-                     }, {
-                        "name" : "Status",
-                        "value" : {
-                           "path" : "value",
-                           "type" : "Property",
-                           "source" : {
-                              "path" : "status",
-                              "scope" : "O",
-                              "type" : "Property"
-                           }
-                        }
-                     } ]
-                  }
-               },
-               "sort" : {
-                  "by" : [ {
-                     "direction" : "desc",
-                     "path" : "Start",
-                     "type" : "ByColumn"
-                  }, {
-                     "direction" : "desc",
-                     "path" : "End",
-                     "type" : "ByColumn"
-                  } ]
-               }
-            }
-         }, {
-            "name" : "ReportNaloxoneMedicationStatements",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "S",
-                  "expression" : {
-                     "name" : "NaloxoneMedicationStatements",
-                     "type" : "ExpressionRef"
-                  }
-               } ],
-               "relationship" : [ ],
-               "return" : {
-                  "expression" : {
-                     "type" : "Tuple",
-                     "element" : [ {
-                        "name" : "Type",
-                        "value" : {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "Statement",
-                           "type" : "Literal"
-                        }
-                     }, {
-                        "name" : "Name",
-                        "value" : {
-                           "name" : "ConceptText",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "strict" : false,
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "medication",
-                                 "scope" : "S",
-                                 "type" : "Property"
-                              },
-                              "asTypeSpecifier" : {
-                                 "name" : "{http://hl7.org/fhir}CodeableConcept",
-                                 "type" : "NamedTypeSpecifier"
-                              }
-                           } ]
-                        }
-                     }, {
-                        "name" : "Start",
-                        "value" : {
-                           "name" : "MedicationStatementDate",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "name" : "S",
-                              "type" : "AliasRef"
-                           } ]
-                        }
-                     }, {
-                        "name" : "End",
-                        "value" : {
-                           "name" : "DateTimeText",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "path" : "end",
-                              "type" : "Property",
-                              "source" : {
-                                 "strict" : false,
-                                 "type" : "As",
-                                 "operand" : {
-                                    "path" : "effective",
-                                    "scope" : "S",
-                                    "type" : "Property"
-                                 },
-                                 "asTypeSpecifier" : {
-                                    "name" : "{http://hl7.org/fhir}Period",
-                                    "type" : "NamedTypeSpecifier"
-                                 }
-                              }
-                           } ]
-                        }
-                     }, {
-                        "name" : "MME",
-                        "value" : {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "Not calculated",
-                           "type" : "Literal"
-                        }
-                     }, {
-                        "name" : "Sig",
-                        "value" : {
-                           "path" : "text",
-                           "type" : "Property",
-                           "source" : {
-                              "type" : "SingletonFrom",
-                              "operand" : {
-                                 "path" : "dosage",
-                                 "scope" : "S",
-                                 "type" : "Property"
-                              }
-                           }
-                        }
-                     }, {
-                        "name" : "Status",
-                        "value" : {
-                           "path" : "value",
-                           "type" : "Property",
-                           "source" : {
-                              "path" : "status",
-                              "scope" : "S",
-                              "type" : "Property"
-                           }
-                        }
-                     } ]
-                  }
-               },
-               "sort" : {
-                  "by" : [ {
-                     "direction" : "desc",
-                     "path" : "Start",
-                     "type" : "ByColumn"
-                  }, {
-                     "direction" : "desc",
-                     "path" : "End",
-                     "type" : "ByColumn"
-                  } ]
-               }
-            }
-         }, {
-            "name" : "ReportNaloxoneMedications",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "M",
-                  "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "name" : "ReportNaloxoneMedicationRequests",
-                        "type" : "ExpressionRef"
-                     }, {
-                        "name" : "ReportNaloxoneMedicationStatements",
-                        "type" : "ExpressionRef"
-                     } ]
-                  }
-               } ],
-               "relationship" : [ ],
-               "sort" : {
-                  "by" : [ {
-                     "direction" : "desc",
-                     "path" : "Start",
-                     "type" : "ByColumn"
-                  }, {
-                     "direction" : "desc",
-                     "path" : "End",
                      "type" : "ByColumn"
                   } ]
                }

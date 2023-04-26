@@ -1106,9 +1106,16 @@ define ReportOpioidMedicationStatements:
   sort by Start desc, End desc
 
 define ReportOpioidMedications:
-  (ReportOpioidMedicationRequests
-   union ReportOpioidMedicationStatements) M
-  sort by Start desc, End desc
+    if "Add Naloxone to Opioid Medications" then
+      (ReportOpioidMedicationRequests
+       union ReportOpioidMedicationStatements
+       union ReportNaloxoneMedications) M
+      sort by Start desc, End desc
+    else
+      (ReportOpioidMedicationRequests
+       union ReportOpioidMedicationStatements) M
+      sort by Start desc, End desc
+
 
 // Non-opioid medication orders and statements with dates (lookback 2 years)
 
@@ -1999,6 +2006,9 @@ define "Use MMECalculator":
     true
 
 define "Add Benzodiazepine to NonOpioid Medications":
+    false
+
+define "Add Naloxone to Opioid Medications":
     false
 
 define "Use 2022 CDC Guidelines":
