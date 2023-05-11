@@ -31,6 +31,8 @@ include CDS_Connect_Commons_for_FHIRv400 version '1.0.2' called C3F
 include Factors_to_Consider_in_Managing_Chronic_Pain_FHIRv400 version '1.0.1' called F2C
 include ChronicPainConcepts version '2.0.0' called Cx
 include MMECalculator version '3.0.0' called MMECalculator
+include PainManagerConfig version '0.1.0' called Config
+
 
 codesystem "LOINC": 'http://loinc.org'
 codesystem "SNOMED-CT": 'http://snomed.info/sct'
@@ -182,7 +184,7 @@ define ActiveOpioidMedications:
   C3F.ActiveMedicationRequest([MedicationRequest: Cx."Opioid Pain Medications"])
 
 define CurrentMME:
-  if "Use MMECalculator" then MMECalculator.TotalMME(ActiveOpioidMedications) else null
+  if Config."Use MMECalculator" then MMECalculator.TotalMME(ActiveOpioidMedications) else null
 
 define ReportCurrentMME:
 ({
@@ -510,7 +512,10 @@ opioid therapy and patient and clinician responsibilities for managing therapy
 [CDC Opioid Prescribing Guideline, Recommendation #3](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm)"
 */
 define ReportRecommendation3Text:
-  'Per CDC guidelines, before starting, and periodically during opioid therapy, clinicians should discuss with patients known risks and realistic benefits of opioid therapy and patient and clinician responsibilities for managing therapy (recommendation category: A, evidence type: 3).  [CDC Opioid Prescribing Guideline, Recommendation #3](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm)'
+    if Config."Use 2022 CDC Guidelines" then
+        'Per CDC guidelines, when starting opioid therapy for acute, subacute, or chronic pain, clinicians should prescribe immediate-release opioids instead of extended-release and long-acting (ER/LA) opioids (<a href="https://www.cdc.gov/mmwr/volumes/71/rr/rr7103a1.htm?s_cid=rr7103a1.htm_w#B3_down" target="_blank" rel="noopener noreferrer">recommendation category: A; evidence type: 4</a>).'
+    else
+        'Per CDC guidelines, before starting, and periodically during opioid therapy, clinicians should discuss with patients known risks and realistic benefits of opioid therapy and patient and clinician responsibilities for managing therapy (recommendation category: A, evidence type: 3).  [CDC Opioid Prescribing Guideline, Recommendation #3](<a href="https://www.cdc.gov/mmwr/volumes/71/rr/rr7103a1.htm#Recommendation3" rel="noopener noreferrer"/>)'
 
 /*
 # Recommendation #5
@@ -529,7 +534,10 @@ plan strategies to mitigate risk, including considering offering naloxone
 */
 define ReportRecommendation5Text:
   if CurrentMME >= 50 '{MME}/d' then
-    'Per CDC guidelines, when opioids are started, clinicians should prescribe the lowest effective dosage. Clinicians should use caution when prescribing opioids at any dosage, should carefully reassess evidence of individual benefits and risks when considering increasing dosage to ≥50 morphine milligram equivalents (MME)/day, and should avoid increasing dosage to ≥90 MME/day or carefully justify a decision to titrate dosage to ≥90 MME/day (recommendation category: A, evidence type: 3).\n\nFor MME/day of ≥ 50, CDC guidelines recommend incorporating into the management plan strategies to mitigate risk, including considering offering naloxone (recommendation category: A, evidence type: 4). [CDC Opioid Prescribing Guideline, Recommendation #5 and #8](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm)'
+    if Config."Use 2022 CDC Guidelines" then
+        'Per CDC guidelines, When opioids are initiated for opioid-naïve patients with acute, subacute, or chronic pain, clinicians should prescribe the lowest effective dosage. If opioids are continued for subacute or chronic pain, clinicians should use caution when prescribing opioids at any dosage, should carefully evaluate individual benefits and risks when considering increasing dosage, and should avoid increasing dosage above levels likely to yield diminishing returns in benefits relative to risks to patients (<a href="https://www.cdc.gov/mmwr/volumes/71/rr/rr7103a1.htm?s_cid=rr7103a1.htm_w#B3_down" target="_blank" rel="noopener noreferrer">recommendation category: A; evidence type: 3</a>)<br/><br/><br/>For patients already receiving opioid therapy, clinicians should carefully weigh benefits and risks and exercise care when changing opioid dosage. If benefits outweigh risks of continued opioid therapy, clinicians should work closely with patients to optimize nonopioid therapies while continuing opioid therapy. If benefits do not outweigh risks of continued opioid therapy, clinicians should optimize other therapies and work closely with patients to gradually taper to lower dosages or, if warranted based on the individual circumstances of the patient, appropriately taper and discontinue opioids. Unless there are indications of a life-threatening issue such as warning signs of impending overdose (e.g., confusion, sedation, or slurred speech), opioid therapy should not be discontinued abruptly, and clinicians should not rapidly reduce opioid dosages from higher dosages (<a href="https://www.cdc.gov/mmwr/volumes/71/rr/rr7103a1.htm?s_cid=rr7103a1.htm_w#B3_down" target="_blank" rel="noopener noreferrer">recommendation category: B; evidence type: 4</a>)'
+    else
+        'Per CDC guidelines, when opioids are started, clinicians should prescribe the lowest effective dosage. Clinicians should use caution when prescribing opioids at any dosage, should carefully reassess evidence of individual benefits and risks when considering increasing dosage to ≥50 morphine milligram equivalents (MME)/day, and should avoid increasing dosage to ≥90 MME/day or carefully justify a decision to titrate dosage to ≥90 MME/day (recommendation category: A, evidence type: 3).\n\nFor MME/day of ≥ 50, CDC guidelines recommend incorporating into the management plan strategies to mitigate risk, including considering offering naloxone (recommendation category: A, evidence type: 4). [CDC Opioid Prescribing Guideline, Recommendation #5 and #8](<a href="https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm" target="_blank" rel="noopener noreferrer"/>)'
   else
     null
 
@@ -546,7 +554,10 @@ or concurrent benzodiazepine use, are present (recommendation category: A, evide
 [CDC Opioid Prescribing Guideline, Recommendation #8](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm)"
 */
 define ReportRecommendation8Text:
-  'Per CDC guidelines, before starting, and periodically during continuation of opioid therapy, clinicians should evaluate risk factors for opioid-related harms. Clinicians should incorporate into the management plan strategies to mitigate risk, including considering offering naloxone when factors that increase risk for opioid overdose, such as history of overdose, history of substance use disorder, higher opioid dosages (greater than or equal to [≥] 50 morphine milligram equivalents [MME]/day), or concurrent benzodiazepine use, are present (recommendation category: A, evidence type: 4). [CDC Opioid Prescribing Guideline, Recommendation #8](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm)'
+      if Config."Use 2022 CDC Guidelines" then
+        'Per CDC guidelines, before starting and periodically during continuation of opioid therapy, clinicians should evaluate risk for opioid-related harms and discuss risk with patients. Clinicians should work with patients to incorporate into the management plan strategies to mitigate risk, including offering naloxone (<a href="https://www.cdc.gov/mmwr/volumes/71/rr/rr7103a1.htm?s_cid=rr7103a1.htm_w#B3_down" target="_blank" rel="noopener noreferrer">recommendation category: A; evidence type: 4</a>)'
+      else
+        'Per CDC guidelines, before starting, and periodically during continuation of opioid therapy, clinicians should evaluate risk factors for opioid-related harms. Clinicians should incorporate into the management plan strategies to mitigate risk, including considering offering naloxone when factors that increase risk for opioid overdose, such as history of overdose, history of substance use disorder, higher opioid dosages (greater than or equal to [≥] 50 morphine milligram equivalents [MME]/day), or concurrent benzodiazepine use, are present (recommendation category: A, evidence type: 4). [CDC Opioid Prescribing Guideline, Recommendation #8](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm)'
 
 /*
 # Recommendation #10
@@ -562,9 +573,15 @@ medications as well as other controlled prescription drugs and illicit drugs
 */
 define ReportRecommendation10Text:
   if not exists F2C.ReportUrineDrugScreens then
-    '**No urine drug screen within the past year**\n\nPatient’s active medications include an opioid. Per CDC guidelines, when prescribing opioids for chronic pain, clinicians should use urine drug testing before starting opioid therapy and consider urine drug testing at least annually to assess for prescribed medications as well as other controlled prescription drugs and illicit drugs (recommendation category: B, evidence type: 4) [CDC Opioid Prescribing Guideline, Recommendation #10](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm).'
+     if Config."Use 2022 CDC Guidelines" then
+        '**No urine drug screen within the past year**\n\nPatient’s active medications include an opioid. Per CDC guidelines, When prescribing opioids for subacute or chronic pain, clinicians should consider the benefits and risks of toxicology testing to assess for prescribed medications as well as other prescribed and nonprescribed controlled substances (<a href="https://www.cdc.gov/mmwr/volumes/71/rr/rr7103a1.htm?s_cid=rr7103a1.htm_w#B3_down" target="_blank" rel="noopener noreferrer">recommendation category: B; evidence type: 4</a>).'
+     else
+        '**No urine drug screen within the past year**\n\nPatient’s active medications include an opioid. Per CDC guidelines, when prescribing opioids for chronic pain, clinicians should use urine drug testing before starting opioid therapy and consider urine drug testing at least annually to assess for prescribed medications as well as other controlled prescription drugs and illicit drugs (recommendation category: B, evidence type: 4) [CDC Opioid Prescribing Guideline, Recommendation #10](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm).'
   else
-    null
+     if Config."Use 2022 CDC Guidelines" then
+        'Patient’s active medications include an opioid. Per CDC guidelines, when prescribing opioids for subacute or chronic pain, clinicians should consider the benefits and risks of toxicology testing to assess for prescribed medications as well as other prescribed and nonprescribed controlled substances (<a href="https://www.cdc.gov/mmwr/volumes/71/rr/rr7103a1.htm?s_cid=rr7103a1.htm_w#B3_down" target="_blank" rel="noopener noreferrer">recommendation category: B; evidence type: 4</a>)'
+     else
+        'Patient’s active medications include an opioid. Per CDC guidelines, when prescribing opioids for chronic pain, clinicians should use urine drug testing before starting opioid therapy and consider urine drug testing at least annually to assess for prescribed medications as well as other controlled prescription drugs and illicit drugs (recommendation category: B, evidence type: 4) [CDC Opioid Prescribing Guideline, Recommendation #10](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm).'
 
 /*
 # Recommendation #11
@@ -575,7 +592,10 @@ concurrently whenever possible (recommendation category: A, evidence type: 3)
 */
 define ReportRecommendation11Text:
   if exists (F2C.ReportOpioidMedications) and exists (F2C.ReportBenzodiazepineMedications) then
-    'Per CDC guidelines, avoid prescribing opioid pain medication and benzodiazepines concurrently whenever possible (recommendation category: A, evidence type: 3) [CDC Opioid Prescribing Guideline, Recommendation #11](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm)'
+      if Config."Use 2022 CDC Guidelines" then
+            'Per CDC guidelines, clinicians should use particular caution when prescribing opioid pain medication and benzodiazepines concurrently and consider whether benefits outweigh risks of concurrent prescribing of opioids and other central nervous system depressants (<a href="https://www.cdc.gov/mmwr/volumes/71/rr/rr7103a1.htm?s_cid=rr7103a1.htm_w#B3_down" target="_blank" rel="noopener noreferrer">recommendation category: B; evidence type: 3</a>)'
+          else
+            'Per CDC guidelines, avoid prescribing opioid pain medication and benzodiazepines concurrently whenever possible (recommendation category: A, evidence type: 3) [CDC Opioid Prescribing Guideline, Recommendation #11](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm)'
   else
     null
 
@@ -633,13 +653,6 @@ Activity Barriers
 | Resource | Viewed On |
 
 */
-// Control flags -- These actually belong in a Config.cql file (similar to the config file in opioid-cds-r4 IG), but this app is not processing it correctly.
-define "Only Active Medications":
-    true
-
-define "Use MMECalculator":
-    true
-
 // Return results for use in application
 define Summary: {
    Patient: {

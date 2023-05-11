@@ -83,6 +83,8 @@ include ChronicPainConcepts version '2.0.0' called Cx
 
 include MMECalculator version '3.0.0' called MMECalculator
 
+include PainManagerConfig version '0.1.0' called Config
+
 // # Value sets and codes #
 
 // ## Code Systems ##
@@ -507,12 +509,16 @@ define HasRecentAdjuvantAnalgesicMedication:
 //   - OR Opioid pain medication
 //   - OR Adjuvant analgesic medication
 define MeetsInclusionCriteria:
-  Is18orOlder
-  and (
-    HasConditionAssociatedWithChronicPain
-    or HasRecentOpioidPainMedication
-    or HasRecentAdjuvantAnalgesicMedication
-  )
+    if Config."Use Inclusion Criteria"
+        then
+          Is18orOlder
+          and (
+            HasConditionAssociatedWithChronicPain
+            or HasRecentOpioidPainMedication
+            or HasRecentAdjuvantAnalgesicMedication
+          )
+        else
+            true
 
 // EXCLUSIONS
 
@@ -844,10 +850,15 @@ define ReportSTarTBackAssessments:
 // Opioid medication orders and statements with dates (lookback 2 years)
 
 define OpioidMedicationRequests:
-  C3F.ActiveCompletedOrStoppedMedicationRequest(C3F.MedicationRequestLookBack(
+if Config."Only Active Medications" then C3F.ActiveMedicationRequest(C3F.MedicationRequestLookBack(
     [MedicationRequest: Cx."Opioid Pain Medications"],
-    2 years
-  ))
+     2 years
+   ))
+    else
+      C3F.ActiveCompletedOrStoppedMedicationRequest(C3F.MedicationRequestLookBack(
+      [MedicationRequest: Cx."Opioid Pain Medications"],
+      2 years
+    ))
 
 define OpioidMedicationStatements:
   (C3F.ActiveOrCompletedMedicationStatement(C3F.MedicationStatementLookBack(
@@ -864,7 +875,7 @@ define ReportOpioidMedicationRequests:
     Name:  ConceptText(O.medication as FHIR.CodeableConcept),
     Start: DateTimeText(O.authoredOn),
     End:   null as String, // MedicationRequest end date not supported in R4,
-    MME: MMEText(MMECalculator.TotalMME(List{O})),
+    MME: if Config."Use MMECalculator" then MMEText(MMECalculator.TotalMME(List{O})) else null,
     Sig: (singleton from (O.dosageInstruction)).text.value,
     Status: O.status.value
   }
@@ -884,15 +895,24 @@ define ReportOpioidMedicationStatements:
   sort by Start desc, End desc
 
 define ReportOpioidMedications:
-  (ReportOpioidMedicationRequests
-    union ReportOpioidMedicationStatements
-    union ReportNaloxoneMedications) M
-  sort by Start desc, End desc
+    if Config."Add Naloxone to Opioid Medications" then
+      (ReportOpioidMedicationRequests
+       union ReportOpioidMedicationStatements
+       union ReportNaloxoneMedications) M
+      sort by Start desc, End desc
+    else
+      (ReportOpioidMedicationRequests
+       union ReportOpioidMedicationStatements) M
+      sort by Start desc, End desc
 
 // Non-opioid medication orders and statements with dates (lookback 2 years)
 
 define NonOpioidMedicationRequests:
-  C3F.ActiveCompletedOrStoppedMedicationRequest(C3F.MedicationRequestLookBack(
+  if Config."Only Active Medications" then C3F.ActiveMedicationRequest(C3F.MedicationRequestLookBack(
+      [MedicationRequest: Cx."Non opioid pain medications"],
+    2 years
+  )) else
+      C3F.ActiveCompletedOrStoppedMedicationRequest(C3F.MedicationRequestLookBack(
     [MedicationRequest: Cx."Non opioid pain medications"],
     2 years
   ))
@@ -916,7 +936,7 @@ define ReportNonOpioidMedicationRequests:
     Sig: (singleton from (O.dosageInstruction)).text.value,
     Status: O.status.value
   }
-  sort by Start desc, End desc
+      sort by Start desc, End desc
 
 define ReportNonOpioidMedicationStatements:
   (NonOpioidMedicationStatements) S
@@ -932,10 +952,15 @@ define ReportNonOpioidMedicationStatements:
   sort by Start desc, End desc
 
 define ReportNonOpioidMedications:
-  (ReportNonOpioidMedicationRequests
-    union ReportNonOpioidMedicationStatements
-    union ReportBenzodiazepineMedications) M
-  sort by Start desc, End desc
+    if Config."Add Benzodiazepine to NonOpioid Medications" then
+      (ReportNonOpioidMedicationRequests
+        union ReportNonOpioidMedicationStatements
+        union ReportBenzodiazepineMedications) M
+      sort by Start desc, End desc
+    else
+      (ReportNonOpioidMedicationRequests
+        union ReportNonOpioidMedicationStatements) M
+      sort by Start desc, End desc
 
 // Non-pharmacologic treatments, orders, and referrals with dates (lookback 2 years)
 
@@ -1058,18 +1083,29 @@ define UrineDrugScreens:
 // Benzodiazepine Medications (lookback of 2 years)-  orders and statements with dates
 
 define BenzodiazepineMedicationRequests:
+ if Config."Only Active Medications" then C3F.ActiveMedicationRequest(C3F.MedicationRequestLookBack(
+    [MedicationRequest: Cx."Benzodiazepine medications"],
+    2 years
+  )) else
   C3F.ActiveCompletedOrStoppedMedicationRequest(C3F.MedicationRequestLookBack(
     [MedicationRequest: Cx."Benzodiazepine medications"],
     2 years
   ))
 
 define BenzodiazepineMedicationStatements:
-  (C3F.ActiveOrCompletedMedicationStatement(C3F.MedicationStatementLookBack(
-    [MedicationStatement: Cx."Benzodiazepine medications"],
-    2 years
-  ))) MS
-    without [MedicationRequest] MR such that
-      exists (MS.basedOn b where b.reference.endsWith('MedicationRequest/' + MR.id))
+ if Config."Only Active Medications" then (C3F.ActiveMedicationStatement(C3F.MedicationStatementLookBack(
+        [MedicationStatement: Cx."Benzodiazepine medications"],
+        2 years
+      ))) MS
+        without [MedicationRequest] MR such that
+          exists (MS.basedOn b where b.reference.endsWith('MedicationRequest/' + MR.id))
+    else
+      (C3F.ActiveOrCompletedMedicationStatement(C3F.MedicationStatementLookBack(
+        [MedicationStatement: Cx."Benzodiazepine medications"],
+        2 years
+      ))) MS
+        without [MedicationRequest] MR such that
+          exists (MS.basedOn b where b.reference.endsWith('MedicationRequest/' + MR.id))
 
 define ReportBenzodiazepineMedicationRequests:
   (BenzodiazepineMedicationRequests) O
@@ -1104,9 +1140,15 @@ define ReportBenzodiazepineMedications:
 // Naloxone Medications (unrestricted lookback) - orders and statements with dates
 
 define NaloxoneMedicationRequests:
-  C3F.ActiveCompletedOrStoppedMedicationRequest([MedicationRequest: Cx."Naloxone medications"])
+ if Config."Only Active Medications" then C3F.ActiveMedicationRequest([MedicationRequest: Cx."Naloxone medications"])
+    else
+    C3F.ActiveCompletedOrStoppedMedicationRequest([MedicationRequest: Cx."Naloxone medications"])
 
 define NaloxoneMedicationStatements:
+ if Config."Only Active Medications" then (C3F.ActiveMedicationStatement([MedicationStatement: Cx."Naloxone medications"])) MS
+    without [MedicationRequest] MR such that
+      exists (MS.basedOn b where b.reference.endsWith('MedicationRequest/' + MR.id))
+    else
   (C3F.ActiveOrCompletedMedicationStatement([MedicationStatement: Cx."Naloxone medications"])) MS
     without [MedicationRequest] MR such that
       exists (MS.basedOn b where b.reference.endsWith('MedicationRequest/' + MR.id))
@@ -1118,7 +1160,7 @@ define ReportNaloxoneMedicationRequests:
     Name:  ConceptText(O.medication as FHIR.CodeableConcept),
     Start: DateTimeText(O.authoredOn),
     End:   null as String, // MedicationRequest end date not supported in R4,
-    MME: MMEText(MMECalculator.TotalMME(List{O})),
+    MME: if Config."Use MMECalculator" then MMEText(MMECalculator.TotalMME(List{O})) else null,
     Sig: (singleton from (O.dosageInstruction)).text.value,
     Status: O.status.value
   }
