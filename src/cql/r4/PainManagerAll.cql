@@ -1590,7 +1590,7 @@ define function GetSimpleText(qrOb FHIR.Observation):
     when qrOb.code ~ painLocationAbdomenPelvis then 'Abdoment/Pelvis'
     when qrOb.code ~ painLocationFeetAnkles then 'Feet/Ankles'
     when qrOb.code ~ worstPain then 'At its worst (past 7 days)'
-    when qrOb.code ~ averagePain then 'Average Pain (past 7 days'
+    when qrOb.code ~ averagePain then 'Average Pain (past 7 days)'
     when qrOb.code ~ painRightNow then 'Current Pain'
     when qrOb.code ~ dayToDay then 'Day to day activities'
     when qrOb.code ~ homeWork then 'Work around the home'

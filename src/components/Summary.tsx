@@ -25,7 +25,28 @@ function TableWrapper({summary, section, subSection, columns, data }) {
   const tableRef = useRef(null);
   const tableInstance = useTable({ columns, data });
   const {headerGroups, rows, prepareRow } = tableInstance;
-  
+
+  const setColumnWidth = (section, subSection, column) => {
+    // Medications table
+    let width = "";
+    if(section === "CurrentPertinentTreatments"){
+      // Date Prescribes and Sig
+      if (column.id === "Date Prescribed"){
+        width = "175px";
+      }
+      if (column.id === "Sig"){
+        width = "350px";
+      }
+      // Opioids MME column
+      if (subSection.dataKey === "OpioidMedications" && column.id === "MME/Day"){
+        width = "175px";
+      }
+      return width
+    } else {
+      return
+    }
+  };
+
   return (
     <>
       <div className="card shadow-sm mb-3 overflow-auto border-0 table-responsive">
@@ -33,20 +54,39 @@ function TableWrapper({summary, section, subSection, columns, data }) {
           <thead className="bg-custom-primary border-custom-bottom">
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th className="ps-3" {...column.getHeaderProps()}>{column.render('Header')}</th>
+                {headerGroup.headers.map((column ,index )=> (
+                  <th className="ps-3" {...column.getHeaderProps()} style={{ width: setColumnWidth(section, subSection,column)}}>
+                    {column.render('Header')}
+                    </th>
                 ))}
               </tr>
             ))}
           </thead>
           <tbody className="overflow-auto">
+             {/* No data found */}
             {rows.length === 0 &&
               <tr>
-                <td className="text-center" colSpan={columns.length}>
-                 { section === "PertinentConditions" ? "No conditions found" : 
-                  section === "CurrentPertinentTreatments" ? "No prescription found in EHR" : 
-                  section === "UrineDrugScreening" ? "No UDS found" : 
-                  "No patient data submitted" }
+                <td className="ps-3" colSpan={columns.length}>
+                {/* pain locations */}
+                {(["SharedDecisionMaking", "TreatmentEffectiveness", "GoalsAndBarriers"]).includes(section) &&
+                  "No patient data submitted"
+                }
+                {/* conditions */}
+                {
+                  subSection.dataKey === "ConditionsAssociatedWithChronicPain" &&
+                    "No chronic pain conditions found in problem list or visit diagnoses in past year"
+                }
+                { subSection.dataKey === "CoMorbidConditionsIncreasingRiskWhenUsingOpioids" &&
+                  "No co-morbid conditions found in problem list or visit diagnoses in past year"
+                }
+                {/* medication */}
+                { section === "CurrentPertinentTreatments" &&
+                  "No prescription found in active medication list"
+                }
+                {/* UDS */}
+                { section === "UrineDrugScreening" &&
+                  "No urine drug screen found in past year"
+                }
                 </td> 
               </tr>
             }
@@ -124,7 +164,7 @@ export default class Summary extends Component<any, any> {
         }, 1000);
   }
 
-  // remove the temporary div after copying
+  // removes the temporary div after copying
   document.body.removeChild(tempDiv); 
 }
 
@@ -235,6 +275,7 @@ componentDidMount() {
   }
 
   renderTable(table: any, entries: any, section: any, subSection: any, index: any) {
+
     // If a filter is provided, only render those things that have the filter field (or don't have it when it's negated)
     let filteredEntries = entries;
 
@@ -329,10 +370,7 @@ componentDidMount() {
             return <span className="text-danger">{value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()}</span>
           }
           return <span className="">{value}</span>
-      },
-        minWidth: 150,
-        sortable:false ,
-        // sortable: sortable,  
+        },
       };
 
       if (column.sortable && headerKey.formatter) {
@@ -354,14 +392,6 @@ componentDidMount() {
           default:
           // do nothing, rely on built-in sort
         }
-      }
-
-      if (headerKey.minWidth != null) {
-        column.minWidth = headerKey.minWidth;
-      }
-
-      if (headerKey.maxWidth != null) {
-        column.maxWidth = headerKey.maxWidth;
       }
       columns.push(column);
     });
@@ -432,7 +462,6 @@ componentDidMount() {
           <div className=" col-12 sub-section h3-wrapper">
             {/* Not really being used here- remove datatable if needed */}
             {datatable}
-            {/* {!hasEntries && this.renderNoEntries(section, subSection)} */}
             {
               // hasEntries &&
               subSection.tables.map((table: any, index: any) =>
@@ -445,10 +474,10 @@ componentDidMount() {
     });
   }
 
+  // this function handles the rendering of information and warnings above the tables
   renderInfo(section){
     const sectionMap = this.summaryMapData[section];
     let data;
-
     if (
       section === "UrineDrugScreening" 
     ) {
@@ -459,9 +488,9 @@ componentDidMount() {
               subSection.dataKey === "UrineDrugScreens" && (
                 <div key={subSection.dataKey}>
                   <p>
-                    Where is this data from? Problem list entries & visit
-                    diagnoses over past 12 months (may cause duplicates)
+                  Where is this data from? Lab results from the past 12 months (does not include scanned document formats).
                   </p>
+                  {this.props.summary["UrineDrugScreening"]?.UrineDrugScreens?.length === 0 &&
                   <div
                     className="alert alert-info shadow-sm border-0"
                     role="alert"
@@ -478,9 +507,10 @@ componentDidMount() {
                       aria-label={subSection.name}
                     >
                       <FontAwesomeIcon icon={faExclamationCircle} />
-                      <span className="px-3">{subSection.name}</span>
+                      <span className="px-3">No urine drug screen found in past year.</span>
                     </div>
                   </div>
+                }
                 </div>
               )
             );
@@ -503,16 +533,8 @@ componentDidMount() {
        <div>
          <p>
            Where is this data from? Problem list entries & visit diagnoses over
-           past 12 months (may cause duplicates)
+           past 12 months (may cause duplicates).
          </p>
-         <div className="alert alert-info shadow-sm border-0" role="alert">
-           <FontAwesomeIcon icon={faExclamationCircle} />
-           <span className="px-3">
-             {" "}
-             Pain Manager is not for patients undergoing end-of-life care or
-             cancer treatment.{" "}
-           </span>
-         </div>
        </div>
      );
     }
@@ -521,11 +543,9 @@ componentDidMount() {
       data = (
         <div>
           <p>
-            Where is this data from? From the medication list. Only includes NIH
-            designated pain medications. Does not include locally compounded
-            medications.
+          Where is this data from? Pain related medications from active medication list.
           </p>
-          <div className="alert alert-info shadow-sm border-0" role="alert">
+          {/* <div className="alert alert-info shadow-sm border-0" role="alert">
             <FontAwesomeIcon icon={faExclamationCircle} />
             <span className="px-3">
               <a
@@ -536,7 +556,7 @@ componentDidMount() {
                 CDC Guidelines for Prescribing Opioids
               </a>
             </span>
-          </div>
+          </div> */}
 
           {sectionMap.map((subSection: any) => {
             return (
@@ -620,7 +640,6 @@ componentDidMount() {
       cdsCollector,
       questionText,
     } = this.props;
-    const meetsInclusionCriteria = summary.Patient.MeetsInclusionCriteria;
     let sharedDecisionSection = this.props.summary["SharedDecisionMaking"];
     let submitDate;
     if (
@@ -641,11 +660,6 @@ componentDidMount() {
     return (
       <div className="summary container">
         <div className="summary__display" id="maincontent">
-          {/* Trial area */}
-          {!meetsInclusionCriteria && (
-            <InclusionBanner dismissible={meetsInclusionCriteria} />
-          )}
-          {meetsInclusionCriteria && (
             <div className="row m-0">
               <div className="col-12">
                 <div className="card border-0 m-5x">
@@ -660,7 +674,7 @@ componentDidMount() {
                           <div className="col-12">
                             <p>
                               <strong>FROM PATIENT</strong> VIA MYPAIN{" "}
-                              {submitDate && "(" + submitDate +")"}
+                              {submitDate && "(" + submitDate + ")"}
                             </p>
                           </div>
                           <div className="col-12">
@@ -865,42 +879,60 @@ componentDidMount() {
                 </div>
               </div>
             </div>
-          )}
 
-          <Modal
-            size={"lg"}
-            show={this.state.showModal}
-            onHide={this.handleCloseModal}
-          >
-            <InfoModal
-              closeModal={this.handleCloseModal}
-              subSection={this.state.modalSubSection}
-              modalRole={this.state.modalRole}
-            />
-          </Modal>
+          <div className="row m-0">
+            <div className="col-12">
+              <Modal
+                size={"lg"}
+                show={this.state.showModal}
+                onHide={this.handleCloseModal}
+              >
+                <InfoModal
+                  closeModal={this.handleCloseModal}
+                  subSection={this.state.modalSubSection}
+                  modalRole={this.state.modalRole}
+                />
+              </Modal>
 
-          {this.state.appConfig ? (
-            <Footer key={this.state.appConfig} receiveTools={this.showTools}>
-              {this.state.appConfig}
-            </Footer>
-          ) : (
-            <Footer
-              key={this.state.appConfig}
-              receiveTools={this.showTools}
-            ></Footer>
-          )}
+              {this.state.appConfig ? (
+                <Footer
+                  key={this.state.appConfig}
+                  receiveTools={this.showTools}
+                >
+                  {this.state.appConfig}
+                </Footer>
+              ) : (
+                <Footer
+                  key={this.state.appConfig}
+                  receiveTools={this.showTools}
+                ></Footer>
+              )}
 
-          {this.state.showDevTools ? (
-            <DevTools
-              collector={collector}
-              qrCollector={qrCollector}
-              result={result}
-              cdsCollector={cdsCollector}
-              questionText={questionText}
-            />
-          ) : (
-            ""
-          )}
+              {this.state.showDevTools ? (
+                <DevTools
+                  collector={collector}
+                  qrCollector={qrCollector}
+                  result={result}
+                  cdsCollector={cdsCollector}
+                  questionText={questionText}
+                />
+              ) : (
+                ""
+              )}
+
+              <div
+                className="alert alert-secondary shadow-sm border-0 mt-3"
+                role="alert"
+              >
+                <FontAwesomeIcon icon={faExclamationCircle} />
+                <span className="px-3">
+                  {" "}
+                  Pain Manager is not for patients undergoing end-of-life care
+                  or cancer treatment.{" "}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

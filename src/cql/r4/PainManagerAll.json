@@ -12206,7 +12206,7 @@
                   },
                   "then" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                     "value" : "Average Pain (past 7 days",
+                     "value" : "Average Pain (past 7 days)",
                      "type" : "Literal"
                   }
                }, {

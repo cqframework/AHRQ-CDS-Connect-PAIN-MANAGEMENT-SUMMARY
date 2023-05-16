@@ -1,8 +1,9 @@
 //Table
 .PainIntensity-table table,
 .PainInterference-table table,
-#nav-medications table,
-table {
+.PainLocations-table table,
+.UrineDrugScreens-table table
+ {
   table-layout: fixed;
   width: 100%;
 }
