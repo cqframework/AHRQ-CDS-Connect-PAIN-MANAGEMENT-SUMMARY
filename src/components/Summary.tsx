@@ -35,7 +35,7 @@ function TableWrapper({summary, section, subSection, columns, data }) {
         width = "175px";
       }
       if (column.id === "Sig"){
-        width = "200px";
+        width = "350px";
       }
       // Opioids MME column
       if (subSection.dataKey === "OpioidMedications" && column.id === "MME/Day"){
