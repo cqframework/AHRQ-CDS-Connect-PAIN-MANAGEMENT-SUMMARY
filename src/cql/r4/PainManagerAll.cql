@@ -1552,7 +1552,7 @@ define ReportActivityGoals:
     return qrOb.value
 
 define ReportActivityBarriers:
-(QuestionnaireObservations) qrOb where qrOb.code.coding[0].code.value = 'mpq-1036'
+(QuestionnaireObservations) qrOb where qrOb.code.coding[0].code.value = 'mpq-1036' and DateMatchesMyPainDate(qrOb)
   return qrOb.value
 
 define function GetSimpleText(qrOb FHIR.Observation):
