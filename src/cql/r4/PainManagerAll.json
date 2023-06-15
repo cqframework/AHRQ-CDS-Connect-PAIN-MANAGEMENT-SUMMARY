@@ -11635,34 +11635,44 @@
                } ],
                "relationship" : [ ],
                "where" : {
-                  "type" : "Equal",
+                  "type" : "And",
                   "operand" : [ {
-                     "path" : "value",
-                     "type" : "Property",
-                     "source" : {
-                        "path" : "code",
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "path" : "value",
                         "type" : "Property",
                         "source" : {
-                           "type" : "Indexer",
-                           "operand" : [ {
-                              "path" : "coding",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "code",
-                                 "scope" : "qrOb",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                              "value" : "0",
-                              "type" : "Literal"
-                           } ]
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "type" : "Indexer",
+                              "operand" : [ {
+                                 "path" : "coding",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "code",
+                                    "scope" : "qrOb",
+                                    "type" : "Property"
+                                 }
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                 "value" : "0",
+                                 "type" : "Literal"
+                              } ]
+                           }
                         }
-                     }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "mpq-1036",
+                        "type" : "Literal"
+                     } ]
                   }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                     "value" : "mpq-1036",
-                     "type" : "Literal"
+                     "name" : "DateMatchesMyPainDate",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "qrOb",
+                        "type" : "AliasRef"
+                     } ]
                   } ]
                },
                "return" : {
