@@ -1576,6 +1576,7 @@ define function GetSimpleText(qrOb FHIR.Observation):
     when qrOb.code ~ painLocationHandsWrist then 'Hands/Wrist'
     when qrOb.code ~ painLocationAbdomenPelvis then 'Abdoment/Pelvis'
     when qrOb.code ~ painLocationFeetAnkles then 'Feet/Ankles'
+    when qrOb.code ~ painLocationOther then 'Other'
     when qrOb.code ~ worstPain then 'At its worst (past 7 days)'
     when qrOb.code ~ averagePain then 'Average Pain (past 7 days)'
     when qrOb.code ~ painRightNow then 'Current Pain'
@@ -1618,13 +1619,16 @@ define ReportPainLocations:
         or qrOb.code ~ painLocationHandsWrist
         or qrOb.code ~ painLocationAbdomenPelvis
         or qrOb.code ~ painLocationFeetAnkles
+        or qrOb.code ~ painLocationOther
         )and(DateMatchesMyPainDate(qrOb))
         return
           {
                 Location: qrOb.code.coding[0].display.value,
                 SimpleLocation: GetSimpleText(qrOb),
                 PainYesNo: true,
-                Description: Combine(qrOb.value.coding.display, ', ')
+                Description: if qrOb.code ~ painLocationOther then qrOb.value.value
+                             else
+                             Combine(qrOb.value.coding.display, ', ')
           }  //sort by Location desc does NOT work. The location codes are not in order and the more I think about it, we can't depend on that.
 
 // Data from the most recent PainIntensityAndInteference Observations
@@ -1763,8 +1767,8 @@ define ReportNotTriedTx:
       or (qrOb.code ~ noTreatmentsTried and qrOb.value = true)
       or (qrOb.code ~ noTopicalTxTried and qrOb.value = true)
       or (qrOb.code ~ noLifestyleChanges and qrOb.value = true)
-      or (qrOb.code~ noALternativeTxTried and qrOb.value = true)
-      and(DateMatchesMyPainDate(qrOb)))
+      or (qrOb.code~ noALternativeTxTried and qrOb.value = true))
+      and(DateMatchesMyPainDate(qrOb))
       return{
         Treatment: QuestionTextByLinkId(qrOb)[0].value[0],
         SimpleText: GetSimpleText(qrOb)
@@ -1811,8 +1815,8 @@ define ReportOtherTx:
       or qrOb.code ~ otherAlternativeTx
       or qrOb.code ~ otherOTC
       or qrOb.code ~ otherNewTreatments
-      or qrOb.code ~ newTreatmentOther
-      and(DateMatchesMyPainDate(qrOb)))
+      or qrOb.code ~ newTreatmentOther)
+      and(DateMatchesMyPainDate(qrOb))
       return{
         Response: ObservationValue(qrOb)
       }

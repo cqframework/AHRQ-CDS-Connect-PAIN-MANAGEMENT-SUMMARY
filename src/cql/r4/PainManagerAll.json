@@ -12240,6 +12240,34 @@
                      }, {
                         "type" : "ToConcept",
                         "operand" : {
+                           "name" : "painLocationOther",
+                           "type" : "CodeRef"
+                        }
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Other",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "qrOb",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }, {
+                        "type" : "ToConcept",
+                        "operand" : {
                            "name" : "worstPain",
                            "type" : "CodeRef"
                         }
@@ -12765,22 +12793,43 @@
                                                                      "operand" : [ {
                                                                         "type" : "Or",
                                                                         "operand" : [ {
-                                                                           "type" : "Equivalent",
+                                                                           "type" : "Or",
                                                                            "operand" : [ {
-                                                                              "name" : "ToConcept",
-                                                                              "libraryName" : "FHIRHelpers",
-                                                                              "type" : "FunctionRef",
+                                                                              "type" : "Equivalent",
                                                                               "operand" : [ {
-                                                                                 "path" : "code",
-                                                                                 "scope" : "qrOb",
-                                                                                 "type" : "Property"
+                                                                                 "name" : "ToConcept",
+                                                                                 "libraryName" : "FHIRHelpers",
+                                                                                 "type" : "FunctionRef",
+                                                                                 "operand" : [ {
+                                                                                    "path" : "code",
+                                                                                    "scope" : "qrOb",
+                                                                                    "type" : "Property"
+                                                                                 } ]
+                                                                              }, {
+                                                                                 "type" : "ToConcept",
+                                                                                 "operand" : {
+                                                                                    "name" : "painLocationHead",
+                                                                                    "type" : "CodeRef"
+                                                                                 }
                                                                               } ]
                                                                            }, {
-                                                                              "type" : "ToConcept",
-                                                                              "operand" : {
-                                                                                 "name" : "painLocationHead",
-                                                                                 "type" : "CodeRef"
-                                                                              }
+                                                                              "type" : "Equivalent",
+                                                                              "operand" : [ {
+                                                                                 "name" : "ToConcept",
+                                                                                 "libraryName" : "FHIRHelpers",
+                                                                                 "type" : "FunctionRef",
+                                                                                 "operand" : [ {
+                                                                                    "path" : "code",
+                                                                                    "scope" : "qrOb",
+                                                                                    "type" : "Property"
+                                                                                 } ]
+                                                                              }, {
+                                                                                 "type" : "ToConcept",
+                                                                                 "operand" : {
+                                                                                    "name" : "painLocationNeck",
+                                                                                    "type" : "CodeRef"
+                                                                                 }
+                                                                              } ]
                                                                            } ]
                                                                         }, {
                                                                            "type" : "Equivalent",
@@ -12796,7 +12845,7 @@
                                                                            }, {
                                                                               "type" : "ToConcept",
                                                                               "operand" : {
-                                                                                 "name" : "painLocationNeck",
+                                                                                 "name" : "painLocationShoulders",
                                                                                  "type" : "CodeRef"
                                                                               }
                                                                            } ]
@@ -12815,7 +12864,7 @@
                                                                         }, {
                                                                            "type" : "ToConcept",
                                                                            "operand" : {
-                                                                              "name" : "painLocationShoulders",
+                                                                              "name" : "painLocationArms",
                                                                               "type" : "CodeRef"
                                                                            }
                                                                         } ]
@@ -12834,7 +12883,7 @@
                                                                      }, {
                                                                         "type" : "ToConcept",
                                                                         "operand" : {
-                                                                           "name" : "painLocationArms",
+                                                                           "name" : "painLocationUpperBack",
                                                                            "type" : "CodeRef"
                                                                         }
                                                                      } ]
@@ -12853,7 +12902,7 @@
                                                                   }, {
                                                                      "type" : "ToConcept",
                                                                      "operand" : {
-                                                                        "name" : "painLocationUpperBack",
+                                                                        "name" : "painLocationLowerBack",
                                                                         "type" : "CodeRef"
                                                                      }
                                                                   } ]
@@ -12872,7 +12921,7 @@
                                                                }, {
                                                                   "type" : "ToConcept",
                                                                   "operand" : {
-                                                                     "name" : "painLocationLowerBack",
+                                                                     "name" : "painLocationHands",
                                                                      "type" : "CodeRef"
                                                                   }
                                                                } ]
@@ -12891,7 +12940,7 @@
                                                             }, {
                                                                "type" : "ToConcept",
                                                                "operand" : {
-                                                                  "name" : "painLocationHands",
+                                                                  "name" : "painLocationAbdomen",
                                                                   "type" : "CodeRef"
                                                                }
                                                             } ]
@@ -12910,7 +12959,7 @@
                                                          }, {
                                                             "type" : "ToConcept",
                                                             "operand" : {
-                                                               "name" : "painLocationAbdomen",
+                                                               "name" : "painLocationPelvis",
                                                                "type" : "CodeRef"
                                                             }
                                                          } ]
@@ -12929,7 +12978,7 @@
                                                       }, {
                                                          "type" : "ToConcept",
                                                          "operand" : {
-                                                            "name" : "painLocationPelvis",
+                                                            "name" : "painLocationHips",
                                                             "type" : "CodeRef"
                                                          }
                                                       } ]
@@ -12948,7 +12997,7 @@
                                                    }, {
                                                       "type" : "ToConcept",
                                                       "operand" : {
-                                                         "name" : "painLocationHips",
+                                                         "name" : "painLocationUpperLegs",
                                                          "type" : "CodeRef"
                                                       }
                                                    } ]
@@ -12967,7 +13016,7 @@
                                                 }, {
                                                    "type" : "ToConcept",
                                                    "operand" : {
-                                                      "name" : "painLocationUpperLegs",
+                                                      "name" : "painLocationKnees",
                                                       "type" : "CodeRef"
                                                    }
                                                 } ]
@@ -12986,7 +13035,7 @@
                                              }, {
                                                 "type" : "ToConcept",
                                                 "operand" : {
-                                                   "name" : "painLocationKnees",
+                                                   "name" : "painLocationLowerLegs",
                                                    "type" : "CodeRef"
                                                 }
                                              } ]
@@ -13005,7 +13054,7 @@
                                           }, {
                                              "type" : "ToConcept",
                                              "operand" : {
-                                                "name" : "painLocationLowerLegs",
+                                                "name" : "painLocationFeet",
                                                 "type" : "CodeRef"
                                              }
                                           } ]
@@ -13024,7 +13073,7 @@
                                        }, {
                                           "type" : "ToConcept",
                                           "operand" : {
-                                             "name" : "painLocationFeet",
+                                             "name" : "painLocationEverywhere",
                                              "type" : "CodeRef"
                                           }
                                        } ]
@@ -13043,7 +13092,7 @@
                                     }, {
                                        "type" : "ToConcept",
                                        "operand" : {
-                                          "name" : "painLocationEverywhere",
+                                          "name" : "painLocationBack",
                                           "type" : "CodeRef"
                                        }
                                     } ]
@@ -13062,7 +13111,7 @@
                                  }, {
                                     "type" : "ToConcept",
                                     "operand" : {
-                                       "name" : "painLocationBack",
+                                       "name" : "painLocationHandsWrist",
                                        "type" : "CodeRef"
                                     }
                                  } ]
@@ -13081,7 +13130,7 @@
                               }, {
                                  "type" : "ToConcept",
                                  "operand" : {
-                                    "name" : "painLocationHandsWrist",
+                                    "name" : "painLocationAbdomenPelvis",
                                     "type" : "CodeRef"
                                  }
                               } ]
@@ -13100,7 +13149,7 @@
                            }, {
                               "type" : "ToConcept",
                               "operand" : {
-                                 "name" : "painLocationAbdomenPelvis",
+                                 "name" : "painLocationFeetAnkles",
                                  "type" : "CodeRef"
                               }
                            } ]
@@ -13119,7 +13168,7 @@
                         }, {
                            "type" : "ToConcept",
                            "operand" : {
-                              "name" : "painLocationFeetAnkles",
+                              "name" : "painLocationOther",
                               "type" : "CodeRef"
                            }
                         } ]
@@ -13182,69 +13231,125 @@
                      }, {
                         "name" : "Description",
                         "value" : {
-                           "type" : "Combine",
-                           "source" : {
-                              "type" : "Query",
-                              "source" : [ {
-                                 "alias" : "X",
-                                 "expression" : {
+                           "type" : "If",
+                           "condition" : {
+                              "type" : "Equivalent",
+                              "operand" : [ {
+                                 "name" : "ToConcept",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "path" : "code",
+                                    "scope" : "qrOb",
+                                    "type" : "Property"
+                                 } ]
+                              }, {
+                                 "type" : "ToConcept",
+                                 "operand" : {
+                                    "name" : "painLocationOther",
+                                    "type" : "CodeRef"
+                                 }
+                              } ]
+                           },
+                           "then" : {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "value",
+                                 "scope" : "qrOb",
+                                 "type" : "Property"
+                              }
+                           },
+                           "else" : {
+                              "type" : "As",
+                              "operand" : {
+                                 "type" : "Combine",
+                                 "source" : {
                                     "type" : "Query",
                                     "source" : [ {
-                                       "alias" : "$this",
+                                       "alias" : "X",
                                        "expression" : {
-                                          "path" : "coding",
-                                          "type" : "Property",
-                                          "source" : {
-                                             "path" : "value",
-                                             "scope" : "qrOb",
-                                             "type" : "Property"
-                                          }
-                                       }
-                                    } ],
-                                    "where" : {
-                                       "type" : "Not",
-                                       "operand" : {
-                                          "type" : "IsNull",
-                                          "operand" : {
-                                             "path" : "display",
-                                             "type" : "Property",
-                                             "source" : {
-                                                "name" : "$this",
-                                                "type" : "AliasRef"
+                                          "type" : "Query",
+                                          "source" : [ {
+                                             "alias" : "$this",
+                                             "expression" : {
+                                                "path" : "coding",
+                                                "type" : "Property",
+                                                "source" : {
+                                                   "path" : "value",
+                                                   "scope" : "qrOb",
+                                                   "type" : "Property"
+                                                }
+                                             }
+                                          } ],
+                                          "where" : {
+                                             "type" : "Not",
+                                             "operand" : {
+                                                "type" : "IsNull",
+                                                "operand" : {
+                                                   "path" : "display",
+                                                   "type" : "Property",
+                                                   "source" : {
+                                                      "name" : "$this",
+                                                      "type" : "AliasRef"
+                                                   }
+                                                }
+                                             }
+                                          },
+                                          "return" : {
+                                             "distinct" : false,
+                                             "expression" : {
+                                                "path" : "display",
+                                                "type" : "Property",
+                                                "source" : {
+                                                   "name" : "$this",
+                                                   "type" : "AliasRef"
+                                                }
                                              }
                                           }
                                        }
-                                    },
+                                    } ],
                                     "return" : {
                                        "distinct" : false,
                                        "expression" : {
-                                          "path" : "display",
-                                          "type" : "Property",
-                                          "source" : {
-                                             "name" : "$this",
+                                          "name" : "ToString",
+                                          "libraryName" : "FHIRHelpers",
+                                          "type" : "FunctionRef",
+                                          "operand" : [ {
+                                             "name" : "X",
                                              "type" : "AliasRef"
-                                          }
+                                          } ]
                                        }
                                     }
+                                 },
+                                 "separator" : {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : ", ",
+                                    "type" : "Literal"
                                  }
-                              } ],
-                              "return" : {
-                                 "distinct" : false,
-                                 "expression" : {
-                                    "name" : "ToString",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "name" : "X",
-                                       "type" : "AliasRef"
-                                    } ]
-                                 }
+                              },
+                              "asTypeSpecifier" : {
+                                 "type" : "ChoiceTypeSpecifier",
+                                 "choice" : [ {
+                                    "name" : "{urn:hl7-org:elm-types:r1}Boolean",
+                                    "type" : "NamedTypeSpecifier"
+                                 }, {
+                                    "name" : "{urn:hl7-org:elm-types:r1}Time",
+                                    "type" : "NamedTypeSpecifier"
+                                 }, {
+                                    "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                                    "type" : "NamedTypeSpecifier"
+                                 }, {
+                                    "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "type" : "NamedTypeSpecifier"
+                                 }, {
+                                    "name" : "{http://hl7.org/fhir}decimal",
+                                    "type" : "NamedTypeSpecifier"
+                                 }, {
+                                    "name" : "{urn:hl7-org:elm-types:r1}String",
+                                    "type" : "NamedTypeSpecifier"
+                                 } ]
                               }
-                           },
-                           "separator" : {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                              "value" : ", ",
-                              "type" : "Literal"
                            }
                         }
                      } ]
@@ -15076,7 +15181,7 @@
                } ],
                "relationship" : [ ],
                "where" : {
-                  "type" : "Or",
+                  "type" : "And",
                   "operand" : [ {
                      "type" : "Or",
                      "operand" : [ {
@@ -15086,44 +15191,88 @@
                            "operand" : [ {
                               "type" : "Or",
                               "operand" : [ {
-                                 "type" : "And",
+                                 "type" : "Or",
                                  "operand" : [ {
-                                    "type" : "Equivalent",
+                                    "type" : "And",
                                     "operand" : [ {
-                                       "name" : "ToConcept",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
+                                       "type" : "Equivalent",
                                        "operand" : [ {
-                                          "path" : "code",
-                                          "scope" : "qrOb",
-                                          "type" : "Property"
-                                       } ]
-                                    }, {
-                                       "type" : "ToConcept",
-                                       "operand" : {
-                                          "name" : "noMedicationsTried",
-                                          "type" : "CodeRef"
-                                       }
-                                    } ]
-                                 }, {
-                                    "type" : "Equal",
-                                    "operand" : [ {
-                                       "name" : "ToBoolean",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "asType" : "{http://hl7.org/fhir}boolean",
-                                          "type" : "As",
-                                          "operand" : {
-                                             "path" : "value",
+                                          "name" : "ToConcept",
+                                          "libraryName" : "FHIRHelpers",
+                                          "type" : "FunctionRef",
+                                          "operand" : [ {
+                                             "path" : "code",
                                              "scope" : "qrOb",
                                              "type" : "Property"
+                                          } ]
+                                       }, {
+                                          "type" : "ToConcept",
+                                          "operand" : {
+                                             "name" : "noMedicationsTried",
+                                             "type" : "CodeRef"
                                           }
                                        } ]
                                     }, {
-                                       "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                                       "value" : "true",
-                                       "type" : "Literal"
+                                       "type" : "Equal",
+                                       "operand" : [ {
+                                          "name" : "ToBoolean",
+                                          "libraryName" : "FHIRHelpers",
+                                          "type" : "FunctionRef",
+                                          "operand" : [ {
+                                             "asType" : "{http://hl7.org/fhir}boolean",
+                                             "type" : "As",
+                                             "operand" : {
+                                                "path" : "value",
+                                                "scope" : "qrOb",
+                                                "type" : "Property"
+                                             }
+                                          } ]
+                                       }, {
+                                          "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                                          "value" : "true",
+                                          "type" : "Literal"
+                                       } ]
+                                    } ]
+                                 }, {
+                                    "type" : "And",
+                                    "operand" : [ {
+                                       "type" : "Equivalent",
+                                       "operand" : [ {
+                                          "name" : "ToConcept",
+                                          "libraryName" : "FHIRHelpers",
+                                          "type" : "FunctionRef",
+                                          "operand" : [ {
+                                             "path" : "code",
+                                             "scope" : "qrOb",
+                                             "type" : "Property"
+                                          } ]
+                                       }, {
+                                          "type" : "ToConcept",
+                                          "operand" : {
+                                             "name" : "noSpecialistsSeen",
+                                             "type" : "CodeRef"
+                                          }
+                                       } ]
+                                    }, {
+                                       "type" : "Equal",
+                                       "operand" : [ {
+                                          "name" : "ToBoolean",
+                                          "libraryName" : "FHIRHelpers",
+                                          "type" : "FunctionRef",
+                                          "operand" : [ {
+                                             "asType" : "{http://hl7.org/fhir}boolean",
+                                             "type" : "As",
+                                             "operand" : {
+                                                "path" : "value",
+                                                "scope" : "qrOb",
+                                                "type" : "Property"
+                                             }
+                                          } ]
+                                       }, {
+                                          "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                                          "value" : "true",
+                                          "type" : "Literal"
+                                       } ]
                                     } ]
                                  } ]
                               }, {
@@ -15142,7 +15291,7 @@
                                     }, {
                                        "type" : "ToConcept",
                                        "operand" : {
-                                          "name" : "noSpecialistsSeen",
+                                          "name" : "noTreatmentsTried",
                                           "type" : "CodeRef"
                                        }
                                     } ]
@@ -15184,7 +15333,7 @@
                                  }, {
                                     "type" : "ToConcept",
                                     "operand" : {
-                                       "name" : "noTreatmentsTried",
+                                       "name" : "noTopicalTxTried",
                                        "type" : "CodeRef"
                                     }
                                  } ]
@@ -15226,7 +15375,7 @@
                               }, {
                                  "type" : "ToConcept",
                                  "operand" : {
-                                    "name" : "noTopicalTxTried",
+                                    "name" : "noLifestyleChanges",
                                     "type" : "CodeRef"
                                  }
                               } ]
@@ -15268,7 +15417,7 @@
                            }, {
                               "type" : "ToConcept",
                               "operand" : {
-                                 "name" : "noLifestyleChanges",
+                                 "name" : "noALternativeTxTried",
                                  "type" : "CodeRef"
                               }
                            } ]
@@ -15295,55 +15444,11 @@
                         } ]
                      } ]
                   }, {
-                     "type" : "And",
+                     "name" : "DateMatchesMyPainDate",
+                     "type" : "FunctionRef",
                      "operand" : [ {
-                        "type" : "And",
-                        "operand" : [ {
-                           "type" : "Equivalent",
-                           "operand" : [ {
-                              "name" : "ToConcept",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "path" : "code",
-                                 "scope" : "qrOb",
-                                 "type" : "Property"
-                              } ]
-                           }, {
-                              "type" : "ToConcept",
-                              "operand" : {
-                                 "name" : "noALternativeTxTried",
-                                 "type" : "CodeRef"
-                              }
-                           } ]
-                        }, {
-                           "type" : "Equal",
-                           "operand" : [ {
-                              "name" : "ToBoolean",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "asType" : "{http://hl7.org/fhir}boolean",
-                                 "type" : "As",
-                                 "operand" : {
-                                    "path" : "value",
-                                    "scope" : "qrOb",
-                                    "type" : "Property"
-                                 }
-                              } ]
-                           }, {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                              "value" : "true",
-                              "type" : "Literal"
-                           } ]
-                        } ]
-                     }, {
-                        "name" : "DateMatchesMyPainDate",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "name" : "qrOb",
-                           "type" : "AliasRef"
-                        } ]
+                        "name" : "qrOb",
+                        "type" : "AliasRef"
                      } ]
                   } ]
                },
@@ -15886,7 +15991,7 @@
                } ],
                "relationship" : [ ],
                "where" : {
-                  "type" : "Or",
+                  "type" : "And",
                   "operand" : [ {
                      "type" : "Or",
                      "operand" : [ {
@@ -15902,22 +16007,43 @@
                                     "operand" : [ {
                                        "type" : "Or",
                                        "operand" : [ {
-                                          "type" : "Equivalent",
+                                          "type" : "Or",
                                           "operand" : [ {
-                                             "name" : "ToConcept",
-                                             "libraryName" : "FHIRHelpers",
-                                             "type" : "FunctionRef",
+                                             "type" : "Equivalent",
                                              "operand" : [ {
-                                                "path" : "code",
-                                                "scope" : "qrOb",
-                                                "type" : "Property"
+                                                "name" : "ToConcept",
+                                                "libraryName" : "FHIRHelpers",
+                                                "type" : "FunctionRef",
+                                                "operand" : [ {
+                                                   "path" : "code",
+                                                   "scope" : "qrOb",
+                                                   "type" : "Property"
+                                                } ]
+                                             }, {
+                                                "type" : "ToConcept",
+                                                "operand" : {
+                                                   "name" : "otherMedicationTried",
+                                                   "type" : "CodeRef"
+                                                }
                                              } ]
                                           }, {
-                                             "type" : "ToConcept",
-                                             "operand" : {
-                                                "name" : "otherMedicationTried",
-                                                "type" : "CodeRef"
-                                             }
+                                             "type" : "Equivalent",
+                                             "operand" : [ {
+                                                "name" : "ToConcept",
+                                                "libraryName" : "FHIRHelpers",
+                                                "type" : "FunctionRef",
+                                                "operand" : [ {
+                                                   "path" : "code",
+                                                   "scope" : "qrOb",
+                                                   "type" : "Property"
+                                                } ]
+                                             }, {
+                                                "type" : "ToConcept",
+                                                "operand" : {
+                                                   "name" : "otherSpecialists",
+                                                   "type" : "CodeRef"
+                                                }
+                                             } ]
                                           } ]
                                        }, {
                                           "type" : "Equivalent",
@@ -15933,7 +16059,7 @@
                                           }, {
                                              "type" : "ToConcept",
                                              "operand" : {
-                                                "name" : "otherSpecialists",
+                                                "name" : "otherTreatments",
                                                 "type" : "CodeRef"
                                              }
                                           } ]
@@ -15952,7 +16078,7 @@
                                        }, {
                                           "type" : "ToConcept",
                                           "operand" : {
-                                             "name" : "otherTreatments",
+                                             "name" : "otherTopicalTx",
                                              "type" : "CodeRef"
                                           }
                                        } ]
@@ -15971,7 +16097,7 @@
                                     }, {
                                        "type" : "ToConcept",
                                        "operand" : {
-                                          "name" : "otherTopicalTx",
+                                          "name" : "otherLifestyleChanges",
                                           "type" : "CodeRef"
                                        }
                                     } ]
@@ -15990,7 +16116,7 @@
                                  }, {
                                     "type" : "ToConcept",
                                     "operand" : {
-                                       "name" : "otherLifestyleChanges",
+                                       "name" : "otherAlternativeTx",
                                        "type" : "CodeRef"
                                     }
                                  } ]
@@ -16009,7 +16135,7 @@
                               }, {
                                  "type" : "ToConcept",
                                  "operand" : {
-                                    "name" : "otherAlternativeTx",
+                                    "name" : "otherOTC",
                                     "type" : "CodeRef"
                                  }
                               } ]
@@ -16028,7 +16154,7 @@
                            }, {
                               "type" : "ToConcept",
                               "operand" : {
-                                 "name" : "otherOTC",
+                                 "name" : "otherNewTreatments",
                                  "type" : "CodeRef"
                               }
                            } ]
@@ -16047,38 +16173,17 @@
                         }, {
                            "type" : "ToConcept",
                            "operand" : {
-                              "name" : "otherNewTreatments",
+                              "name" : "newTreatmentOther",
                               "type" : "CodeRef"
                            }
                         } ]
                      } ]
                   }, {
-                     "type" : "And",
+                     "name" : "DateMatchesMyPainDate",
+                     "type" : "FunctionRef",
                      "operand" : [ {
-                        "type" : "Equivalent",
-                        "operand" : [ {
-                           "name" : "ToConcept",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "path" : "code",
-                              "scope" : "qrOb",
-                              "type" : "Property"
-                           } ]
-                        }, {
-                           "type" : "ToConcept",
-                           "operand" : {
-                              "name" : "newTreatmentOther",
-                              "type" : "CodeRef"
-                           }
-                        } ]
-                     }, {
-                        "name" : "DateMatchesMyPainDate",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "name" : "qrOb",
-                           "type" : "AliasRef"
-                        } ]
+                        "name" : "qrOb",
+                        "type" : "AliasRef"
                      } ]
                   } ]
                },
