@@ -1625,7 +1625,7 @@ define ReportPainLocations:
                 SimpleLocation: GetSimpleText(qrOb),
                 PainYesNo: true,
                 Description: Combine(qrOb.value.coding.display, ', ')
-          }
+          }  //sort by Location desc does NOT work. The location codes are not in order and the more I think about it, we can't depend on that.
 
 // Data from the most recent PainIntensityAndInteference Observations
 define ReportPainIntensityAndInterference:
@@ -1671,6 +1671,7 @@ define ReportPainIntensity:
         or qrOb.code ~ enjoySocial
         or qrOb.code ~ enjoyLife
         or qrOb.code ~ enjoyFamily)
+        and(DateMatchesMyPainDate(qrOb))
   return
   {
     Question: qrOb.code.coding[0].display.value,

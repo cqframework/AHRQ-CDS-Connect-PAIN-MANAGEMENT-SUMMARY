@@ -13700,7 +13700,7 @@
                } ],
                "relationship" : [ ],
                "where" : {
-                  "type" : "Or",
+                  "type" : "And",
                   "operand" : [ {
                      "type" : "Or",
                      "operand" : [ {
@@ -13714,22 +13714,43 @@
                                  "operand" : [ {
                                     "type" : "Or",
                                     "operand" : [ {
-                                       "type" : "Equivalent",
+                                       "type" : "Or",
                                        "operand" : [ {
-                                          "name" : "ToConcept",
-                                          "libraryName" : "FHIRHelpers",
-                                          "type" : "FunctionRef",
+                                          "type" : "Equivalent",
                                           "operand" : [ {
-                                             "path" : "code",
-                                             "scope" : "qrOb",
-                                             "type" : "Property"
+                                             "name" : "ToConcept",
+                                             "libraryName" : "FHIRHelpers",
+                                             "type" : "FunctionRef",
+                                             "operand" : [ {
+                                                "path" : "code",
+                                                "scope" : "qrOb",
+                                                "type" : "Property"
+                                             } ]
+                                          }, {
+                                             "type" : "ToConcept",
+                                             "operand" : {
+                                                "name" : "dayToDay",
+                                                "type" : "CodeRef"
+                                             }
                                           } ]
                                        }, {
-                                          "type" : "ToConcept",
-                                          "operand" : {
-                                             "name" : "dayToDay",
-                                             "type" : "CodeRef"
-                                          }
+                                          "type" : "Equivalent",
+                                          "operand" : [ {
+                                             "name" : "ToConcept",
+                                             "libraryName" : "FHIRHelpers",
+                                             "type" : "FunctionRef",
+                                             "operand" : [ {
+                                                "path" : "code",
+                                                "scope" : "qrOb",
+                                                "type" : "Property"
+                                             } ]
+                                          }, {
+                                             "type" : "ToConcept",
+                                             "operand" : {
+                                                "name" : "homeWork",
+                                                "type" : "CodeRef"
+                                             }
+                                          } ]
                                        } ]
                                     }, {
                                        "type" : "Equivalent",
@@ -13745,7 +13766,7 @@
                                        }, {
                                           "type" : "ToConcept",
                                           "operand" : {
-                                             "name" : "homeWork",
+                                             "name" : "socialActivities",
                                              "type" : "CodeRef"
                                           }
                                        } ]
@@ -13764,7 +13785,7 @@
                                     }, {
                                        "type" : "ToConcept",
                                        "operand" : {
-                                          "name" : "socialActivities",
+                                          "name" : "householdChores",
                                           "type" : "CodeRef"
                                        }
                                     } ]
@@ -13783,7 +13804,7 @@
                                  }, {
                                     "type" : "ToConcept",
                                     "operand" : {
-                                       "name" : "householdChores",
+                                       "name" : "funActivities",
                                        "type" : "CodeRef"
                                     }
                                  } ]
@@ -13802,7 +13823,7 @@
                               }, {
                                  "type" : "ToConcept",
                                  "operand" : {
-                                    "name" : "funActivities",
+                                    "name" : "enjoySocial",
                                     "type" : "CodeRef"
                                  }
                               } ]
@@ -13821,7 +13842,7 @@
                            }, {
                               "type" : "ToConcept",
                               "operand" : {
-                                 "name" : "enjoySocial",
+                                 "name" : "enjoyLife",
                                  "type" : "CodeRef"
                               }
                            } ]
@@ -13840,28 +13861,17 @@
                         }, {
                            "type" : "ToConcept",
                            "operand" : {
-                              "name" : "enjoyLife",
+                              "name" : "enjoyFamily",
                               "type" : "CodeRef"
                            }
                         } ]
                      } ]
                   }, {
-                     "type" : "Equivalent",
+                     "name" : "DateMatchesMyPainDate",
+                     "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToConcept",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "path" : "code",
-                           "scope" : "qrOb",
-                           "type" : "Property"
-                        } ]
-                     }, {
-                        "type" : "ToConcept",
-                        "operand" : {
-                           "name" : "enjoyFamily",
-                           "type" : "CodeRef"
-                        }
+                        "name" : "qrOb",
+                        "type" : "AliasRef"
                      } ]
                   } ]
                },
