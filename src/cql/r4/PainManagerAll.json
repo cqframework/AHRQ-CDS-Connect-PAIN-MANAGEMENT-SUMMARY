@@ -143,7 +143,7 @@
             "accessLevel" : "Public"
          }, {
             "name" : "Non opioid pain medications",
-            "id" : "http://fhir.org/guides/cqf/cds4cpm/ValueSet/2.16.840.1.113762.1.4.1021.73",
+            "id" : "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1021.73",
             "accessLevel" : "Public"
          }, {
             "name" : "Non pharmacologic treatments for chronic pain",
@@ -5053,17 +5053,20 @@
                      }, {
                         "name" : "Date",
                         "value" : {
-                           "path" : "value",
-                           "type" : "Property",
-                           "source" : {
-                              "path" : "start",
+                           "type" : "ToString",
+                           "operand" : {
+                              "path" : "value",
                               "type" : "Property",
                               "source" : {
-                                 "path" : "period",
+                                 "path" : "start",
                                  "type" : "Property",
                                  "source" : {
-                                    "name" : "enc",
-                                    "type" : "OperandRef"
+                                    "path" : "period",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "enc",
+                                       "type" : "OperandRef"
+                                    }
                                  }
                               }
                            }
@@ -5468,7 +5471,7 @@
                         }, {
                            "name" : "Date",
                            "value" : {
-                              "type" : "ToDateTime",
+                              "type" : "ToString",
                               "operand" : {
                                  "type" : "Add",
                                  "operand" : [ {
@@ -5512,278 +5515,46 @@
                      "name" : "UniqueRiskFactorReports",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "type" : "Query",
-                        "source" : [ {
-                           "alias" : "X",
-                           "expression" : {
-                              "type" : "If",
-                              "condition" : {
-                                 "type" : "Exists",
-                                 "operand" : {
-                                    "name" : "PregnancyConditions",
-                                    "type" : "ExpressionRef"
-                                 }
-                              },
-                              "then" : {
+                        "type" : "If",
+                        "condition" : {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "PregnancyConditions",
+                              "type" : "ExpressionRef"
+                           }
+                        },
+                        "then" : {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "type" : "Union",
+                              "operand" : [ {
+                                 "name" : "ReportConditionRiskFactorsForOpioidRelatedHarms",
+                                 "type" : "ExpressionRef"
+                              }, {
+                                 "name" : "ReportEncounterRiskFactorsForOpioidRelatedHarms",
+                                 "type" : "ExpressionRef"
+                              } ]
+                           }, {
+                              "name" : "ReportOlderThan65",
+                              "type" : "ExpressionRef"
+                           } ]
+                        },
+                        "else" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "X",
+                              "expression" : {
                                  "type" : "Union",
                                  "operand" : [ {
                                     "type" : "As",
                                     "operand" : {
                                        "type" : "Union",
                                        "operand" : [ {
-                                          "type" : "As",
-                                          "operand" : {
-                                             "name" : "ReportConditionRiskFactorsForOpioidRelatedHarms",
-                                             "type" : "ExpressionRef"
-                                          },
-                                          "asTypeSpecifier" : {
-                                             "type" : "ListTypeSpecifier",
-                                             "elementType" : {
-                                                "type" : "ChoiceTypeSpecifier",
-                                                "choice" : [ {
-                                                   "type" : "TupleTypeSpecifier",
-                                                   "element" : [ {
-                                                      "name" : "Name",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Status",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Onset",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "DateRecorded",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Abatement",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Visit",
-                                                      "elementType" : {
-                                                         "type" : "TupleTypeSpecifier",
-                                                         "element" : [ {
-                                                            "name" : "Start",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "End",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         } ]
-                                                      }
-                                                   }, {
-                                                      "name" : "Date",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   } ]
-                                                }, {
-                                                   "type" : "TupleTypeSpecifier",
-                                                   "element" : [ {
-                                                      "name" : "Name",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Status",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Onset",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "DateRecorded",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Abatement",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Visit",
-                                                      "elementType" : {
-                                                         "type" : "TupleTypeSpecifier",
-                                                         "element" : [ {
-                                                            "name" : "Start",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "End",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         } ]
-                                                      }
-                                                   }, {
-                                                      "name" : "Date",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}DateTime",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   } ]
-                                                } ]
-                                             }
-                                          }
+                                          "name" : "ReportConditionRiskFactorsForOpioidRelatedHarms",
+                                          "type" : "ExpressionRef"
                                        }, {
-                                          "type" : "As",
-                                          "operand" : {
-                                             "name" : "ReportEncounterRiskFactorsForOpioidRelatedHarms",
-                                             "type" : "ExpressionRef"
-                                          },
-                                          "asTypeSpecifier" : {
-                                             "type" : "ListTypeSpecifier",
-                                             "elementType" : {
-                                                "type" : "ChoiceTypeSpecifier",
-                                                "choice" : [ {
-                                                   "type" : "TupleTypeSpecifier",
-                                                   "element" : [ {
-                                                      "name" : "Name",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Status",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Onset",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "DateRecorded",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Abatement",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Visit",
-                                                      "elementType" : {
-                                                         "type" : "TupleTypeSpecifier",
-                                                         "element" : [ {
-                                                            "name" : "Start",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "End",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         } ]
-                                                      }
-                                                   }, {
-                                                      "name" : "Date",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   } ]
-                                                }, {
-                                                   "type" : "TupleTypeSpecifier",
-                                                   "element" : [ {
-                                                      "name" : "Name",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Status",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Onset",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "DateRecorded",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Abatement",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Visit",
-                                                      "elementType" : {
-                                                         "type" : "TupleTypeSpecifier",
-                                                         "element" : [ {
-                                                            "name" : "Start",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "End",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         } ]
-                                                      }
-                                                   }, {
-                                                      "name" : "Date",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}DateTime",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   } ]
-                                                } ]
-                                             }
-                                          }
+                                          "name" : "ReportEncounterRiskFactorsForOpioidRelatedHarms",
+                                          "type" : "ExpressionRef"
                                        } ]
                                     },
                                     "asTypeSpecifier" : {
@@ -5900,76 +5671,6 @@
                                              }, {
                                                 "name" : "Date",
                                                 "elementType" : {
-                                                   "name" : "{urn:hl7-org:elm-types:r1}DateTime",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }
-                                             } ]
-                                          } ]
-                                       }
-                                    }
-                                 }, {
-                                    "type" : "As",
-                                    "operand" : {
-                                       "name" : "ReportOlderThan65",
-                                       "type" : "ExpressionRef"
-                                    },
-                                    "asTypeSpecifier" : {
-                                       "type" : "ListTypeSpecifier",
-                                       "elementType" : {
-                                          "type" : "ChoiceTypeSpecifier",
-                                          "choice" : [ {
-                                             "type" : "TupleTypeSpecifier",
-                                             "element" : [ {
-                                                "name" : "Name",
-                                                "elementType" : {
-                                                   "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }
-                                             }, {
-                                                "name" : "Status",
-                                                "elementType" : {
-                                                   "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }
-                                             }, {
-                                                "name" : "Onset",
-                                                "elementType" : {
-                                                   "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }
-                                             }, {
-                                                "name" : "DateRecorded",
-                                                "elementType" : {
-                                                   "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }
-                                             }, {
-                                                "name" : "Abatement",
-                                                "elementType" : {
-                                                   "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }
-                                             }, {
-                                                "name" : "Visit",
-                                                "elementType" : {
-                                                   "type" : "TupleTypeSpecifier",
-                                                   "element" : [ {
-                                                      "name" : "Start",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "End",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   } ]
-                                                }
-                                             }, {
-                                                "name" : "Date",
-                                                "elementType" : {
                                                    "name" : "{urn:hl7-org:elm-types:r1}String",
                                                    "type" : "NamedTypeSpecifier"
                                                 }
@@ -6034,396 +5735,11 @@
                                           } ]
                                        }
                                     }
-                                 } ]
-                              },
-                              "else" : {
-                                 "type" : "Union",
-                                 "operand" : [ {
+                                 }, {
                                     "type" : "As",
                                     "operand" : {
                                        "type" : "Union",
                                        "operand" : [ {
-                                          "type" : "As",
-                                          "operand" : {
-                                             "type" : "Union",
-                                             "operand" : [ {
-                                                "type" : "As",
-                                                "operand" : {
-                                                   "name" : "ReportConditionRiskFactorsForOpioidRelatedHarms",
-                                                   "type" : "ExpressionRef"
-                                                },
-                                                "asTypeSpecifier" : {
-                                                   "type" : "ListTypeSpecifier",
-                                                   "elementType" : {
-                                                      "type" : "ChoiceTypeSpecifier",
-                                                      "choice" : [ {
-                                                         "type" : "TupleTypeSpecifier",
-                                                         "element" : [ {
-                                                            "name" : "Name",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Status",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Onset",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "DateRecorded",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Abatement",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Visit",
-                                                            "elementType" : {
-                                                               "type" : "TupleTypeSpecifier",
-                                                               "element" : [ {
-                                                                  "name" : "Start",
-                                                                  "elementType" : {
-                                                                     "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                                     "type" : "NamedTypeSpecifier"
-                                                                  }
-                                                               }, {
-                                                                  "name" : "End",
-                                                                  "elementType" : {
-                                                                     "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                                     "type" : "NamedTypeSpecifier"
-                                                                  }
-                                                               } ]
-                                                            }
-                                                         }, {
-                                                            "name" : "Date",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         } ]
-                                                      }, {
-                                                         "type" : "TupleTypeSpecifier",
-                                                         "element" : [ {
-                                                            "name" : "Name",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Status",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Onset",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "DateRecorded",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Abatement",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Visit",
-                                                            "elementType" : {
-                                                               "type" : "TupleTypeSpecifier",
-                                                               "element" : [ {
-                                                                  "name" : "Start",
-                                                                  "elementType" : {
-                                                                     "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                                     "type" : "NamedTypeSpecifier"
-                                                                  }
-                                                               }, {
-                                                                  "name" : "End",
-                                                                  "elementType" : {
-                                                                     "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                                     "type" : "NamedTypeSpecifier"
-                                                                  }
-                                                               } ]
-                                                            }
-                                                         }, {
-                                                            "name" : "Date",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}DateTime",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         } ]
-                                                      } ]
-                                                   }
-                                                }
-                                             }, {
-                                                "type" : "As",
-                                                "operand" : {
-                                                   "name" : "ReportEncounterRiskFactorsForOpioidRelatedHarms",
-                                                   "type" : "ExpressionRef"
-                                                },
-                                                "asTypeSpecifier" : {
-                                                   "type" : "ListTypeSpecifier",
-                                                   "elementType" : {
-                                                      "type" : "ChoiceTypeSpecifier",
-                                                      "choice" : [ {
-                                                         "type" : "TupleTypeSpecifier",
-                                                         "element" : [ {
-                                                            "name" : "Name",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Status",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Onset",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "DateRecorded",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Abatement",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Visit",
-                                                            "elementType" : {
-                                                               "type" : "TupleTypeSpecifier",
-                                                               "element" : [ {
-                                                                  "name" : "Start",
-                                                                  "elementType" : {
-                                                                     "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                                     "type" : "NamedTypeSpecifier"
-                                                                  }
-                                                               }, {
-                                                                  "name" : "End",
-                                                                  "elementType" : {
-                                                                     "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                                     "type" : "NamedTypeSpecifier"
-                                                                  }
-                                                               } ]
-                                                            }
-                                                         }, {
-                                                            "name" : "Date",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         } ]
-                                                      }, {
-                                                         "type" : "TupleTypeSpecifier",
-                                                         "element" : [ {
-                                                            "name" : "Name",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Status",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Onset",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "DateRecorded",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Abatement",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "Visit",
-                                                            "elementType" : {
-                                                               "type" : "TupleTypeSpecifier",
-                                                               "element" : [ {
-                                                                  "name" : "Start",
-                                                                  "elementType" : {
-                                                                     "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                                     "type" : "NamedTypeSpecifier"
-                                                                  }
-                                                               }, {
-                                                                  "name" : "End",
-                                                                  "elementType" : {
-                                                                     "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                                     "type" : "NamedTypeSpecifier"
-                                                                  }
-                                                               } ]
-                                                            }
-                                                         }, {
-                                                            "name" : "Date",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}DateTime",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         } ]
-                                                      } ]
-                                                   }
-                                                }
-                                             } ]
-                                          },
-                                          "asTypeSpecifier" : {
-                                             "type" : "ListTypeSpecifier",
-                                             "elementType" : {
-                                                "type" : "ChoiceTypeSpecifier",
-                                                "choice" : [ {
-                                                   "type" : "TupleTypeSpecifier",
-                                                   "element" : [ {
-                                                      "name" : "Name",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Status",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Onset",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "DateRecorded",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Abatement",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Visit",
-                                                      "elementType" : {
-                                                         "type" : "TupleTypeSpecifier",
-                                                         "element" : [ {
-                                                            "name" : "Start",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "End",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         } ]
-                                                      }
-                                                   }, {
-                                                      "name" : "Date",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   } ]
-                                                }, {
-                                                   "type" : "TupleTypeSpecifier",
-                                                   "element" : [ {
-                                                      "name" : "Name",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Status",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Onset",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "DateRecorded",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Abatement",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "Visit",
-                                                      "elementType" : {
-                                                         "type" : "TupleTypeSpecifier",
-                                                         "element" : [ {
-                                                            "name" : "Start",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         }, {
-                                                            "name" : "End",
-                                                            "elementType" : {
-                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                               "type" : "NamedTypeSpecifier"
-                                                            }
-                                                         } ]
-                                                      }
-                                                   }, {
-                                                      "name" : "Date",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}DateTime",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   } ]
-                                                } ]
-                                             }
-                                          }
-                                       }, {
                                           "type" : "As",
                                           "operand" : {
                                              "name" : "ReportOlderThan65",
@@ -6450,7 +5766,7 @@
                                                    }, {
                                                       "name" : "Onset",
                                                       "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}Any",
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
                                                          "type" : "NamedTypeSpecifier"
                                                       }
                                                    }, {
@@ -6462,7 +5778,134 @@
                                                    }, {
                                                       "name" : "Abatement",
                                                       "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}Any",
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                         "type" : "NamedTypeSpecifier"
+                                                      }
+                                                   }, {
+                                                      "name" : "Visit",
+                                                      "elementType" : {
+                                                         "type" : "TupleTypeSpecifier",
+                                                         "element" : [ {
+                                                            "name" : "Start",
+                                                            "elementType" : {
+                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                               "type" : "NamedTypeSpecifier"
+                                                            }
+                                                         }, {
+                                                            "name" : "End",
+                                                            "elementType" : {
+                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                               "type" : "NamedTypeSpecifier"
+                                                            }
+                                                         } ]
+                                                      }
+                                                   }, {
+                                                      "name" : "Date",
+                                                      "elementType" : {
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                         "type" : "NamedTypeSpecifier"
+                                                      }
+                                                   } ]
+                                                }, {
+                                                   "type" : "TupleTypeSpecifier",
+                                                   "element" : [ {
+                                                      "name" : "Name",
+                                                      "elementType" : {
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                         "type" : "NamedTypeSpecifier"
+                                                      }
+                                                   }, {
+                                                      "name" : "Status",
+                                                      "elementType" : {
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                         "type" : "NamedTypeSpecifier"
+                                                      }
+                                                   }, {
+                                                      "name" : "Onset",
+                                                      "elementType" : {
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                         "type" : "NamedTypeSpecifier"
+                                                      }
+                                                   }, {
+                                                      "name" : "DateRecorded",
+                                                      "elementType" : {
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                         "type" : "NamedTypeSpecifier"
+                                                      }
+                                                   }, {
+                                                      "name" : "Abatement",
+                                                      "elementType" : {
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                         "type" : "NamedTypeSpecifier"
+                                                      }
+                                                   }, {
+                                                      "name" : "Visit",
+                                                      "elementType" : {
+                                                         "type" : "TupleTypeSpecifier",
+                                                         "element" : [ {
+                                                            "name" : "Start",
+                                                            "elementType" : {
+                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                               "type" : "NamedTypeSpecifier"
+                                                            }
+                                                         }, {
+                                                            "name" : "End",
+                                                            "elementType" : {
+                                                               "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                               "type" : "NamedTypeSpecifier"
+                                                            }
+                                                         } ]
+                                                      }
+                                                   }, {
+                                                      "name" : "Date",
+                                                      "elementType" : {
+                                                         "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                                                         "type" : "NamedTypeSpecifier"
+                                                      }
+                                                   } ]
+                                                } ]
+                                             }
+                                          }
+                                       }, {
+                                          "type" : "As",
+                                          "operand" : {
+                                             "name" : "ReportMostRecentPositivePregnancyObservation",
+                                             "type" : "ExpressionRef"
+                                          },
+                                          "asTypeSpecifier" : {
+                                             "type" : "ListTypeSpecifier",
+                                             "elementType" : {
+                                                "type" : "ChoiceTypeSpecifier",
+                                                "choice" : [ {
+                                                   "type" : "TupleTypeSpecifier",
+                                                   "element" : [ {
+                                                      "name" : "Name",
+                                                      "elementType" : {
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                         "type" : "NamedTypeSpecifier"
+                                                      }
+                                                   }, {
+                                                      "name" : "Status",
+                                                      "elementType" : {
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                         "type" : "NamedTypeSpecifier"
+                                                      }
+                                                   }, {
+                                                      "name" : "Onset",
+                                                      "elementType" : {
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                         "type" : "NamedTypeSpecifier"
+                                                      }
+                                                   }, {
+                                                      "name" : "DateRecorded",
+                                                      "elementType" : {
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                         "type" : "NamedTypeSpecifier"
+                                                      }
+                                                   }, {
+                                                      "name" : "Abatement",
+                                                      "elementType" : {
+                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
                                                          "type" : "NamedTypeSpecifier"
                                                       }
                                                    }, {
@@ -6643,76 +6086,6 @@
                                                 "name" : "Abatement",
                                                 "elementType" : {
                                                    "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }
-                                             }, {
-                                                "name" : "Visit",
-                                                "elementType" : {
-                                                   "type" : "TupleTypeSpecifier",
-                                                   "element" : [ {
-                                                      "name" : "Start",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   }, {
-                                                      "name" : "End",
-                                                      "elementType" : {
-                                                         "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }
-                                                   } ]
-                                                }
-                                             }, {
-                                                "name" : "Date",
-                                                "elementType" : {
-                                                   "name" : "{urn:hl7-org:elm-types:r1}DateTime",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }
-                                             } ]
-                                          } ]
-                                       }
-                                    }
-                                 }, {
-                                    "type" : "As",
-                                    "operand" : {
-                                       "name" : "ReportMostRecentPositivePregnancyObservation",
-                                       "type" : "ExpressionRef"
-                                    },
-                                    "asTypeSpecifier" : {
-                                       "type" : "ListTypeSpecifier",
-                                       "elementType" : {
-                                          "type" : "ChoiceTypeSpecifier",
-                                          "choice" : [ {
-                                             "type" : "TupleTypeSpecifier",
-                                             "element" : [ {
-                                                "name" : "Name",
-                                                "elementType" : {
-                                                   "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }
-                                             }, {
-                                                "name" : "Status",
-                                                "elementType" : {
-                                                   "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }
-                                             }, {
-                                                "name" : "Onset",
-                                                "elementType" : {
-                                                   "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }
-                                             }, {
-                                                "name" : "DateRecorded",
-                                                "elementType" : {
-                                                   "name" : "{urn:hl7-org:elm-types:r1}String",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }
-                                             }, {
-                                                "name" : "Abatement",
-                                                "elementType" : {
-                                                   "name" : "{urn:hl7-org:elm-types:r1}Any",
                                                    "type" : "NamedTypeSpecifier"
                                                 }
                                              }, {
@@ -6802,73 +6175,73 @@
                                     }
                                  } ]
                               }
-                           }
-                        } ],
-                        "return" : {
-                           "distinct" : false,
-                           "expression" : {
-                              "type" : "As",
-                              "operand" : {
-                                 "name" : "X",
-                                 "type" : "AliasRef"
-                              },
-                              "asTypeSpecifier" : {
-                                 "type" : "TupleTypeSpecifier",
-                                 "element" : [ {
-                                    "name" : "Name",
-                                    "elementType" : {
-                                       "name" : "{urn:hl7-org:elm-types:r1}String",
-                                       "type" : "NamedTypeSpecifier"
-                                    }
-                                 }, {
-                                    "name" : "Status",
-                                    "elementType" : {
-                                       "name" : "{urn:hl7-org:elm-types:r1}String",
-                                       "type" : "NamedTypeSpecifier"
-                                    }
-                                 }, {
-                                    "name" : "Onset",
-                                    "elementType" : {
-                                       "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                       "type" : "NamedTypeSpecifier"
-                                    }
-                                 }, {
-                                    "name" : "DateRecorded",
-                                    "elementType" : {
-                                       "name" : "{urn:hl7-org:elm-types:r1}String",
-                                       "type" : "NamedTypeSpecifier"
-                                    }
-                                 }, {
-                                    "name" : "Abatement",
-                                    "elementType" : {
-                                       "name" : "{urn:hl7-org:elm-types:r1}Any",
-                                       "type" : "NamedTypeSpecifier"
-                                    }
-                                 }, {
-                                    "name" : "Visit",
-                                    "elementType" : {
-                                       "type" : "TupleTypeSpecifier",
-                                       "element" : [ {
-                                          "name" : "Start",
-                                          "elementType" : {
-                                             "name" : "{urn:hl7-org:elm-types:r1}String",
-                                             "type" : "NamedTypeSpecifier"
-                                          }
-                                       }, {
-                                          "name" : "End",
-                                          "elementType" : {
-                                             "name" : "{urn:hl7-org:elm-types:r1}String",
-                                             "type" : "NamedTypeSpecifier"
-                                          }
-                                       } ]
-                                    }
-                                 }, {
-                                    "name" : "Date",
-                                    "elementType" : {
-                                       "name" : "{urn:hl7-org:elm-types:r1}String",
-                                       "type" : "NamedTypeSpecifier"
-                                    }
-                                 } ]
+                           } ],
+                           "return" : {
+                              "distinct" : false,
+                              "expression" : {
+                                 "type" : "As",
+                                 "operand" : {
+                                    "name" : "X",
+                                    "type" : "AliasRef"
+                                 },
+                                 "asTypeSpecifier" : {
+                                    "type" : "TupleTypeSpecifier",
+                                    "element" : [ {
+                                       "name" : "Name",
+                                       "elementType" : {
+                                          "name" : "{urn:hl7-org:elm-types:r1}String",
+                                          "type" : "NamedTypeSpecifier"
+                                       }
+                                    }, {
+                                       "name" : "Status",
+                                       "elementType" : {
+                                          "name" : "{urn:hl7-org:elm-types:r1}String",
+                                          "type" : "NamedTypeSpecifier"
+                                       }
+                                    }, {
+                                       "name" : "Onset",
+                                       "elementType" : {
+                                          "name" : "{urn:hl7-org:elm-types:r1}Any",
+                                          "type" : "NamedTypeSpecifier"
+                                       }
+                                    }, {
+                                       "name" : "DateRecorded",
+                                       "elementType" : {
+                                          "name" : "{urn:hl7-org:elm-types:r1}String",
+                                          "type" : "NamedTypeSpecifier"
+                                       }
+                                    }, {
+                                       "name" : "Abatement",
+                                       "elementType" : {
+                                          "name" : "{urn:hl7-org:elm-types:r1}Any",
+                                          "type" : "NamedTypeSpecifier"
+                                       }
+                                    }, {
+                                       "name" : "Visit",
+                                       "elementType" : {
+                                          "type" : "TupleTypeSpecifier",
+                                          "element" : [ {
+                                             "name" : "Start",
+                                             "elementType" : {
+                                                "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                "type" : "NamedTypeSpecifier"
+                                             }
+                                          }, {
+                                             "name" : "End",
+                                             "elementType" : {
+                                                "name" : "{urn:hl7-org:elm-types:r1}String",
+                                                "type" : "NamedTypeSpecifier"
+                                             }
+                                          } ]
+                                       }
+                                    }, {
+                                       "name" : "Date",
+                                       "elementType" : {
+                                          "name" : "{urn:hl7-org:elm-types:r1}String",
+                                          "type" : "NamedTypeSpecifier"
+                                       }
+                                    } ]
+                                 }
                               }
                            }
                         }
@@ -11308,8 +10681,9 @@
                      "codeComparator" : "in",
                      "type" : "Retrieve",
                      "codes" : {
-                        "name" : "MyPAIN Questionnaire Codes",
-                        "type" : "CodeSystemRef"
+                        "name" : "MyPAIN All Questionnaire Codes",
+                        "preserve" : true,
+                        "type" : "ValueSetRef"
                      }
                   }, {
                      "value" : 1,

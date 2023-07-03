@@ -9,7 +9,19 @@ ChronicPainConcepts-2.0.0.cql
 This flattens all retrieve access into a single file to avoid the need to trace
 retrieves into different libraries.
 */
+/*
+    Change List
+    6/2023 Updated CDC Recommendations to reflect 2022 content instead of 2016 logic. Also added a flag (Config."Use 2022 CDC Guidelines") to allow use of either 2016 or 2022 guidelines.
+    6/2023 Added flags to alternate uses of
+        "Only Active Medications"
+        "Use MMECalculator"
+        "Add Benzodiazepine to NonOpioid Medications"
+        "Add Naloxone to Opioid Medications"
+        "Use 2022 CDC Guidelines"
+        "Use Inclusion Criteria"
+    6/2023 Added logic to use only the latest QuestionnaireResponse Observations
 
+*/
 // # Data model #
 
 // The FHIR R4 model is used for testing purposes only. It has not been piloted.
@@ -112,8 +124,8 @@ valueset "Pregnancy (New ICD10 codes published in 2018 or later)": 'http://cts.n
 
 // [Non opioid pain medications](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1021.73/expansion)
 // replaces F2C valueset Non opioid pain medications: 2.16.840.1.113762.1.4.1032.26
-//valueset "Non opioid pain medications": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1021.73'
-valueset "Non opioid pain medications": 'http://fhir.org/guides/cqf/cds4cpm/ValueSet/2.16.840.1.113762.1.4.1021.73'
+valueset "Non opioid pain medications": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1021.73' // added back in for 2022 value sets
+//valueset "Non opioid pain medications": 'http://fhir.org/guides/cqf/cds4cpm/ValueSet/2.16.840.1.113762.1.4.1021.73'
 
 // Empty
 // Replaces the "Non pharmacologic treatments for chronic pain": '2.16.840.1.113762.1.4.1032.36' from F2C
@@ -409,7 +421,6 @@ context Patient
 /**
  * Returns true if the Condition has a category of "encounter-diagnosis"
  */
-
 define function IsEncounterDiagnosis(Condition Condition):
   exists (Condition.category C where C ~ "Encounter Diagnosis code")
     and (Condition.recordedDate is null or Condition.recordedDate after Today() - 1 year)
@@ -859,7 +870,7 @@ define function GetEncounterDiagnosesRiskFactorsForOpioidRelatedHarms(enc Encoun
       DateRecorded: null as String,
       Abatement: null as String,
       Visit:     PeriodObject(enc.period),
-      Date: enc.period."start".value
+      Date: ToString(enc.period."start".value)
     }
 
 define ReportEncounterRiskFactorsForOpioidRelatedHarms:
@@ -901,7 +912,7 @@ define ReportOlderThan65:
     DateRecorded: null as String,
     Abatement: null as String,
     Visit: null as Tuple { Start String, End String },
-    Date: ToDateTime(Patient.birthDate + 65 years)
+    Date: ToString(Patient.birthDate + 65 years)
   }
 }) C
   where Is65orOlder
@@ -1526,7 +1537,7 @@ define function GetLinkId(Obs FHIR.Observation):
     else Obs.extension[0].extension[0].value.value
 
 define QuestionnaireObservations:
-  C3F.Verified(C3F.ObservationLookBack([Observation: "MyPAIN Questionnaire Codes"], 1 year))
+  C3F.Verified(C3F.ObservationLookBack([Observation: "MyPAIN All Questionnaire Codes"], 1 year))
 
 //TODO - eventually this needs to walk thru nested items beyond 2
 define function QuestionTextByLinkId(Obs FHIR.Observation):
@@ -1629,7 +1640,7 @@ define ReportPainLocations:
                 Description: if qrOb.code ~ painLocationOther then qrOb.value.value
                              else
                              Combine(qrOb.value.coding.display, ', ')
-          }  //sort by Location desc does NOT work. The location codes are not in order and the more I think about it, we can't depend on that.
+      }
 
 // Data from the most recent PainIntensityAndInteference Observations
 define ReportPainIntensityAndInterference:
@@ -1860,6 +1871,19 @@ For MME/day of ≥ 50, CDC guidelines recommend incorporating into the managemen
 plan strategies to mitigate risk, including considering offering naloxone
 (recommendation category: A, evidence type: 4).
 [CDC Opioid Prescribing Guideline, Recommendation #5 and #8](https://www.cdc.gov/mmwr/volumes/65/rr/rr6501e1.htm)"
+
+
+CDC 2022 Guidelines (Recommendation 4 and 5 combined:
+4. When opioids are initiated for opioid-naïve patients with acute, subacute, or chronic pain, clinicians should prescribe the lowest effective dosage. If opioids are continued
+for subacute or chronic pain, clinicians should use caution when prescribing opioids at any dosage, should carefully evaluate individual benefits and risks when considering
+increasing dosage, and should avoid increasing dosage above levels likely to yield diminishing returns in benefits relative to risks to patients
+(recommendation category: A; evidence type: 3).
+5. For patients already receiving opioid therapy, clinicians should carefully weigh benefits and risks and exercise care when changing opioid dosage. If benefits outweigh risks
+of continued opioid therapy, clinicians should work closely with patients to optimize nonopioid therapies while continuing opioid therapy. If benefits do not outweigh risks of
+continued opioid therapy, clinicians should optimize other therapies and work closely with patients to gradually taper to lower dosages or, if warranted based on the individual
+circumstances of the patient, appropriately taper and discontinue opioids. Unless there are indications of a life-threatening issue such as warning signs of impending overdose
+(e.g., confusion, sedation, or slurred speech), opioid therapy should not be discontinued abruptly, and clinicians should not rapidly reduce opioid dosages from higher dosages
+(recommendation category: B; evidence type: 4).
 */
 define ReportRecommendation5Text:
   if CurrentMME >= 50 '{MME}/d' then
