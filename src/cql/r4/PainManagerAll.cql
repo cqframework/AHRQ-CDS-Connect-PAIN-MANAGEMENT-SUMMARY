@@ -1552,11 +1552,11 @@ define ReportMyPAINSubmitDate:
     return ObservationDate(qrOb) sort desc
 
 define function DateMatchesMyPainDate(Obs FHIR.Observation):
-if ReportMyPAINSubmitDate[0] ~ Obs.effective.value.toString()
-    then
-        true
-    else
-        false
+    if ReportMyPAINSubmitDate[0] ~ Obs.effective.value.toString()
+        then
+            true
+        else
+            false
 
 define ReportActivityGoals:
   (QuestionnaireObservations) qrOb where qrOb.code.coding[0].code.value = 'mpq-1035' and DateMatchesMyPainDate(qrOb)
@@ -2032,7 +2032,7 @@ define "Only Active Medications":
     true
 
 define "Use MMECalculator":
-    true
+    false
 
 define "Add Benzodiazepine to NonOpioid Medications":
     false
@@ -2085,7 +2085,7 @@ define Summary: {
     Recommendation10Text: ReportRecommendation10Text
   },
   SharedDecisionMaking: {
-    MyPAINSubmitDate: ReportMyPAINSubmitDate[0],
+    MyPAINSubmitDate: ReportMyPAINSubmitDate,
     ActivityGoals: ReportActivityGoals,
     ActivityBarriers: ReportActivityBarriers,
     PainLocations: ReportPainLocations,

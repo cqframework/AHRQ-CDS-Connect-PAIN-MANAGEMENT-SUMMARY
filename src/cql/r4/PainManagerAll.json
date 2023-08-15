@@ -7142,7 +7142,7 @@
             "accessLevel" : "Public",
             "expression" : {
                "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
-               "value" : "true",
+               "value" : "false",
                "type" : "Literal"
             }
          }, {
@@ -16114,15 +16114,8 @@
                      "element" : [ {
                         "name" : "MyPAINSubmitDate",
                         "value" : {
-                           "type" : "Indexer",
-                           "operand" : [ {
-                              "name" : "ReportMyPAINSubmitDate",
-                              "type" : "ExpressionRef"
-                           }, {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                              "value" : "0",
-                              "type" : "Literal"
-                           } ]
+                           "name" : "ReportMyPAINSubmitDate",
+                           "type" : "ExpressionRef"
                         }
                      }, {
                         "name" : "ActivityGoals",
