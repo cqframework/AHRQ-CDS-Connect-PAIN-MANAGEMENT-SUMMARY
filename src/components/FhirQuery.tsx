@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes, { number } from 'prop-types';
+import PropTypes from 'prop-types';
 
+// This component is responsible rendering the FhirQuery data in the devtools toolbar
 export default class FhirQuery extends Component<any, any> {
   static propTypes: { idx: PropTypes.Validator<number>, data: PropTypes.Validator<object>; url: PropTypes.Validator<string>; };
   constructor(props: any) {
@@ -10,8 +11,6 @@ export default class FhirQuery extends Component<any, any> {
     };
   }
 
-
-
   toggleShowHide = (event: any) => {
     event.preventDefault();
     this.setState({ displayed: !this.state.displayed });
@@ -20,7 +19,6 @@ export default class FhirQuery extends Component<any, any> {
   render() {
     const { idx, data, url } = this.props;
     if (!data) { return null; }
-    // console.log(idx);
     return (
 
       <div className="accordion-item">
@@ -38,12 +36,6 @@ export default class FhirQuery extends Component<any, any> {
         </div> 
 
       </div>
-
-
-      // <div className="fhir-query">
-      //   <b>{url}</b> <button onClick={this.toggleShowHide}>[show/hide]</button>
-      //   <pre style={{display: this.state.displayed ? 'block' : 'none'}}>{JSON.stringify(data, null, 2)}</pre>
-      // </div>
     );
   }
 }

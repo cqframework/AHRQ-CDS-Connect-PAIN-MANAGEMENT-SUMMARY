@@ -7,7 +7,7 @@ import "prismjs/plugins/toolbar/prism-toolbar.min.css";
 import "prismjs/plugins/toolbar/prism-toolbar.min";
 import "prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min";
 
-
+// This component is responsible for the rendering data in the devtools toolbar
 export default class DevTools extends Component<any, any> {
   static propTypes: { collector: PropTypes.Requireable<any[]>; result: PropTypes.Requireable<object>; qrCollector: PropTypes.Requireable<any[]>; };
   constructor(props: any) {
@@ -112,18 +112,6 @@ export default class DevTools extends Component<any, any> {
         </div>
         </div>
       </div>
-
-      // <div className="fhir-queries">
-      //   <h4>FHIR Queries <button onClick={this.toggleFhirQueries}>[show/hideeeee]</button></h4>
-      //   <div style={{ display: this.state.displayFhirQueries ? 'block' : 'none' }}>
-          // {this.props.collector.map( (item: any, i: any) => {
-          //     const url = i === 0 ? item.url : item.url.slice(item.url.lastIndexOf('/') + 1);
-          //     return (
-          //       <FhirQuery key={i} url={url} data={item.data} />
-          //     );
-          //   })}
-      //   </div>
-      // </div>
     );
   }
 
@@ -141,41 +129,24 @@ export default class DevTools extends Component<any, any> {
         </div>
         </div>
       </div>
-
-      
-      // <div className="cql-results">
-      //   <h4>CQL Results <button onClick={this.toggleCQLResults}>[show/hide]</button></h4>
-
-      //   <div style={{ display: this.state.displayCQLResults ? 'block' : 'none' }}>
-      //     <pre>{JSON.stringify(this.props.result, null, 2)}</pre>
-      //   </div>
-      // </div>
     );
   }
 
     renderQRObsResults() {
         return (
           <div className="accordion-item">
-          <h2 className="accordion-header" id="headingQRObsResults">
-            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseQRObsResults" aria-expanded="false" aria-controls="collapseQRObsResults">
-              MyPAIN Results
-            </button>
-        </h2>
-        <div id="collapseQRObsResults" className="accordion-collapse collapse" aria-labelledby="headingQRObsResults" data-bs-parent="#accordionDevTools">
-        <div className="accordion-body">
-          <pre><code className="language-json copy-to-clipboard">{JSON.stringify(this.props.result, null, 2)}</code></pre>
+            <h2 className="accordion-header" id="headingQRObsResults">
+              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseQRObsResults" aria-expanded="false" aria-controls="collapseQRObsResults">
+                MyPAIN Results
+              </button>
+            </h2>
+            <div id="collapseQRObsResults" className="accordion-collapse collapse" aria-labelledby="headingQRObsResults" data-bs-parent="#accordionDevTools">
+              <div className="accordion-body">
+                <pre><code className="language-json copy-to-clipboard">{JSON.stringify(this.props.result, null, 2)}</code></pre>
+              </div>
+            </div>
         </div>
-        </div>
-      </div>
-
-
-            // <div className="qrobs-results">
-            //     <h4>MyPAIN Results <button onClick={this.toggleQRObsResults}>[show/hide]</button></h4>
-            //     <div style={{ display: this.state.displayQRObsResults ? 'block' : 'none' }}>
-            //         <pre>{JSON.stringify(this.props.qrCollector, null, 2)}</pre>
-            //     </div>
-            // </div>
-        );
+      );
     }
 
   render() {
@@ -186,39 +157,8 @@ export default class DevTools extends Component<any, any> {
       {this.renderErrors()}
       {this.renderFHIRQueries()}
       {this.renderCQLResults()}
-      {this.renderQRObsResults()}
-
-      {/* <div className="accordion-item">
-        <h2 className="accordion-header" id="headingError">
-        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseError" aria-expanded="true" aria-controls="collapseOne">
-        Accordion Item #1
-      </button>
-        </h2>
-        <div id="collapseError" className="accordion-collapse collapse show" aria-labelledby="headingError" data-bs-parent="#accordionDevTools">
-        <div className="accordion-body">
-          Body
-        </div>
-        </div>
-      </div> */}
-      
+      {this.renderQRObsResults()}      
     </div>
-
-      // <div className="dev-tools">
-      //   <h4>Development Tools 
-      //     {/* <button onClick={this.toggleDevTools}>[show/hide]</button> */}
-      //     </h4>
-
-      //   <div className="dev-tools__disclaimer">
-      //     These development tools are for troubleshooting issues and intended to be used by technical support.
-      //   </div>
-
-      //   <div style={{ display: this.state.displayDevTools ? 'block' : 'none' }}>
-      //     {this.renderErrors()}
-      //     {this.renderFHIRQueries()}
-      //     {this.renderCQLResults()}
-      //     {this.renderQRObsResults()}
-      //   </div>
-      // </div>
     );
   }
 }

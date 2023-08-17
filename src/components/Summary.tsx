@@ -1,4 +1,4 @@
-import React, { Component, useRef, useState } from "react";
+import React, { Component, useRef } from "react";
 import PropTypes from "prop-types";
 import { Column, useTable } from "react-table";
 import ReactModal from "react-modal";
@@ -10,7 +10,7 @@ import pkg from "../../package.json";
 import * as formatit from "../helpers/formatit";
 import * as sortit from "../helpers/sortit";
 
-import InclusionBanner from "./InclusionBanner";
+// import InclusionBanner from "./InclusionBanner";
 // import ExclusionBanner from './ExclusionBanner';
 import InfoModal from "./InfoModal";
 import DevTools from "./DevTools";
@@ -100,6 +100,7 @@ function TableWrapper({summary, section, subSection, columns, data }) {
                 </tr>
               );
             })}
+            {/* Additional columns for Total MME */}
             { subSection.dataKey === 'OpioidMedications' && summary.CurrentPertinentTreatments.CurrentMME[0].Result !== null && 
             <tr className="border-custom-top">
               <td className="ps-3 text-end fw-bold">Total</td>
@@ -163,7 +164,6 @@ export default class Summary extends Component<any, any> {
           this.setState({ tooltipText: 'Copy' });
         }, 1000);
   }
-
   // removes the temporary div after copying
   document.body.removeChild(tempDiv); 
 }
@@ -235,7 +235,7 @@ componentDidMount() {
     }
   }
 
-  // if flagged, returns flag text, else returns false
+  // If flagged, returns flag text, else returns false
   isEntryFlagged(section: any, subSection: any, entry: any) {
     const { sectionFlags } = this.props;
     let flagged = false;
@@ -276,7 +276,7 @@ componentDidMount() {
 
   renderTable(table: any, entries: any, section: any, subSection: any, index: any) {
 
-    // If a filter is provided, only render those things that have the filter field (or don't have it when it's negated)
+    // If a filter is provided, only render things that have the filter field (or don't have it when it's negated)
     let filteredEntries = entries;
 
     if (section === "SharedDecisionMaking" && entries?.length) {
@@ -298,6 +298,7 @@ componentDidMount() {
       );
     }
 
+    // Table configuration
     const headers = Object.keys(table.headers);
     // const sortable = table.sortable;
     const columns: Column[] = [];
@@ -419,7 +420,7 @@ componentDidMount() {
   renderSection(section: string) {
     const sectionMap = this.summaryMapData[section];
     return sectionMap.map((subSection: any) => {
-      // in here I need to combine the data for naloxone, benzodiazepines, and non-opioids
+      // Here I need to combine the data for naloxone, benzodiazepines, and non-opioids
       const rawData = JSON.stringify(this.props.summary[subSection.dataKeySource][subSection.dataKey]);
       const parsedData = rawData.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>|<!--[\s\S]*?-->/gi, '');
       const data = JSON.parse(parsedData);        
@@ -427,9 +428,6 @@ componentDidMount() {
         (r) => r != null
       );
       
-      // const hasEntries = entries.length !== 0;
-      // const flagged = this.isSubsectionFlagged(section, subSection.dataKey);
-      // const flaggedClass = flagged ? "flagged" : "";
       let datatable;
 
       // Get Recommendations Text
@@ -460,7 +458,7 @@ componentDidMount() {
       return (
         <div className="row" key={subSection.dataKey}>
           <div className=" col-12 sub-section h3-wrapper">
-            {/* Not really being used here- remove datatable if needed */}
+            {/* Not really being used here-remove datatable if needed */}
             {datatable}
             {
               // hasEntries &&
@@ -474,7 +472,7 @@ componentDidMount() {
     });
   }
 
-  // this function handles the rendering of information and warnings above the tables
+  // This function handles the rendering of information and warnings above the tables
   renderInfo(section){
     const sectionMap = this.summaryMapData[section];
     let data;    
@@ -545,18 +543,6 @@ componentDidMount() {
           <p>
           Where is this data from? Pain related medications from active medication list.
           </p>
-          {/* <div className="alert alert-info shadow-sm border-0" role="alert">
-            <FontAwesomeIcon icon={faExclamationCircle} />
-            <span className="px-3">
-              <a
-                className="alert-link"
-                target="_blank"
-                href="https://www.cdc.gov/mmwr/volumes/71/rr/rr7103a1.htm?s_cid=rr7103a1_w"
-              >
-                CDC Guidelines for Prescribing Opioids
-              </a>
-            </span>
-          </div> */}
 
           {sectionMap.map((subSection: any) => {
             return (
@@ -657,6 +643,7 @@ componentDidMount() {
       return null;
     }
 
+    // Displays the summary
     return (
       <div className="summary container">
         <div className="summary__display" id="maincontent">

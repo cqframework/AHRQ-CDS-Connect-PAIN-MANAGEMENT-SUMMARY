@@ -13,6 +13,7 @@ export default class ExclusionBanner extends Component<any, any> {
     this.setState({ displayed: false });
   }
 
+  // When enabled (criteria is met) display's the exclusion banner
   render() {
     return (
       <div

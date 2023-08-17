@@ -18,6 +18,7 @@ export default class InfoModal extends Component<any, any> {
     this.referencesTableProps = { id: "react__references__table" };
   }
 
+  // Returns recommendations text properties for the medication and urine drug screen sections
   renderElements = (elements: any) => {
     if (
       this.props.subSection.dataKey === "OpioidMedications" ||
@@ -91,8 +92,9 @@ export default class InfoModal extends Component<any, any> {
     }
   };
 
+  // Renders the information modals with the recommendations 
   render() {
-    const { subSection, closeModal, modalRole } = this.props;
+    const { subSection, modalRole } = this.props;
     const elements = subSection.info.find((el: any) => el.type === "elements");
     
     return (
