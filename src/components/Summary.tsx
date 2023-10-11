@@ -87,7 +87,7 @@ function TableWrapper({summary, section, subSection, columns, data }) {
                 { section === "UrineDrugScreening" &&
                   "No urine drug screen found in past year"
                 }
-                </td> 
+                </td>
               </tr>
             }
             {rows.map(row => {
@@ -100,14 +100,14 @@ function TableWrapper({summary, section, subSection, columns, data }) {
                 </tr>
               );
             })}
-            { subSection.dataKey === 'OpioidMedications' && summary.CurrentPertinentTreatments.CurrentMME[0].Result !== null && 
+            { subSection.dataKey === 'OpioidMedications' && summary.CurrentPertinentTreatments.CurrentMME[0].Result !== null &&
             <tr className="border-custom-top">
               <td className="ps-3 text-end fw-bold">Total</td>
               <td className="ps-3 fw-bold" colSpan={columns.length - 1}>{summary.CurrentPertinentTreatments.CurrentMME[0].Result}</td>
             </tr>
             }
-          </tbody>      
-        </table>   
+          </tbody>
+        </table>
       </div>
     </>
   );
@@ -122,7 +122,7 @@ export default class Summary extends Component<any, any> {
   summaryMapData: any = summaryMap;
   logged: boolean = false;
   opioidWarning: boolean = false;
-  
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -165,7 +165,7 @@ export default class Summary extends Component<any, any> {
   }
 
   // removes the temporary div after copying
-  document.body.removeChild(tempDiv); 
+  document.body.removeChild(tempDiv);
 }
 
 componentDidMount() {
@@ -301,46 +301,46 @@ componentDidMount() {
     const headers = Object.keys(table.headers);
     // const sortable = table.sortable;
     const columns: Column[] = [];
-    
+
     headers.forEach((header) => {
       const headerKey = table.headers[header];
       const column: Column = {
         id: header,
         Header: () => <span className="col-header">
-            {header === "Opioids" || header.includes("Benzodiazepines") || header === "Naloxone"? 
+            {header === "Opioids" || header.includes("Benzodiazepines") || header === "Naloxone"?
             <div
             onClick={(event) => this.handleOpenModal(subSection, event, 'info')}
             onKeyDown={(event) => this.handleOpenModal(subSection, event, 'info')}
             role="button"
             tabIndex={0}
             aria-label={subSection.name}>
-              
+
               {subSection.recommendationText ? <FontAwesomeIcon
                   className='info-icon me-3'
                   icon="info-circle"
-                  title={'more info: ' + subSection.name}
+                  title={'CDC guidelines for ' + subSection.name}
                   data-tip="more info"
                   role="tooltip"
                   tabIndex={0}
               /> : ''}
               {header}
           </div> :
-          header === "MME/Day" ? 
-          <div id="opioid-title">               
+          header === "MME/Day" ?
+          <div id="opioid-title">
             {subSection.info &&
               <div>
                 <a className="nav-link" href="https://fhir.org/guides/cdc/opioid-mme-r4/mme-calculator.html" target="_blank" rel="noopener noreferrer">
                 {subSection.recommendationText ? <FontAwesomeIcon
                     className='info-icon me-3'
                     icon="info-circle"
-                    title={'more info: ' + subSection.name}
+                    title={'CDC guidelines for ' + subSection.name}
                     data-tip="more info"
                     role="tooltip"
                     tabIndex={0}
                 /> : ''}
                   {header}</a>
               </div>
-            }                
+            }
           </div> : header
           }
         </span>,
@@ -399,8 +399,8 @@ componentDidMount() {
     //ReactTable needs an ID for aria-describedby
     let tableID = subSection.name.replace(/ /g, "_") + "-table";
     let customProps = { id: tableID };
-    
-    
+
+
     //getTheadThProps solution courtesy of:
     //https://spectrum.chat/react-table/general/is-there-a-way-to-activate-sort-via-onkeypress~66656e87-7f5c-4767-8b23-ddf35d73f8af
     return (
@@ -422,11 +422,11 @@ componentDidMount() {
       // in here I need to combine the data for naloxone, benzodiazepines, and non-opioids
       const rawData = JSON.stringify(this.props.summary[subSection.dataKeySource][subSection.dataKey]);
       const parsedData = rawData.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>|<!--[\s\S]*?-->/gi, '');
-      const data = JSON.parse(parsedData);        
+      const data = JSON.parse(parsedData);
       const entries = (Array.isArray(data) ? data : [data]).filter(
         (r) => r != null
       );
-      
+
       // const hasEntries = entries.length !== 0;
       // const flagged = this.isSubsectionFlagged(section, subSection.dataKey);
       // const flaggedClass = flagged ? "flagged" : "";
@@ -455,7 +455,7 @@ componentDidMount() {
           break;
         default:
           break;
-      }   
+      }
 
       return (
         <div className="row" key={subSection.dataKey}>
@@ -479,7 +479,7 @@ componentDidMount() {
     const sectionMap = this.summaryMapData[section];
     let data;
     if (
-      section === "UrineDrugScreening" 
+      section === "UrineDrugScreening"
     ) {
       data = (
         <div>
@@ -506,7 +506,14 @@ componentDidMount() {
                       tabIndex={0}
                       aria-label={subSection.name}
                     >
-                      <FontAwesomeIcon icon={faExclamationCircle} />
+                      <FontAwesomeIcon
+                          className='info-icon me-3'
+                          icon="info-circle"
+                          title={'CDC guidelines for urine drug screening'}
+                          data-tip="more info"
+                          role="tooltip"
+                          tabIndex={0}
+                      />
                       <span className="px-3">No urine drug screen found in past year.</span>
                     </div>
                   </div>
@@ -522,7 +529,7 @@ componentDidMount() {
     if(section === 'SharedDecisionMaking' ){
       return (<h5 className="py-3">Pain & Gaols</h5>)
     }
-    
+
     if(section === 'TreatmentEffectiveness' ){
       return (<h5 className="py-3">Treatment Effectiveness</h5>)
     }
@@ -619,7 +626,7 @@ componentDidMount() {
       title = `Pain & Goals`;
     } else if (section === "TreatmentEffectiveness") {
       title = "Treatment Effectiveness";
-    } 
+    }
 
     return (
       <div id={section} className="section__header">
@@ -928,7 +935,7 @@ componentDidMount() {
                 <span className="px-3">
                   {" "}
                   Pain Manager is not for patients undergoing end-of-life care
-                  or cancer treatment.{" "}
+                  or active cancer treatment.{" "}
                 </span>
               </div>
             </div>
