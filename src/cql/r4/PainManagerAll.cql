@@ -2032,7 +2032,7 @@ define "Only Active Medications":
     true
 
 define "Use MMECalculator":
-    true
+    false
 
 define "Add Benzodiazepine to NonOpioid Medications":
     false
