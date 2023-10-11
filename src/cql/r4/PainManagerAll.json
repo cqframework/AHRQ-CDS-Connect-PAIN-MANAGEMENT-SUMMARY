@@ -15770,14 +15770,6 @@
                }
             }
          }, {
-            "name" : "ReportUseMMECalculator",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "name" : "Use MMECalculator",
-               "type" : "ExpressionRef"
-            }
-         }, {
             "name" : "Summary",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -16165,12 +16157,6 @@
                         "name" : "ResourcesProvidedInMyPAIN",
                         "value" : {
                            "name" : "ReportResourcesProvidedInMyPAIN",
-                           "type" : "ExpressionRef"
-                        }
-                     }, {
-                        "name" : "UseMMECalculator",
-                        "value" : {
-                           "name" : "ReportUseMMECalculator",
                            "type" : "ExpressionRef"
                         }
                      } ]
