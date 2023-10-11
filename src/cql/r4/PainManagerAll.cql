@@ -2034,9 +2034,6 @@ define "Only Active Medications":
 define "Use MMECalculator":
     false
 
-define ReportUseMMECalculator:
-    "Use MMECalculator"
-
 define "Add Benzodiazepine to NonOpioid Medications":
     false
 
@@ -2095,7 +2092,6 @@ define Summary: {
     PainIntensity: ReportPainIntensity,
     PainInterference: ReportPainInterference,
     PainIntensityAndInterference: ReportPainIntensityAndInterference,
-    ResourcesProvidedInMyPAIN: ReportResourcesProvidedInMyPAIN,
-    UseMMECalculator: ReportUseMMECalculator
+    ResourcesProvidedInMyPAIN: ReportResourcesProvidedInMyPAIN
   }
 }
