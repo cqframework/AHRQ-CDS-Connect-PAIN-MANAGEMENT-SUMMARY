@@ -21,14 +21,14 @@ pipeline {
           env.DOCKER_LABEL = 'develop'
           }
           else if (env.ENVIRONMENT_NAME == 'pain-manager-staging-plusCQL') {
-            env.DOCKER_LABEL = 'v0.10.0'
+            env.DOCKER_LABEL = 'v0.10.1'
           }
 
           println("Docker Label: ${env.DOCKER_LABEL}");
         }
       }
     }
-    
+
     stage('Docker Build') {
           steps {
             sh "docker build -t alphora/pain-manager:${env.DOCKER_LABEL} ."
