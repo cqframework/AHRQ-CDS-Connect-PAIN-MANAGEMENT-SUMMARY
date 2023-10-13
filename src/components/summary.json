@@ -126,11 +126,6 @@
               "formatter": "datishFormat",
               "minWidth": 250
             },
-            "MME/Day": {
-              "key": "MME",
-              "formatter": "booleanFormat",
-              "minWidth": 100
-            },     
             "Sig": {
               "key": "Sig",
               "formatter": "booleanFormat",

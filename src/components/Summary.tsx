@@ -35,10 +35,10 @@ function TableWrapper({summary, section, subSection, columns, data }) {
         width = "175px";
       }
       if (column.id === "Sig"){
-        width = "350px";
+        width = `${summary['Use MMECalculator'] === false ? "350px" : "625px"} `; // when mme is dis played sig width is 350px
       }
       // Opioids MME column
-      if (subSection.dataKey === "OpioidMedications" && column.id === "MME/Day"){
+      if (subSection.dataKey === "OpioidMedications" && column.id === "MME/Day" && summary['Use MMECalculator'] === false ){
         width = "175px";
       }
       return width
@@ -100,7 +100,8 @@ function TableWrapper({summary, section, subSection, columns, data }) {
                 </tr>
               );
             })}
-            { subSection.dataKey === 'OpioidMedications' && summary.CurrentPertinentTreatments.CurrentMME[0].Result !== null &&
+            {/* Additional columns for Total MME. displayed if Use MMECalculator is also true */}
+            { subSection.dataKey === 'OpioidMedications' && summary.CurrentPertinentTreatments.CurrentMME[0].Result !== null && summary['Use MMECalculator'] === true &&
             <tr className="border-custom-top">
               <td className="ps-3 text-end fw-bold">Total</td>
               <td className="ps-3 fw-bold" colSpan={columns.length - 1}>{summary.CurrentPertinentTreatments.CurrentMME[0].Result}</td>
@@ -274,7 +275,7 @@ componentDidMount() {
     return entries;
   }
 
-  renderTable(table: any, entries: any, section: any, subSection: any, index: any) {
+  renderTable(table: any, entries: any, section: any, subSection: any, index: any, summary: any) {
 
     // If a filter is provided, only render those things that have the filter field (or don't have it when it's negated)
     let filteredEntries = entries;
@@ -325,7 +326,7 @@ componentDidMount() {
               /> : ''}
               {header}
           </div> :
-          header === "MME/Day" ?
+          header === "MME/Day" && summary["Use MMECalculator"]?
           <div id="opioid-title">
             {subSection.info &&
               <div>
@@ -465,7 +466,7 @@ componentDidMount() {
             {
               // hasEntries &&
               subSection.tables.map((table: any, index: any) =>
-                this.renderTable(table, entries, section, subSection, index)
+                this.renderTable(table, entries, section, subSection, index, this.props.summary)
               )
             }
           </div>
@@ -550,26 +551,17 @@ componentDidMount() {
       data = (
         <div>
           <p>
+            
           Where is this data from? Pain related medications from active medication list.
           </p>
-          {/* <div className="alert alert-info shadow-sm border-0" role="alert">
-            <FontAwesomeIcon icon={faExclamationCircle} />
-            <span className="px-3">
-              <a
-                className="alert-link"
-                target="_blank"
-                href="https://www.cdc.gov/mmwr/volumes/71/rr/rr7103a1.htm?s_cid=rr7103a1_w"
-              >
-                CDC Guidelines for Prescribing Opioids
-              </a>
-            </span>
-          </div> */}
-
           {sectionMap.map((subSection: any) => {
+            // Only displays mme recommendations if 'Use MMECalculator' flag is set to true
+            if(this.props.summary['Use MMECalculator']){
             return (
               subSection.dataKey === "OpioidMedications" &&
               subSection.info &&
-              subSection.warningText && (
+              subSection.warningText && 
+              (
                 <div
                   className="alert alert-danger shadow-sm border-0"
                   role="alert"
@@ -603,6 +595,7 @@ componentDidMount() {
                 </div>
               )
             );
+                  }
           })}
 
           <div className="">
@@ -687,7 +680,7 @@ componentDidMount() {
                           <div className="col-12">
                             <div className="d-flex card-header px-1 pt-2 pb-0 border-bottom-0">
                               <button
-                                className="nav-link active"
+                                className={"nav-link" + (submitDate ? " active" : "")} //remove the active class. conditional rendering condition is submiteddate
                                 style={{ isolation: "isolate" }}
                                 id="nav-pain-goals-tab"
                                 data-bs-toggle="tab"
@@ -695,7 +688,7 @@ componentDidMount() {
                                 type="button"
                                 role="tab"
                                 aria-controls="nav-pain-goals"
-                                aria-selected="true"
+                                aria-selected={(submitDate ? "true" : "false")} //toggle true to false condition is submiteddate
                               >
                                 {this.renderSectionHeader(
                                   "SharedDecisionMaking"
@@ -737,7 +730,7 @@ componentDidMount() {
                                 type="button"
                                 role="tab"
                                 aria-controls="nav-pertinent-conditions"
-                                aria-selected="true"
+                                aria-selected="false"
                               >
                                 {this.renderSectionHeader(
                                   "PertinentConditions"
@@ -758,14 +751,14 @@ componentDidMount() {
                                 )}
                               </button>
                               <button
-                                className="nav-link"
+                              className={"nav-link" + (!submitDate ? " active" : "")} //remove the active class. conditional rendering condition is submiteddate
                                 id="nav-urine-drug-screening-tab"
                                 data-bs-toggle="tab"
                                 data-bs-target="#nav-urine-drug-screening"
                                 type="button"
                                 role="tab"
                                 aria-controls="nav-urine-drug-screening"
-                                aria-selected="false"
+                                aria-selected={(!submitDate ? "true" : "false")} //toggle true to false condition is submiteddate
                               >
                                 {this.renderSectionHeader("UrineDrugScreening")}
                               </button>
@@ -778,7 +771,7 @@ componentDidMount() {
                   <div className="card-body">
                     <div className="tab-content" id="nav-tabContent">
                       <div
-                        className="tab-pane fade show active"
+                        className={"tab-pane fade" + (submitDate ? " show active" : "")}
                         id="nav-pain-goals"
                         role="tabpanel"
                         aria-labelledby="nav-pain-goals-tab"
@@ -863,7 +856,7 @@ componentDidMount() {
                         {this.renderSection("CurrentPertinentTreatments")}
                       </div>
                       <div
-                        className="tab-pane fade"
+                        className={"tab-pane fade" + (!submitDate ? " show active" : "")}
                         id="nav-urine-drug-screening"
                         role="tabpanel"
                         aria-labelledby="nav-urine-drug-screening-tab"
