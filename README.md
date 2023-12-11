@@ -46,12 +46,12 @@ Systems integrating the Pain Management Summary will need to expose the correspo
 ### To run an image from dockerhub
 The images for PainManger version are stored at [dockerhub](https://hub.docker.com/r/alphora/pain-manager). They may be used by running docker and specifying
    ```
-   docker pull alphora/pain-manager:v0.10.1 
+   docker pull alphora/pain-manager:v0.10.2 
    ```
 
 This image may be used by 
    ```
-   docker run -p 80:80 pain-manager:v0.10.1 
+   docker run -p 80:80 pain-manager:v0.10.2 
    ``` 
 ### To build and run in development:
 
@@ -187,3 +187,25 @@ To build with docker run:
 from the root directory. This is will build a container which serves content on port 80. You can run this with:
 
 `docker run -p 80:80 <hash>`
+
+## Version v0.10.2
+For v0.10.2 the launch-context.json file
+   ```json
+   {
+     "clientId": "6c12dff4-24e7-4475-a742-b08972c4ea27",
+     "scope":  "patient/*.read launch/patient",
+     "iss": "url-goes-here"
+   }
+   ```
+was removed from the docker setup to allow implementers to have an external file that they could edit and use without rebuilding the docker image. The PainManager application is now using the following to load the contents of that file by:
+
+      fetch(process.env.PUBLIC_URL + '/pain-manager-config/launch-context.json')
+and if using "docker run" to start the docker image, it may be loaded by
+
+      docker run -p 8010:80 -v /home/ec2-user/my-pain-config:/home/node/app/public/my-pain-config <docker image id>
+or when using docker-compose adding the following volume:
+
+    volumes:
+      - '/home/ec2-user/my-pain-config:/home/node/app/public/my-pain-config'
+
+The first part of the command '/home/ec2-user/my-pain-config:' should be the path to wherever the implementer has their edited location-context.json file. It is critical for the location of the volume in the docker container to be '/home/node/app/public/my-pain-config'. 
