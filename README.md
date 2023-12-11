@@ -202,10 +202,10 @@ was removed from the docker setup to allow implementers to have an external file
       fetch(process.env.PUBLIC_URL + '/pain-manager-config/launch-context.json')
 and if using "docker run" to start the docker image, it may be loaded by
 
-      docker run -p 8010:80 -v /home/ec2-user/my-pain-config:/home/node/app/public/my-pain-config <docker image id>
+      docker run -p 8010:80 -v /home/ec2-user/pain-manager-config:/home/node/app/public/pain-manager-config <docker image id>
 or when using docker-compose adding the following volume:
 
     volumes:
-      - '/home/ec2-user/my-pain-config:/home/node/app/public/my-pain-config'
+      - '/home/ec2-user/pain-manager-config:/home/node/app/public/pain-manager-config'
 
-The first part of the command '/home/ec2-user/my-pain-config:' should be the path to wherever the implementer has their edited location-context.json file. It is critical for the location of the volume in the docker container to be '/home/node/app/public/my-pain-config'. 
+The first part of the command '/home/ec2-user/pain-manager-config:' should be the path to wherever the implementer has their edited location-context.json file. It is critical for the location of the volume in the docker container to be '/home/node/app/public/pain-manager-config'. 
