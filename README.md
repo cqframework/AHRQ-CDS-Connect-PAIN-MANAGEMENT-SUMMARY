@@ -46,12 +46,12 @@ Systems integrating the Pain Management Summary will need to expose the correspo
 ### To run an image from dockerhub
 The images for PainManger version are stored at [dockerhub](https://hub.docker.com/r/alphora/pain-manager). They may be used by running docker and specifying
    ```
-   docker pull alphora/pain-manager:v0.10.2 
+   docker pull alphora/pain-manager:v0.10.3 
    ```
 
 This image may be used by 
    ```
-   docker run -p 80:80 pain-manager:v0.10.2 
+   docker run -p 80:80 pain-manager:v0.10.3 
    ``` 
 ### To build and run in development:
 
@@ -188,8 +188,8 @@ from the root directory. This is will build a container which serves content on 
 
 `docker run -p 80:80 <hash>`
 
-## Version v0.10.2
-For v0.10.2 the launch-context.json file
+## Version v0.10.3
+For v0.10.3 the launch-context.json file
    ```json
    {
      "clientId": "6c12dff4-24e7-4475-a742-b08972c4ea27",

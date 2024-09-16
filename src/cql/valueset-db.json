@@ -31116,6 +31116,10 @@
         "system": "http://fhir.org/guides/cqf/cds4cpm/CodeSystem/mypain-questionnaire-codes"
       },
       {
+        "code": "mpq-1071",
+        "system": "http://fhir.org/guides/cqf/cds4cpm/CodeSystem/mypain-questionnaire-codes"
+      },
+      {
         "system": "http://fhir.org/guides/cqf/cds4cpm/CodeSystem/mypain-questionnaire-codes",
         "code": "mpq-1072"
       },
